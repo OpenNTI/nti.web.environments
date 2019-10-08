@@ -1,0 +1,34 @@
+{
+  "name": "@nti/web-onboarding",
+  "version": "0.0.0",
+  "description": "NextThought Onboarding Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "app-scripts test",
+    "start": "app-scripts start",
+    "prepack": "PUBLIC_URL=/ app-scripts build",
+    "build": "app-scripts build",
+    "clean": "app-scripts clean",
+    "check": "app-scripts check",
+    "release": "app-scripts release",
+    "install-snapshots": "app-scripts install-snapshots",
+    "fix": "app-scripts fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NextThought/nti.web.onboarding.git"
+  },
+  "author": "NextThought",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/NextThought/nti.web.onboarding/issues"
+  },
+  "homepage": "http://localhost:8000/",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@nti/app-scripts": "^2.14.6",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2"
+  }
+}

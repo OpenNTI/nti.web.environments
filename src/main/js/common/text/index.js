@@ -21,6 +21,7 @@ function Factory (variant, tag) {
 }
 
 const TextVariants = {
+	Base: Factory(),
 	Heading: Factory('heading', 'h1'),
 	Paragraph: Factory('paragraph', 'p')
 };

@@ -5,3 +5,24 @@
 .message {
 	margin-bottom: 2rem;
 }
+
+.signup-form :global(.checkbox-component) {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 1.5rem 0;
+}
+
+.signup-form :global(.checkbox-component input[type=checkbox]:focus + span.label::before) {
+    box-shadow: 0 0 1px 1px var(--primary-blue);
+    border-radius: 4px;
+}
+
+.terms-label {
+	font-size: 0.875rem;
+}
+
+.recover-link {
+	display: inline-block;
+	margin: 0.5rem 0;
+}

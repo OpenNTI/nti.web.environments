@@ -3,9 +3,12 @@
 }
 
 .form :global(.nti-text-input) {
-	display: block;
 	width: 100%;
 	margin: 0.5rem 0;
 	line-height: 2.5rem;
 	height: 2.5rem;
+}
+
+.form :global(.nti-text-input:last-of-type) {
+	margin-bottom: 0;
 }

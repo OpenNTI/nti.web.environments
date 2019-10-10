@@ -9,11 +9,11 @@ import {Input} from '@nti/web-commons';
 
 import {Page, Text, Form} from '../../../common';
 
-import Styles from './Setup.css';
+import Styles from './SignUp.css';
 
 const cx = classnames.bind(Styles);
-const t = scoped('lms-onboarding.trial.parts.Setup', {
-	title: 'Setup',
+const t = scoped('lms-onboarding.trial.parts.SignUp', {
+	title: 'Sign Up',
 	heading: 'Welcome to NextThought',
 	message: 'Complete your account details to get started.',
 	firstName: {
@@ -30,7 +30,7 @@ const t = scoped('lms-onboarding.trial.parts.Setup', {
 	}
 });
 
-export default class LMSTrialCreation extends React.Component {
+export default class LMSTrialSignup extends React.Component {
 	static propTypes = {
 		location: PropTypes.shape({
 			search: PropTypes.string
@@ -47,7 +47,7 @@ export default class LMSTrialCreation extends React.Component {
 		return (
 			<Page.Title title={t('title')}>
 				<Page.Content>
-					<Form className={cx('setup-form')}>
+					<Form className={cx('signup-form')}>
 						<Text.Heading>{t('heading')}</Text.Heading>
 						<Text.Paragraph className={cx('message')}>{t('message')}</Text.Paragraph>
 						{this.renderInput('firstName', params)}
@@ -70,7 +70,6 @@ export default class LMSTrialCreation extends React.Component {
 		return (
 			<Cmp
 				required
-				disable={initialValue && (params.allowEdit && params.allowEdit !== 'true')}
 				defaultValue={initialValue || ''}
 				placeholder={getString('placeholder')}
 			/>

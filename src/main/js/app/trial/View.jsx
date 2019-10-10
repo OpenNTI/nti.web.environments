@@ -4,7 +4,7 @@ import {scoped} from '@nti/lib-locale';
 
 import {Page} from '../../common';
 
-import Setup from './parts/Setup';
+import SignUp from './parts/SignUp';
 import Recovery from './parts/Recovery';
 
 const t = scoped('lms-onboarding.trial.View', {
@@ -15,7 +15,7 @@ export default function NTIOnboardingTrial () {
 	return (
 		<Page.Title title={t('title')}>
 			<Router>
-				<Setup path="/" />
+				<SignUp path="/" />
 				<Recovery path="recover" />
 			</Router>
 		</Page.Title>

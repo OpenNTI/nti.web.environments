@@ -4,7 +4,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {scoped} from '@nti/lib-locale';
-import {Input, Checkbox} from '@nti/web-commons';
 
 import {Page, Text, Form, Button, Link} from '../../../common';
 
@@ -31,6 +30,7 @@ const t = scoped('lms-onboarding.trial.parts.SignUp', {
 	}
 });
 
+
 export default class LMSTrialSignup extends React.Component {
 	static propTypes = {
 		location: PropTypes.shape({
@@ -46,6 +46,9 @@ export default class LMSTrialSignup extends React.Component {
 		});
 	}
 
+	onSubmit = (e) => {
+		
+	}
 
 	render () {
 		const {location} = this.props;
@@ -57,15 +60,15 @@ export default class LMSTrialSignup extends React.Component {
 		return (
 			<Page.Title title={t('title')}>
 				<Page.Content>
-					<Form className={cx('signup-form')}>
+					<Form className={cx('signup-form')} onSubmit={this.onSubmit} disabled={!agreed} >
 						<Text.Heading>{t('heading')}</Text.Heading>
 						<Text.Paragraph className={cx('message')}>{t('message')}</Text.Paragraph>
 						{this.renderInput('firstName', params)}
 						{this.renderInput('lastName', params)}
-						{this.renderInput('email', params, Input.Email)}
+						{this.renderInput('email', params, Form.Input.Email)}
 						{this.renderInput('userName', params)}
 						{this.renderTerms()}
-						<Button disabled={!agreed} fill>
+						<Button type="submit" disabled={!agreed} fill>
 							<Text.Base>{t('createAccount')}</Text.Base>
 						</Button>
 						<Link to="recover" className={cx('recover-link')}>
@@ -77,13 +80,14 @@ export default class LMSTrialSignup extends React.Component {
 		);
 	}
 
-	renderInput (name, params = {}, Cmp = Input.Text) {
+	renderInput (name, params = {}, Cmp = Form.Input.Text) {
 		const initialValue = params[name];
 		const getString = key => t(`${name}.${key}`);
 
 		return (
 			<Cmp
 				required
+				name={name}
 				defaultValue={initialValue || ''}
 				placeholder={getString('placeholder')}
 			/>
@@ -95,7 +99,9 @@ export default class LMSTrialSignup extends React.Component {
 		const label = (<Text.Base className={cx('terms-label')}>{t('termsAndConditions')}</Text.Base>);
 
 		return (
-			<Checkbox
+			<Form.Input.Checkbox
+				required
+				name="agreed"
 				checked={agreed}
 				label={label}
 				onChange={this.onAgreeChanged}

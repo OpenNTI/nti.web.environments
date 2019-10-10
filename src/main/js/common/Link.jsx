@@ -7,7 +7,7 @@ import Styles from './Link.css';
 
 const cx = classnames.bind(Styles);
 
-Link.PropTypes = {
+Link.propTypes = {
 	className: PropTypes.string
 };
 export default function LinkWrapper ({className, ...otherProps}) {

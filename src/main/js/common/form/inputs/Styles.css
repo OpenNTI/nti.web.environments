@@ -1,0 +1,25 @@
+.checkbox-input :global(.checkbox-component) {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 1.5rem 0;
+}
+
+.checkbox-input :global(.checkbox-component input[type=checkbox]:focus + span.label::before) {
+    box-shadow: 0 0 1px 1px var(--primary-blue);
+    border-radius: 4px;
+}
+
+.checkbox-input :global(label.checkbox-component input[type=checkbox] + span.label) {
+	text-transform: none;
+}
+
+.form-input :global(.nti-label-error) {
+	text-align: left;
+	display: block;
+	padding: 0.25rem 0.5rem;
+}
+
+.form-input:global(.nti-labeled-input.error .nti-text-input) {
+	border-color: var(--primary-red);
+}

@@ -6,6 +6,7 @@ import classnames from 'classnames/bind';
 import {scoped} from '@nti/lib-locale';
 
 import {Page, Text, Form, Button, Link} from '../../../common';
+import {setupTrial} from '../API';
 
 import Styles from './SignUp.css';
 
@@ -46,8 +47,17 @@ export default class LMSTrialSignup extends React.Component {
 		});
 	}
 
-	onSubmit = (e) => {
-		
+	onSubmit = async (values) => {
+		this.setState({loading: true});
+
+		try {
+			const resp = await setupTrial(values);
+			
+			debugger;
+		} finally {
+			this.setState({loading: false});
+		}
+
 	}
 
 	render () {
@@ -59,10 +69,10 @@ export default class LMSTrialSignup extends React.Component {
 
 		return (
 			<Page.Title title={t('title')}>
-				<Page.Content>
-					<Form className={cx('signup-form')} onSubmit={this.onSubmit} disabled={!agreed} >
-						<Text.Heading>{t('heading')}</Text.Heading>
-						<Text.Paragraph className={cx('message')}>{t('message')}</Text.Paragraph>
+				<Page.Content className={cx('signup-form')}>
+					<Text.Heading>{t('heading')}</Text.Heading>
+					<Text.Paragraph className={cx('message')}>{t('message')}</Text.Paragraph>
+					<Form onSubmit={this.onSubmit} disabled={!agreed} >
 						{this.renderInput('firstName', params)}
 						{this.renderInput('lastName', params)}
 						{this.renderInput('email', params, Form.Input.Email)}
@@ -71,10 +81,10 @@ export default class LMSTrialSignup extends React.Component {
 						<Button type="submit" disabled={!agreed} fill>
 							<Text.Base>{t('createAccount')}</Text.Base>
 						</Button>
-						<Link to="recover" className={cx('recover-link')}>
-							Already have a Trial Site?
-						</Link>
 					</Form>
+					<Link to="recover" className={cx('recover-link')}>
+						Already have a Trial Site?
+					</Link>
 				</Page.Content>
 			</Page.Title>
 		);

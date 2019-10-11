@@ -1,6 +1,3 @@
-.form {
-
-}
 
 .form :global(.nti-text-input) {
 	width: 100%;
@@ -11,4 +8,13 @@
 
 .form :global(.nti-text-input:last-of-type) {
 	margin-bottom: 0;
+}
+
+.form-error {
+	display: block;
+	text-align: left;
+	border: 1px solid var(--primary-red);
+	border-radius: 4px;
+	background-color: rgba(243, 82, 82, 0.1);
+	padding: 0.625rem;
 }

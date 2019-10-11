@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
+import {Errors} from '@nti/web-commons';
 
 import Styles from './Form.css';
 import FormContext from './Context';
@@ -22,7 +23,8 @@ export default class Form extends React.Component {
 	static propTypes = {
 		className: PropTypes.string,
 		onSubmit: PropTypes.func,
-		disabled: PropTypes.bool
+		disabled: PropTypes.bool,
+		children: PropTypes.any
 	};
 
 	state = {}
@@ -65,14 +67,19 @@ export default class Form extends React.Component {
 
 
 	clearError = (name) => {
-		const {errors} = this.state;
+		const {errors, globalError} = this.state;
 
 		if (errors && errors[name]) {
 			this.setState({
+				globalError: null,
 				errors: {
 					...errors,
 					[name]: void 0
 				}
+			});
+		} else if (globalError) {
+			this.setState({
+				globalError: null
 			});
 		}
 	}
@@ -81,7 +88,7 @@ export default class Form extends React.Component {
 		e.preventDefault();
 		e.stopPropagation();
 
-		const {disabled, onSubmit} = this.props;
+		const {disabled} = this.props;
 
 		if (disabled) { return; }
 
@@ -89,15 +96,35 @@ export default class Form extends React.Component {
 
 		if (errors) {
 			this.setState({errors});
-		} else if (onSubmit) {
-			onSubmit(this.getValues());
+		} else {
+			this.doSubmit();
+		}
+	}
+
+	async doSubmit () {
+		const {onSubmit} = this.props;
+		const {errors} = this.state;
+
+		try {
+			await onSubmit();
+		} catch (e) {
+			if (!e.field) {
+				this.setState({globalError: e});
+			} else {
+				this.setState({
+					errors: {
+						...(errors || {}),
+						[e.field]: e
+					}
+				});
+			}
 		}
 	}
 
 
 	render () {
-		const {className, disabled, ...otherProps} = this.props;
-		const {errors} = this.state;
+		const {className, disabled, children, ...otherProps} = this.props;
+		const {errors, globalError} = this.state;
 
 		delete otherProps.onSubmit;
 
@@ -109,7 +136,10 @@ export default class Form extends React.Component {
 					onSubmit={this.onSubmit}
 					noValidate
 					{...otherProps}
-				/>
+				>
+					{globalError && (<Errors.Message className={cx('form-error')} error={globalError} />)}
+					{children}
+				</form>
 			</FormContext.Provider>
 		);
 	}

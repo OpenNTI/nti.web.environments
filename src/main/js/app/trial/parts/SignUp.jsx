@@ -3,10 +3,12 @@ import querystring from 'querystring';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
+import {navigate} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
+import {Loading} from '@nti/web-commons';
 
 import {Page, Text, Form, Button, Link} from '../../../common';
-import {setupTrial} from '../API';
+import {sendVerification} from '../API';
 
 import Styles from './SignUp.css';
 
@@ -48,31 +50,31 @@ export default class LMSTrialSignup extends React.Component {
 	}
 
 	onSubmit = async (values) => {
-		this.setState({loading: true});
+		this.setState({saving: true});
 
 		try {
-			const resp = await setupTrial(values);
+			await sendVerification(values);
 			
-			debugger;
+			navigate('verification', {values});
 		} finally {
-			this.setState({loading: false});
+			this.setState({saving: false});
 		}
 
 	}
 
 	render () {
 		const {location} = this.props;
-		const {agreed} = this.state;
+		const {agreed, saving} = this.state;
 		const {search} = location || {};
 		const params = (search && querystring.parse(search.replace(/^\?/, ''))) || {};
 
 
 		return (
 			<Page.Title title={t('title')}>
-				<Page.Content className={cx('signup-form')}>
+				<Page.Content className={cx('signup', {saving})}>
 					<Text.Heading>{t('heading')}</Text.Heading>
 					<Text.Paragraph className={cx('message')}>{t('message')}</Text.Paragraph>
-					<Form onSubmit={this.onSubmit} disabled={!agreed} >
+					<Form className={cx('signup-form')} onSubmit={this.onSubmit} disabled={!agreed} >
 						{this.renderInput('firstName', params)}
 						{this.renderInput('lastName', params)}
 						{this.renderInput('email', params, Form.Input.Email)}
@@ -82,6 +84,11 @@ export default class LMSTrialSignup extends React.Component {
 							<Text.Base>{t('createAccount')}</Text.Base>
 						</Button>
 					</Form>
+					{saving && (
+						<div className={cx('saving-mask')}>
+							<Loading.Spinner.Large />
+						</div>
+					)}
 					<Link to="recover" className={cx('recover-link')}>
 						Already have a Trial Site?
 					</Link>

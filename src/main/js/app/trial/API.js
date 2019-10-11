@@ -1,5 +1,7 @@
-export async function setupTrial (data) {
-	const error = new Error('Test API Error');
-
-	throw error;
+export async function sendVerification (data) {
+	return new Promise((fulfill) => {
+		setTimeout(() => {
+			fulfill();
+		}, 1000);
+	});
 }

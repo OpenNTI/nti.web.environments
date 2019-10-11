@@ -9,6 +9,12 @@ import getErrorMessage from './get-error-message';
 
 const cx = classnames.bind(Styles);
 
+const InputValueGetters = {
+	'text': f => f.value,
+	'email': f => f.value,
+	'checkbox': f => f.checked
+};
+
 
 export default class Form extends React.Component {
 	static Input = Inputs;
@@ -41,6 +47,22 @@ export default class Form extends React.Component {
 		}, {});
 	}
 
+	getValues () {
+		const form = this.form.current;
+
+		if (!form) { return null; }
+
+		const fields = Array.from(form.elements);
+
+		return fields.reduce((acc, field) => {
+			if (field.name) {
+				acc[field.name] = InputValueGetters[field.type](field);
+			}
+
+			return acc;
+		}, {});
+	}
+
 
 	clearError = (name) => {
 		const {errors} = this.state;
@@ -68,7 +90,7 @@ export default class Form extends React.Component {
 		if (errors) {
 			this.setState({errors});
 		} else if (onSubmit) {
-			onSubmit();
+			onSubmit(this.getValues());
 		}
 	}
 

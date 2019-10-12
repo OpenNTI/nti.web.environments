@@ -4,8 +4,9 @@ import classnames from 'classnames/bind';
 import {Redirect} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
 
-import {Page, Text, Link, Form, Button} from '../../../common';
+import {Page, Text, Link, Form, Button, ErrorBar} from '../../../common';
 import {getSession} from '../Session';
+import {verifyToken} from '../API';
 
 import Styles from './Verification.css';
 
@@ -40,8 +41,12 @@ export default class LMSTrialVerification extends React.Component {
 	}
 
 
-	onSubmit = (value) => {
-		debugger;
+	onSubmit = async (value) => {
+		try {
+			await verifyToken(`${value['firstPart']}${value['secondPart']}`);
+		} catch (error) {
+			this.setState({error});
+		}
 	}
 
 
@@ -51,16 +56,19 @@ export default class LMSTrialVerification extends React.Component {
 		//If we get 6 characters assume they are pasting
 		if (value.length === 6) {
 			this.setState({
+				error: null,
 				codeParts: [value.substring(0, 3), value.substring(3, 6)]
 			});
 			this.focusSecondInput();
 		} else if (value.length === 3) {
 			this.setState({
+				error: null,
 				codeParts: [value.substring(0, 3), codeParts[1]]
 			});
 			this.focusSecondInput();
 		} else {
 			this.setState({
+				error: null,
 				codeParts: [value.substring(0, 3), codeParts[1]]
 			});
 		}
@@ -76,7 +84,7 @@ export default class LMSTrialVerification extends React.Component {
 
 	render () {
 		const session = getSession();
-		const {codeParts} = this.state;
+		const {codeParts, error} = this.state;
 
 		if (!session) {
 			return (
@@ -97,9 +105,10 @@ export default class LMSTrialVerification extends React.Component {
 					</div>
 					<Text.Paragraph>{t('expires')}</Text.Paragraph>
 					<Form className={cx('token-form')} onSubmit={this.onSubmit}>
+						{error && (<ErrorBar error={error} />)}
 						<div className={cx('token-input-container')}>
 							<Form.Input.Text
-								name="first-part"
+								name="firstPart"
 								className={cx('token-input')}
 								ref={this.firstInput}
 								onChange={this.onFirstInputChange}
@@ -107,7 +116,7 @@ export default class LMSTrialVerification extends React.Component {
 							/>
 							<span className={cx('spacer')}>&mdash;</span>
 							<Form.Input.Text
-								name="second-part"
+								name="secondPart"
 								className={cx('token-input')}
 								ref={this.secondInput}
 								onChange={this.onSecondInputChange}

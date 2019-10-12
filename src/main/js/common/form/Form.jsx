@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
-import {Errors} from '@nti/web-commons';
+
+import ErrorBar from '../ErrorBar';
 
 import Styles from './Form.css';
 import FormContext from './Context';
@@ -137,7 +138,7 @@ export default class Form extends React.Component {
 					noValidate
 					{...otherProps}
 				>
-					{globalError && (<Errors.Message className={cx('form-error')} error={globalError} />)}
+					{globalError && (<ErrorBar className={cx('form-error')} error={globalError} />)}
 					{children}
 				</form>
 			</FormContext.Provider>

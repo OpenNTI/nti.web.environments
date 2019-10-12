@@ -5,3 +5,7 @@ export async function sendVerification (data) {
 		}, 1000);
 	});
 }
+
+export async function verifyToken (token) {
+	throw new Error('Test Error');
+}

@@ -1,0 +1,8 @@
+.error-bar {
+	display: block;
+	text-align: left;
+	border: 1px solid var(--primary-red);
+	border-radius: 4px;
+	background-color: rgba(243, 82, 82, 0.1);
+	padding: 0.625rem;
+}

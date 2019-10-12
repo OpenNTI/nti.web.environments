@@ -9,6 +9,7 @@ import {Loading} from '@nti/web-commons';
 
 import {Page, Text, Form, Button, Link} from '../../../common';
 import {sendVerification} from '../API';
+import {setSession, getSession} from '../Session';
 
 import Styles from './SignUp.css';
 
@@ -54,24 +55,30 @@ export default class LMSTrialSignup extends React.Component {
 
 		try {
 			await sendVerification(values);
-			
-			navigate('verification', {values});
+			setSession(values);
+			navigate('verification');
 		} finally {
 			this.setState({saving: false});
 		}
 
 	}
 
-	render () {
+	getParams () {
 		const {location} = this.props;
-		const {agreed, saving} = this.state;
 		const {search} = location || {};
-		const params = (search && querystring.parse(search.replace(/^\?/, ''))) || {};
+		const searchParams =  (search && querystring.parse(search.replace(/^\?/, ''))) || {};
+		const session = getSession() || {};
 
+		return {...session, ...searchParams};
+	}
+
+	render () {
+		const {agreed, saving} = this.state;
+		const params = this.getParams();
 
 		return (
 			<Page.Title title={t('title')}>
-				<Page.Content className={cx('signup', {saving})}>
+				<Page.Content className={cx('signup', {saving})} centerContents>
 					<Text.Heading>{t('heading')}</Text.Heading>
 					<Text.Paragraph className={cx('message')}>{t('message')}</Text.Paragraph>
 					<Form className={cx('signup-form')} onSubmit={this.onSubmit} disabled={!agreed} >

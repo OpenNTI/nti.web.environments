@@ -106,7 +106,7 @@ export default class Form extends React.Component {
 		const {errors} = this.state;
 
 		try {
-			await onSubmit();
+			await onSubmit(this.getValues());
 		} catch (e) {
 			if (!e.field) {
 				this.setState({globalError: e});

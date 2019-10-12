@@ -3,3 +3,7 @@
 	margin: 0 auto;
 	padding: 100px 10px;
 }
+
+.page-content.center-contents {
+	text-align: center;
+}

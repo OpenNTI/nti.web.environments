@@ -12,9 +12,10 @@ const cx = classnames.bind(Styles);
 function WrapperFactory (Cmp, wrapperClassName, clearOn = 'onKeyPress') {
 	FormInput.propTypes = {
 		name: PropTypes.string.isRequired,
-		className: PropTypes.string
+		className: PropTypes.string,
+		inputRef: PropTypes.any
 	};
-	function FormInput ({className, name, ...otherProps}) {
+	function FormInput ({className, name, inputRef, ...otherProps}) {
 		return (
 			<FormContext.Consumer>
 				{(form) => {
@@ -33,6 +34,7 @@ function WrapperFactory (Cmp, wrapperClassName, clearOn = 'onKeyPress') {
 						<Input.Label className={cx(className, wrapperClassName, 'form-input')} error={errors[name]}>
 							<Cmp
 								name={name}
+								ref={inputRef}
 								{...clearProps}
 								{...otherProps}
 							/>
@@ -43,7 +45,8 @@ function WrapperFactory (Cmp, wrapperClassName, clearOn = 'onKeyPress') {
 		);
 	}
 
-	return FormInput;
+	const RefWrapper = (props, ref) => (<FormInput {...props} inputRef={ref} />);
+	return React.forwardRef(RefWrapper);
 }
 
 const InputTypes = {

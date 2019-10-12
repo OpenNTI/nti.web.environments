@@ -1,3 +1,29 @@
 .verify-sent {
 	margin: 1rem 0;
 }
+
+.token-form {
+	margin-bottom: 2rem;
+}
+
+.token-input-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	margin: 2rem 0 1rem;
+}
+
+
+.token-input :global(.nti-text-input) {
+	font-size: 1.75rem;
+	width: 3em;
+	text-align: center;
+	margin: 0;
+}
+
+.spacer {
+	margin: 0 0.875rem;
+	padding-bottom: 1px;
+	color: var(--secondary-grey);
+}

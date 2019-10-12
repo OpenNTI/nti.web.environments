@@ -7,5 +7,9 @@ export async function sendVerification (data) {
 }
 
 export async function verifyToken (token) {
-	throw new Error('Test Error');
+	return new Promise((fulfill) => {
+		setTimeout(() => {
+			fulfill();
+		}, 1000);
+	});
 }

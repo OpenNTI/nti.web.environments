@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
-import {Redirect} from '@reach/router';
+import {Redirect, navigate} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
+import {Loading} from '@nti/web-commons';
 
 import {Page, Text, Link, Form, Button, ErrorBar} from '../../../common';
 import {getSession} from '../Session';
@@ -42,10 +43,15 @@ export default class LMSTrialVerification extends React.Component {
 
 
 	onSubmit = async (value) => {
+		this.setState({
+			saving: true
+		});
+
 		try {
 			await verifyToken(`${value['firstPart']}${value['secondPart']}`);
+			navigate('setup');
 		} catch (error) {
-			this.setState({error});
+			this.setState({error, saving: false});
 		}
 	}
 
@@ -84,7 +90,7 @@ export default class LMSTrialVerification extends React.Component {
 
 	render () {
 		const session = getSession();
-		const {codeParts, error} = this.state;
+		const {codeParts, error, saving} = this.state;
 
 		if (!session) {
 			return (
@@ -94,7 +100,7 @@ export default class LMSTrialVerification extends React.Component {
 
 		return (
 			<Page.Title title={t('title')}>
-				<Page.Content centerContents className={cx('verification')}>
+				<Page.Content centerContents className={cx('verification', {saving})}>
 					<Text.Heading className={cx('verify-heading')}>{t('heading')}</Text.Heading>
 					<div className={cx('verify-sent')}>
 						<Text.Paragraph>{t('sent')}</Text.Paragraph>
@@ -127,6 +133,9 @@ export default class LMSTrialVerification extends React.Component {
 							<Text.Base>{t('check')}</Text.Base>
 						</Button>
 					</Form>
+					{saving && (
+						<Loading.Spinner.Large />
+					)}
 					<Text.Paragraph>{t('keep')}</Text.Paragraph>
 					<Text.Paragraph>{t('spam')}</Text.Paragraph>
 				</Page.Content>

@@ -127,6 +127,8 @@ landing pages, or direct sales outreach.
    the flow from the full marketing driven process this information
    will be provided.
 
+   .. image:: images/user-info.png
+
    .. question:: How is this information communicated?
 
 		 It seems there are two options. Pass all the
@@ -144,6 +146,8 @@ landing pages, or direct sales outreach.
    is used to verify the email address. The code is a short,
    one time use, limited life code that the user is asked for.
 
+   .. image:: images/email.png
+
    .. question:: How small can we get the code and have enough
 		 entropy to not run in to issues?
 
@@ -154,11 +158,15 @@ landing pages, or direct sales outreach.
    site setup. If it is invalid, the user shows an error message with
    an option to change the email and/or trigger a new email.
 
+   .. image:: images/email-challenge.png
+
 4. Having entered a valid code the user moves on to selecting a
    domain name for the site. We've established that for trials all
    urls are a subdomain of ``nextthought.com`` and they are assigned
    a random suffix. That is, users can select the prefix of a
    domain that looks like ``<prefix>-1234.nextthought.com``.
+
+   .. image:: images/domain.png
 
    .. question:: How small and of what characters can we get the suffix to?
 
@@ -201,7 +209,13 @@ landing pages, or direct sales outreach.
 7. When the environment is setup the dataserver site will exist with
    the user, as a site admin, in the database. However, the user will
    not yet have a password. They'll be landed on a page similar to the
-   reset password flow where they can enter a password for their
-   account and be taken in to the site.
+   reset password flow where they can enter a password.
+
+   .. image:: images/set-password.png
+
+
+8. Finally the user will be logged in to their site.
+
+   .. image:: images/welcome-home.png
 
 ..  LocalWords:  Onboarding

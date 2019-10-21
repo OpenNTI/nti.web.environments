@@ -9,7 +9,7 @@ import Styles from './Styles.css';
 
 const cx = classnames.bind(Styles);
 
-function WrapperFactory (Cmp, wrapperClassName, clearOn = 'onKeyPress') {
+function WrapperFactory (Cmp, wrapperClassName, clearOn = 'onChange') {
 	FormInput.propTypes = {
 		name: PropTypes.string.isRequired,
 		className: PropTypes.string,
@@ -52,7 +52,7 @@ function WrapperFactory (Cmp, wrapperClassName, clearOn = 'onKeyPress') {
 const InputTypes = {
 	Text: WrapperFactory(Input.Text),
 	Email: WrapperFactory(Input.Email),
-	Checkbox: WrapperFactory(Checkbox, cx('checkbox-input'), 'onChange')
+	Checkbox: WrapperFactory(Checkbox, cx('checkbox-input'))
 };
 
 export default InputTypes;

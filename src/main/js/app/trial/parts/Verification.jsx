@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {Redirect, navigate} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
-import {Loading} from '@nti/web-commons';
+import {Loading, Form} from '@nti/web-commons';
 
-import {Page, Text, Link, Form, Button, ErrorBar} from '../../../common';
+import {Page, Text, Link, Inputs, Button, ErrorBar} from '../../../common';
 import {getSession} from '../Session';
 import {verifyToken} from '../API';
 
@@ -113,7 +113,7 @@ export default class LMSTrialVerification extends React.Component {
 					<Form className={cx('token-form')} onSubmit={this.onSubmit}>
 						{error && (<ErrorBar error={error} />)}
 						<div className={cx('token-input-container')}>
-							<Form.Input.Text
+							<Inputs.Text
 								name="firstPart"
 								className={cx('token-input')}
 								ref={this.firstInput}
@@ -121,7 +121,7 @@ export default class LMSTrialVerification extends React.Component {
 								value={codeParts[0] || ''}
 							/>
 							<span className={cx('spacer')}>&mdash;</span>
-							<Form.Input.Text
+							<Inputs.Text
 								name="secondPart"
 								className={cx('token-input')}
 								ref={this.secondInput}

@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {navigate} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
-import {Loading} from '@nti/web-commons';
+import {Loading, Form} from '@nti/web-commons';
 
-import {Page, Text, Form, Button, Link} from '../../../common';
+import {Page, Text, Inputs, Button, Link} from '../../../common';
 import {sendVerification} from '../API';
 import {setSession, getSession} from '../Session';
 
@@ -84,7 +84,7 @@ export default class LMSTrialSignup extends React.Component {
 					<Form className={cx('signup-form')} onSubmit={this.onSubmit} disabled={!agreed} >
 						{this.renderInput('firstName', params)}
 						{this.renderInput('lastName', params)}
-						{this.renderInput('email', params, Form.Input.Email)}
+						{this.renderInput('email', params, Inputs.Email)}
 						{this.renderInput('userName', params)}
 						{this.renderTerms()}
 						<Button type="submit" disabled={!agreed} fill>
@@ -104,7 +104,7 @@ export default class LMSTrialSignup extends React.Component {
 		);
 	}
 
-	renderInput (name, params = {}, Cmp = Form.Input.Text) {
+	renderInput (name, params = {}, Cmp = Inputs.Text) {
 		const initialValue = params[name];
 		const getString = key => t(`${name}.${key}`);
 
@@ -123,7 +123,7 @@ export default class LMSTrialSignup extends React.Component {
 		const label = (<Text.Base className={cx('terms-label')}>{t('termsAndConditions')}</Text.Base>);
 
 		return (
-			<Form.Input.Checkbox
+			<Inputs.Checkbox
 				required
 				name="agreed"
 				checked={agreed}

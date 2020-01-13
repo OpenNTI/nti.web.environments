@@ -1,17 +1,27 @@
-.checkbox-input :global(.checkbox-component) {
+.form-input :global(.checkbox-component) {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	margin: 1.5rem 0;
 }
 
-.checkbox-input :global(.checkbox-component input[type=checkbox]:focus + span.label::before) {
+.form-input :global(.checkbox-component input[type=checkbox]:focus + span.label::before) {
     box-shadow: 0 0 1px 1px var(--primary-blue);
     border-radius: 4px;
 }
 
-.checkbox-input :global(label.checkbox-component input[type=checkbox] + span.label) {
+.form-input :global(label.checkbox-component input[type=checkbox] + span.label) {
 	text-transform: none;
+}
+
+.form-input > :global(.nti-text-input) {
+	width: 100%;
+	line-height: 2.5rem;
+	height: 2.5rem;
+}
+
+.form-input + .form-input {
+	margin-top: 0.5rem;
 }
 
 .form-input :global(.nti-label-error) {

@@ -27,8 +27,7 @@
     "url": "https://github.com/NextThought/nti.web.onboarding/issues"
   },
   "homepage": "http://localhost:8000/",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@nti/app-scripts": "^2.14.6",
     "@nti/lib-locale": "^1.8.0",

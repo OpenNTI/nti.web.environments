@@ -1,19 +1,151 @@
-# LMS Onboarding flow
+# LMS Onboarding Flow
 
-1. Initial Form
-	- Collect `email`, `name`, and `username`
-	- The values can be prefilled from query-params
-	- If all the values are provided and there is an `auto-submit` query-param the provided values will be automatically submitted
-2. Generate and send *Verification Token* email
-3. Collect *Verification Token*
-4. Based on the *Verification Token* look up trial information
-	- Any existing trial sites associated with that email
-	- A link to create a new trial site
-5. Create a trial site at a given subdomain
-	- Pass the username from the initial form as the site admin
-	- Get a link to finish setting their password
-6. Poll the trial site to see when it comes up, and redirect to the password setup page
-	- If enough time as passed and they haven't finished setting up their password. Send a "You Site is Ready" email with the link, to remind them
+## Views
 
-We might want to have an option to "recover" a trial, where we only take an email, verify they own it, and list the trials associated with that email
+### Initial Form
 
+**Path:** `/`
+
+- Checks [`/me/`](#me)
+- If Authenticated
+	- Redirect to [`/sites/`](#sites)
+- If Not Authenticated
+	- Show a form to collect
+		- `email`
+		- `name`
+		- `username`
+	- Values can be pre-filled from query-params.
+	- If all values are provided and there is an `auto-submit` query-param the form will be automatically submitted.
+	- On Submit:
+		- Submits to [`/send-verification/`](#send-verification)
+		- Puts info into session storage
+		- Redirects to [verify email](#verify-email)
+
+### Verify Email
+
+**Path:** `/verify/`
+
+- Check session storage or query-params for the email the verification code was sent.
+- If No email
+	- Redirect to [`/`](#initial-form)
+- If Email
+	- Show a form to collect
+		- `verification-code`
+	- On Submit
+		- Submits `email` and `verification-code` to [`/verify/`](#verify)
+		- Puts into into session storage
+		- Redirects to [`/sites/`](#sites)
+
+### Sites
+
+**Path:** `/sites/`
+
+- Checks [`/me/`](#me) or session storage for user
+- If Not Authenticated
+	- Redirect to [`/`](#initial-form)
+- If Authenticated
+	- Show a list of any existing sites
+	- If Available show a "create new site"
+		- Show a form to collect
+			- `domain-name`
+				- If the user is required to have random gibberish at the end compute some
+				- Preflight the domains availability at [`{user}/new-site-preflight/`](#usernew-site-preflight)
+		- Submits `domain-name` and `license=Trial` to [`{user}/new-site`](#usernew-site)
+		- Redirects to [`/sites/{site-id}`](#site)
+
+### Site
+
+**Path:** `/sites/{site-id}`
+
+- Checks [`/me/`](#me) or session storage for user
+- If not Authenticated
+	- Redirect to [`/`](#initial-form)
+- If Authenticated
+	- Look up the site for {site-id} in the user's sites list
+	- If no site found
+		- Redirect to [`/sites/`](#sites)
+	- If site found
+		- If the site is `Pending` show a spinner page
+			- Poll the site to see when its set up
+			- When its set up Redirect to `setup-admin-account` in the site
+		- If the site is `Failed` show the error and a link to contact support
+		- If the site is `Success` show info about the site
+
+*************************
+
+## API
+
+### Objects
+
+#### User
+
+Properties:
+
+- **sitesRequireGUID** *String*: whether or not we should append a random number to domains for this user
+- **sites** *Array*: a list of sites for this user
+
+Links:
+
+- **create-site-preflight**: check whether the given payload would work for `create-site`
+	- Payload:
+		- **domain-name** *String*
+		- **license** *Enum*
+	- Responses:
+		- 200: payload is okay
+		- 422: the problem with the payload
+- **create-site**: kick off the black magic rube goldberg machine to spin up a new site
+	- Payload:
+		- **domain-name** *String*
+		- **license** *Enum*
+	- Responses:
+		- 200: the site that was created
+		- etc
+
+
+#### Site
+
+Properties:
+
+- **url** *String*: url to the site
+- **started** *Date*: date the site was created
+- **expires** *Date*: date the site expires
+- **license** *Enum*: currently has to be "Trial"
+- **status** *Enum*: "Pending", "Failed", or "Success"
+
+Links:
+
+- **delete**: delete the site
+
+### Endpoints
+
+#### `/me/`
+
+Returns the currently authenticated user if there is one, 401s if not
+
+#### `/send-verification/`
+
+Sends a verification code to the email
+
+Payload:
+
+- **email** *String*
+- **firstName** *String*
+- **lastName** *String*
+- **userName** *String*
+
+Response:
+
+- ????
+
+#### `/verify/`
+
+Verifies the code was given to an email
+
+Payload:
+
+- **email** *String*
+- **code** *String*
+
+Response:
+
+- ????

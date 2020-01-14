@@ -16,6 +16,22 @@
 		- `username`
 	- Values can be pre-filled from query-params.
 	- If all values are provided and there is an `auto-submit` query-param the form will be automatically submitted.
+	- Show a link [recover any active trails](#recover)
+	- On Submit:
+		- Submits to [`/send-verification/`](#send-verification)
+		- Puts info into session storage
+		- Redirects to [verify email](#verify-email)
+
+### Recover
+
+**Path:** `/recover/`
+
+- Checks [`/me/`](#me)
+- If Authenticated
+	- Redirect to [`/sites/`](#sites)
+- If not Authenticated
+	- Show a form to collect
+		- `email`
 	- On Submit:
 		- Submits to [`/send-verification/`](#send-verification)
 		- Puts info into session storage
@@ -44,6 +60,7 @@
 - If Not Authenticated
 	- Redirect to [`/`](#initial-form)
 - If Authenticated
+	- If there's only one site and you can't create more, redirect to the site
 	- Show a list of any existing sites
 	- If Available show a "create new site"
 		- Show a form to collect

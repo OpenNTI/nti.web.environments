@@ -1,7 +1,3 @@
-.message {
-	margin-bottom: 2rem;
-}
-
 .signup :global(.checkbox-component) {
 	display: flex;
 	flex-direction: row;
@@ -14,13 +10,20 @@
     border-radius: 4px;
 }
 
-.terms-label {
-	font-size: 0.875rem;
+.recover-link {
+	display: block;
+	margin: 0.5rem 0;
+	text-align: center;
 }
 
-.recover-link {
-	display: inline-block;
-	margin: 0.5rem 0;
+.container {
+	max-width: 400px;
+	margin: 2.5rem auto;
+	padding: 0 0.625rem;
+}
+
+.signup-form button {
+	margin-top: 1.25rem;
 }
 
 .signup.saving .signup-form,

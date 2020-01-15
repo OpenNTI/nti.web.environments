@@ -2,3 +2,7 @@
 	text-decoration: none;
 	color: var(--primary-blue);
 }
+
+.link:focus {
+	text-decoration: underline;
+}

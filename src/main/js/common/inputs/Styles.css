@@ -21,7 +21,7 @@
 }
 
 .form-input + .form-input {
-	margin-top: 0.5rem;
+	margin-top: 0.625rem;
 }
 
 .form-input :global(.nti-label-error) {

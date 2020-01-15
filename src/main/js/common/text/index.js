@@ -9,11 +9,12 @@ const cx = classnames.bind(Styles);
 
 function Factory (variant, tag) {
 	WithClassName.propTypes = {
-		className: PropTypes.string 
+		className: PropTypes.string,
+		centered: PropTypes.bool
 	};
-	function WithClassName ({className, ...otherProps}) {
+	function WithClassName ({className, centered, ...otherProps}) {
 		return (
-			<Text.Base className={cx(className, variant, 'text')} as={tag} {...otherProps} />
+			<Text.Base className={cx(className, variant, 'text', {centered})} as={tag} {...otherProps} />
 		);
 	}
 
@@ -23,7 +24,8 @@ function Factory (variant, tag) {
 const TextVariants = {
 	Base: Factory(),
 	Heading: Factory('heading', 'h1'),
-	Paragraph: Factory('paragraph', 'p')
+	Paragraph: Factory('paragraph', 'p'),
+	Small: Factory('small')
 };
 
 export default TextVariants;

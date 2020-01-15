@@ -1,2 +1,1 @@
-export Content from './Content';
-export Title from './Title';
+export default from './View';

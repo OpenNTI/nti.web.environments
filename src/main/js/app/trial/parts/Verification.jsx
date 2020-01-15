@@ -99,7 +99,7 @@ export default class LMSTrialVerification extends React.Component {
 		}
 
 		return (
-			<Page.Title title={t('title')}>
+			<Page title={t('title')}>
 				<Page.Content centerContents className={cx('verification', {saving})}>
 					<Text.Heading className={cx('verify-heading')}>{t('heading')}</Text.Heading>
 					<div className={cx('verify-sent')}>
@@ -139,7 +139,7 @@ export default class LMSTrialVerification extends React.Component {
 					<Text.Paragraph>{t('keep')}</Text.Paragraph>
 					<Text.Paragraph>{t('spam')}</Text.Paragraph>
 				</Page.Content>
-			</Page.Title>
+			</Page>
 		);
 	}
 }

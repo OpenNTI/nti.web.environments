@@ -14,8 +14,6 @@
 		- `email`
 		- `name`
 		- `username`
-	- Values can be pre-filled from query-params.
-	- If all values are provided and there is an `auto-submit` query-param the form will be automatically submitted.
 	- Show a link [recover any active trails](#recover)
 	- On Submit:
 		- Submits to [`/send-verification/`](#send-verification)
@@ -35,6 +33,7 @@
 	- On Submit:
 		- Submits to [`/send-verification/`](#send-verification)
 		- Puts info into session storage
+			- `email` and the first half of the `verification-code`
 		- Redirects to [verify email](#verify-email)
 
 ### Verify Email

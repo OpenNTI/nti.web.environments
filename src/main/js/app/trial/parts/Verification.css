@@ -1,33 +1,20 @@
-.verify-sent {
-	margin: 1rem 0;
-}
-
-.token-form {
-	padding: 1rem 0 2rem;
-}
-
-.token-input-container {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	margin: 1rem 0;
-}
-
-
-.token-input :global(.nti-text-input) {
-	font-size: 1.75rem;
-	width: 3em;
+.verify-form {
+	margin: 3.125rem 0 4.375rem;
 	text-align: center;
-	margin: 0;
 }
 
-.spacer {
-	margin: 0 0.875rem;
-	padding-bottom: 1px;
-	color: var(--secondary-grey);
+.code-input {
+	position: relative;
+	display: inline-block;
 }
 
-.saving .token-form {
-	display: none;
+.loading-container {
+	position: absolute;
+	top: 0; bottom: 0;
+	left: 100%; right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 46px;
+	padding-left: 1rem;
 }

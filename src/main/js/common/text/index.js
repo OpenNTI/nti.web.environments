@@ -10,11 +10,13 @@ const cx = classnames.bind(Styles);
 function Factory (variant, tag) {
 	WithClassName.propTypes = {
 		className: PropTypes.string,
-		centered: PropTypes.bool
+		centered: PropTypes.bool,
+		light: PropTypes.bool,
+		white: PropTypes.bool
 	};
-	function WithClassName ({className, centered, ...otherProps}) {
+	function WithClassName ({className, centered, light, white, ...otherProps}) {
 		return (
-			<Text.Base className={cx(className, variant, 'text', {centered})} as={tag} {...otherProps} />
+			<Text.Base className={cx(className, variant, 'text', {centered, light, white})} as={tag} {...otherProps} />
 		);
 	}
 

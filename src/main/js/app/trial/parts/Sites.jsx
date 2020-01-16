@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function Setup () {
+export default function LMSTrialSites () {
 	return (
 		<div>
-			Set up your trail
+			Sites
 		</div>
 	);
 }

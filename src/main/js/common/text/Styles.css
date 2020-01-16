@@ -1,4 +1,13 @@
+.text.light {
+	color: var(--tertiary-grey);
+}
+
+.text.white {
+	color: white;
+}
+
 .text.centered {
+	display: block;
 	text-align: center;
 }
 

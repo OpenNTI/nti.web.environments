@@ -29,6 +29,7 @@ function WrapperFactory (Cmp, inputProps, wrapperClassName) {
 
 export default {
 	Text: WrapperFactory(Form.Input.Text),
+	Code: WrapperFactory(Form.Input.Text, {}, 'code'),
 	Email: WrapperFactory(Form.Input.Email),
 	Checkbox: WrapperFactory(Form.Input.Checkbox)
 };

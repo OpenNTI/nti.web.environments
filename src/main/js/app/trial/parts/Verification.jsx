@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {Redirect, navigate} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
-import {Loading, Form} from '@nti/web-commons';
+import {Loading, Form, Hooks, Errors} from '@nti/web-commons';
 
-import {Page, Text, Link, Inputs, Button, ErrorBar} from '../../../common';
+import {Page, Text, Link, Inputs} from '../../../common';
 import {getSession} from '../Session';
 import {verifyToken} from '../API';
 
@@ -23,123 +23,109 @@ const t = scoped('lms-onboarding.trail.parts.Verification', {
 	check: 'Check Code'
 });
 
-export default class LMSTrialVerification extends React.Component {
-	static propTypes = {
-		location: PropTypes.shape({
-			hash: PropTypes.string
-		})
+const HasNonDigits = /\D/;
+const preventInvalidCodes = (value, e) => {
+	if (HasNonDigits.test(value)) {
+		e.stopPropagation();
+		e.preventDefault();
 	}
+};
 
-	state = {codeParts: ['', '']}
+LMSTrialVerification.propTypes = {
+	location: PropTypes.object	
+};
+export default function LMSTrialVerification ({location}) {
+	const inflight = React.useRef(null);
+	const [code, setCode] = React.useState(null);
+	const [codeError, setCodeError] = React.useState(null);
+	const [checking, setChecking] = React.useState(false);
+	const showError = !checking && codeError;
 
-	firstInput = React.createRef()
-	secondInput = React.createRef()
-
-	focusSecondInput () {
-		if (this.secondInput && this.secondInput.current) {
-			this.secondInput.current.focus();
-		}
-	}
-
-
-	onSubmit = async (value) => {
-		this.setState({
-			saving: true
-		});
-
-		try {
-			await verifyToken(`${value['firstPart']}${value['secondPart']}`);
-			navigate('setup');
-		} catch (error) {
-			this.setState({error, saving: false});
-		}
-	}
-
-
-	onFirstInputChange = (value) => {
-		const {codeParts} = this.state;
-
-		//If we get 6 characters assume they are pasting
-		if (value.length === 6) {
-			this.setState({
-				error: null,
-				codeParts: [value.substring(0, 3), value.substring(3, 6)]
-			});
-			this.focusSecondInput();
-		} else if (value.length === 3) {
-			this.setState({
-				error: null,
-				codeParts: [value.substring(0, 3), codeParts[1]]
-			});
-			this.focusSecondInput();
-		} else {
-			this.setState({
-				error: null,
-				codeParts: [value.substring(0, 3), codeParts[1]]
-			});
-		}
-	}
-
-	onSecondInputChange = (value) => {
-		const {codeParts} = this.state;
-
-		this.setState({
-			codeParts: [codeParts[0], value.substring(0, 3)]
-		});
-	}
-
-	render () {
+	const sentTo = Hooks.useResolver(() => {
+		//TODO: check the location for an id param that we can use to
+		//look up info about where it was sent from the server
 		const session = getSession();
-		const {codeParts, error, saving} = this.state;
 
-		if (!session) {
-			return (
-				<Redirect to="/" />
-			);
+		if (!session || !session.email) {
+			throw new Error('No sent to email');
 		}
 
+		return {
+			email: session.email,
+			code: session.code
+		};
+	}, [location]);
+
+	//If we can't figure out the sent info we can't submit this form
+	if (Hooks.useResolver.isErrored(sentTo)) {
 		return (
-			<Page title={t('title')}>
-				<Page.Content centerContents className={cx('verification', {saving})}>
-					<Text.Heading className={cx('verify-heading')}>{t('heading')}</Text.Heading>
-					<div className={cx('verify-sent')}>
-						<Text.Paragraph>{t('sent')}</Text.Paragraph>
-						<Text.Paragraph><strong>{session.email}</strong></Text.Paragraph>
-						<Link to="/">
-							<Text.Base>{t('change')}</Text.Base>
-						</Link>
-					</div>
-					<Text.Paragraph>{t('expires')}</Text.Paragraph>
-					<Form className={cx('token-form')} onSubmit={this.onSubmit}>
-						{error && (<ErrorBar error={error} />)}
-						<div className={cx('token-input-container')}>
-							<Inputs.Text
-								name="firstPart"
-								className={cx('token-input')}
-								ref={this.firstInput}
-								onChange={this.onFirstInputChange}
-								value={codeParts[0] || ''}
-							/>
-							<span className={cx('spacer')}>&mdash;</span>
-							<Inputs.Text
-								name="secondPart"
-								className={cx('token-input')}
-								ref={this.secondInput}
-								onChange={this.onSecondInputChange}
-								value={codeParts[1] || ''}
-							/>
-						</div>
-						<Button className={cx('submit-token')} type="submit">
-							<Text.Base>{t('check')}</Text.Base>
-						</Button>
-					</Form>
-					{saving && (
-						<Loading.Spinner.Large />
-					)}
-					<Text.Paragraph>{t('keep')}</Text.Paragraph>
-					<Text.Paragraph>{t('spam')}</Text.Paragraph>
-				</Page.Content>
-			</Page>
+			<Redirect to="/" />
 		);
 	}
+
+	const onChange = async ({json}) => {
+		if (json.code.length > 6) { return; }
+
+		setCode(json.code);
+		setCodeError(null);
+		setChecking(false);
+
+		if (json.code.length < 6) { return; }
+
+		try {
+			inflight.current = json.code;
+			setChecking(true);
+			await verifyToken(json);
+
+			if (inflight.current !== json.code) { return; }
+
+			navigate('sites');
+		} catch (e) {
+			if (inflight.current === json.code) {
+				setCodeError(e);
+				setChecking(false);
+			}
+		}
+	};
+
+	return (
+		<Page title={t('title')}>
+			<Page.Content>
+				<Text.Heading centered>{t('heading')}</Text.Heading>
+				<Loading.Placeholder loading={Hooks.useResolver.isPending(sentTo)} fallback={(<Loading.Spinner.Large />)}>
+					<div className={cx('verify-sent')}>
+						<Text.Paragraph centered>{t('sent')}</Text.Paragraph>
+						<Text.Paragraph centered><strong>{sentTo.email}</strong></Text.Paragraph>
+						<Text.Small centered>
+							<Link to="/">
+								{t('change')}
+							</Link>
+						</Text.Small>
+					</div>
+					<Text.Paragraph centered>
+						{t('expires')}
+					</Text.Paragraph>
+					<Form className={cx('verify-form', {'has-error': showError})} onChange={onChange}>
+						<Inputs.Text type="hidden" name="email" value={sentTo.email} />
+						<Inputs.Text type="hidden" name="pre-code" value={sentTo.code} />
+						<div className={cx('code-input')}>
+							<Inputs.Code name="code" onChange={preventInvalidCodes} value={code} pattern="\d*"/>
+							{checking && (
+								<div className={cx('loading-container')}>
+									<Loading.Spinner size="30px" blue />
+								</div>
+							)}
+						</div>
+						{showError && (
+							<div className={cx('error-container', {show: checking || codeError})}>
+								<Errors.Message error={codeError} />
+							</div>
+						)}
+					</Form>
+					<Text.Small as="p" centered light>{t('keep')}</Text.Small>
+					<Text.Small as="p" centered light>{t('spam')}</Text.Small>
+				</Loading.Placeholder>
+			</Page.Content>
+		</Page>
+	);
 }

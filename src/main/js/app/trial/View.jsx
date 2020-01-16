@@ -7,7 +7,7 @@ import {Page} from '../../common';
 import SignUp from './parts/SignUp';
 import Recovery from './parts/Recovery';
 import Verification from './parts/Verification';
-import Setup from './parts/Setup';
+import Sites from './parts/Sites';
 
 const t = scoped('lms-onboarding.trial.View', {
 	title: 'Trial Site'
@@ -19,7 +19,7 @@ export default function NTIOnboardingTrial () {
 			<Router>
 				<SignUp path="/" />
 				<Verification path="verification" />
-				<Setup path="setup" />
+				<Sites path="sites" />
 				<Recovery path="recover" />
 			</Router>
 		</Page.Title>

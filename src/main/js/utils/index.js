@@ -1,2 +1,2 @@
-export * as Naming from './naming';
+export * as Domain from './domain';
 export * as Rand from './rand';

@@ -1,0 +1,15 @@
+.container {
+	max-width: 400px;
+	margin: 2.5rem auto;
+	padding: 0.625rem;
+}
+
+.recover-form button {
+	margin-top: 1.25rem;
+}
+
+.sign-up-link {
+	display: block;
+	margin: 0.5rem 0;
+	text-align: center;
+}

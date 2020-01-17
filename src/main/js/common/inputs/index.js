@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {Form} from '@nti/web-commons';
 
+import Domain from './Domain';
 import Styles from './Styles.css';
 
 const cx = classnames.bind(Styles);
@@ -31,5 +32,6 @@ export default {
 	Text: WrapperFactory(Form.Input.Text),
 	Code: WrapperFactory(Form.Input.Text, {}, 'code'),
 	Email: WrapperFactory(Form.Input.Email),
-	Checkbox: WrapperFactory(Form.Input.Checkbox)
+	Checkbox: WrapperFactory(Form.Input.Checkbox),
+	Domain: WrapperFactory(Form.Input.wrap(Domain))
 };

@@ -24,7 +24,7 @@ describe('massageToDomain', () => {
 	}
 	test('respects reserved space', () => {
 		expect(Domain.massageToDomain('domain', 62)).toHaveLength(1);
-	})
+	});
 });
 
 describe('validateDomain', () => {

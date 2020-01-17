@@ -6,8 +6,7 @@ import {scoped} from '@nti/lib-locale';
 import {Loading, Form, Hooks} from '@nti/web-commons';
 
 import {Page, Text, Inputs, Button, Link} from '../../../common';
-import {sendVerification} from '../API';
-import {setSession, getSession} from '../Session';
+import {sendVerification, Session} from '../../../data';
 
 import Styles from './SignUp.css';
 
@@ -55,7 +54,7 @@ export default function LMSTrailSignup ({location}) {
 		//NOTE: this doesn't have to be async, originally this made 
 		//a server call to get some info. We'll keep it open to that
 		//in the future.
-		return getSession() || {};
+		return Session.get() || {};
 	}, [location]);
 
 	const onSubmit = async ({json}) => {
@@ -64,7 +63,7 @@ export default function LMSTrailSignup ({location}) {
 		try {
 			const resp = await sendVerification(json);
 
-			setSession({...getSession(), ...json, ...resp});
+			Session.set({...Session.get(), ...json, ...resp});
 			navigate('verification');
 		} catch (e) {
 			setSaving(false);

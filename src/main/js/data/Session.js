@@ -1,6 +1,6 @@
 const key = 'nti-onboarding-trial-session';
 
-export function getSession () {
+export function get () {
 	try {
 		return JSON.parse(sessionStorage.getItem(key));
 	} catch (e) {
@@ -8,7 +8,7 @@ export function getSession () {
 	}
 }
 
-export function setSession (session) {
+export function set (session) {
 	try {
 		sessionStorage.setItem(key, JSON.stringify(session));
 	} catch (e) {

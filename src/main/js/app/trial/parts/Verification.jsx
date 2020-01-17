@@ -6,8 +6,7 @@ import {scoped} from '@nti/lib-locale';
 import {Loading, Form, Hooks, Errors} from '@nti/web-commons';
 
 import {Page, Text, Link, Inputs} from '../../../common';
-import {getSession} from '../Session';
-import {verifyToken} from '../API';
+import {verifyToken, Session} from '../../../data';
 
 import Styles from './Verification.css';
 
@@ -44,7 +43,7 @@ export default function LMSTrialVerification ({location}) {
 	const sentTo = Hooks.useResolver(() => {
 		//TODO: check the location for an id param that we can use to
 		//look up info about where it was sent from the server
-		const session = getSession();
+		const session = Session.get();
 
 		if (!session || !session.email) {
 			throw new Error('No sent to email');

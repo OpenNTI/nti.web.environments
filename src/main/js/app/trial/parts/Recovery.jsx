@@ -6,8 +6,7 @@ import {scoped} from '@nti/lib-locale';
 import {Form, Hooks, Loading} from '@nti/web-commons';
 
 import {Page, Text, Inputs, Button, Link} from '../../../common';
-import {sendVerification} from '../API';
-import {setSession, getSession} from '../Session';
+import {sendVerification, Session} from '../../../data';
 
 import Styles from './Recover.css';
 
@@ -30,7 +29,7 @@ export default function LMSTrialRecovery ({location}) {
 	const [saving, setSaving] = React.useState(false);
 
 	const initialValues = Hooks.useResolver(() => {
-		return getSession() || {};
+		return Session.get() || {};
 	}, [location]);
 
 	const onSubmit = async ({json}) => {
@@ -39,7 +38,7 @@ export default function LMSTrialRecovery ({location}) {
 		try {
 			const resp = await sendVerification(json);
 
-			setSession({...getSession(), ...json, ...resp});
+			Session.set({...Session.get(), ...json, ...resp});
 			navigate('verification');
 		} catch (e) {
 			setSaving(false);

@@ -61,10 +61,15 @@ export default function LMSTrailSignup ({location}) {
 	const onSubmit = async ({json}) => {
 		setSaving(true);
 
-		const resp = await sendVerification(json);
+		try {
+			const resp = await sendVerification(json);
 
-		setSession({...json, ...resp});
-		navigate('verification');
+			setSession({...getSession(), ...json, ...resp});
+			navigate('verification');
+		} catch (e) {
+			setSaving(false);
+			throw e;
+		}
 	};
 
 	return (

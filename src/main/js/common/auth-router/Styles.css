@@ -1,0 +1,6 @@
+.auth-router.loading .public-route,
+.auth-router.loading .private-route {
+	position: fixed;
+	opacity: 0;
+	pointer-events: none;
+}

@@ -1,8 +1,8 @@
 import React from 'react';
-import {Router} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
 
-import {Page} from '../../common';
+import {Page, AuthRouter} from '../../common';
+import {isAuthenticated} from '../../data';
 
 import SignUp from './parts/SignUp';
 import Recovery from './parts/Recovery';
@@ -16,12 +16,12 @@ const t = scoped('lms-onboarding.trial.View', {
 export default function NTIOnboardingTrial () {
 	return (
 		<Page.Title title={t('title')}>
-			<Router>
-				<SignUp path="/" />
-				<Verification path="verification" />
-				<Sites path="sites" />
-				<Recovery path="recover" />
-			</Router>
+			<AuthRouter isAuthenticated={isAuthenticated}>
+				<AuthRouter.PublicRoute path="/" entry component={SignUp} />
+				<AuthRouter.PublicRoute path="verification" component={Verification} />
+				<AuthRouter.PublicRoute path="recover" component={Recovery} />
+				<AuthRouter.PrivateRoute path="sites" entry component={Sites} />
+			</AuthRouter>
 		</Page.Title>
 	);
 }

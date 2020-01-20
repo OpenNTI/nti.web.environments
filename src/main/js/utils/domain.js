@@ -21,9 +21,9 @@ export function massageToDomain (siteName, reservedSpace = 0) {
  */
 export function validateDomain (domain) {
 	return !(
-		domain.match(/[^a-z0-9-]/g) ||	//Invalid characters
-		domain.match(/^[^a-z]+/) ||		//Starts with a letter
-		domain.match(/[^a-z0-9]+$/) ||	//Ends with a letter or number
-		domain.length > 63				//Less than 64 characters
+		domain.match(/[^a-z0-9-]/g) ||	//Has invalid characters
+		domain.match(/^[^a-z]/) ||		//Doesn't start with a letter
+		domain.match(/[^a-z0-9]$/) ||	//Doesn't end with a letter or number
+		domain.length > 63				//Has more than 63 characters
 	);
 }

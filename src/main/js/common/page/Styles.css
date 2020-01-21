@@ -1,0 +1,33 @@
+.page {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+}
+
+.page-content {
+	flex: 1 1 auto;
+	width: 50%;
+	padding: 100px 10px;
+}
+
+.page-content .container {
+	max-width: 575px;
+	width: 100%;
+	margin: 0 auto;
+}
+
+.page-image {
+	flex: 1 1 auto;
+	width: 50%;
+}
+
+.page-image.fullscreen {
+	height: 100vh;
+	overflow: hidden;
+}
+
+.page-image.fullscreen img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}

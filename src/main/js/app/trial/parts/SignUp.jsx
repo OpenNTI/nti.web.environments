@@ -27,8 +27,8 @@ const t = scoped('lms-onboarding.trial.parts.SignUp', {
 	email: {
 		placeholder: 'Email'
 	},
-	userName: {
-		placeholder: 'Username'
+	orgName: {
+		placeholder: 'Organization Name'
 	}
 });
 
@@ -85,6 +85,7 @@ export default function LMSTrailSignup ({location}) {
 							{renderInput('firstName', initialValues)}
 							{renderInput('lastName', initialValues)}
 							{renderInput('email', initialValues, Inputs.Email)}
+							{renderInput('orgName', initialValues)}
 							<Inputs.Checkbox
 								required
 								name="agreed"

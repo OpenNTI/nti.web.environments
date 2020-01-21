@@ -23,8 +23,8 @@ export default function PublicRoute ({authenticated, routes, className, componen
 	}
 
 	return (
-		<section className={cx('private-route', className)}>
+		<div className={cx('private-route', className)}>
 			<Cmp {...otherProps} />
-		</section>
+		</div>
 	);
 }

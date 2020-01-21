@@ -33,11 +33,11 @@ const t = scoped('lms-onboarding.trial.parts.SignUp', {
 });
 
 
-function renderInput (name, initialValues, Cmp = Inputs.Text) {
+function renderInput (name, initialValues, Cmp = Inputs.Text, autoFocus) {
 	const getString = (key) => t(`${name}.${key}`);
 
 	return (
-		<Cmp name={name} required defaultValue={initialValues[name] || ''}  placeholder={getString('placeholder')} />
+		<Cmp name={name} required defaultValue={initialValues[name] || ''}  placeholder={getString('placeholder')} autoFocus={autoFocus} />
 	);
 }
 
@@ -82,7 +82,7 @@ export default function LMSTrailSignup ({location}) {
 					)}
 					<div className={cx('container')}>
 						<Form className={cx('signup-form')} onSubmit={onSubmit} disabled={!agreed}>
-							{renderInput('firstName', initialValues)}
+							{renderInput('firstName', initialValues, Inputs.Text, true)}
 							{renderInput('lastName', initialValues)}
 							{renderInput('email', initialValues, Inputs.Email)}
 							{renderInput('orgName', initialValues)}

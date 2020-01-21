@@ -49,7 +49,7 @@ describe('validateDomain', () => {
 	});
 
 	test('disallows ending dash', () => {
-		expect(Domain.validateDomain('domain-')).toBe(true);
+		expect(Domain.validateDomain('domain-')).toBe(false);
 	});
 
 	test('disallows invalid character', () => {

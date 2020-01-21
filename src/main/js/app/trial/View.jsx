@@ -4,10 +4,10 @@ import {scoped} from '@nti/lib-locale';
 import {Page, AuthRouter} from '../../common';
 import {isAuthenticated} from '../../data';
 
-import SignUp from './parts/SignUp';
-import Recovery from './parts/Recovery';
-import Verification from './parts/Verification';
-import Sites from './parts/Sites';
+import SignUp from './routes/SignUp';
+import Recovery from './routes/Recovery';
+import Verification from './routes/Verification';
+import Sites from './routes/sites';
 
 const t = scoped('lms-onboarding.trial.View', {
 	title: 'Trial Site'
@@ -20,7 +20,7 @@ export default function NTIOnboardingTrial () {
 				<AuthRouter.PublicRoute path="/" entry component={SignUp} />
 				<AuthRouter.PublicRoute path="verification" component={Verification} />
 				<AuthRouter.PublicRoute path="recover" component={Recovery} />
-				<AuthRouter.PrivateRoute path="sites" entry component={Sites} />
+				<AuthRouter.PrivateRoute path="sites/*" entry component={Sites} />
 			</AuthRouter>
 		</Page.Title>
 	);

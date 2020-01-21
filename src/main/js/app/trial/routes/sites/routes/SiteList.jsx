@@ -1,9 +1,8 @@
 import React from 'react';
 import {scoped} from '@nti/lib-locale';
 
-import {Page, Text} from '../../../common';
-
-import Image from './assets/sites-image.png';
+import {Page, Text} from '../../../../../common';
+import Image from '../assets/sites-image.png';
 
 const t = scoped('lms-onboarding.trial.parts.SignUp', {
 	title: 'Sites'

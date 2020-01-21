@@ -54,16 +54,79 @@
             max-width: 100%;
         }
 
-        img {
+        img, .svg-container {
             margin-top: auto;
             margin-bottom: 2rem;
         }
-    </style>
 
+		.loading-bar {
+			transition: width 10s linear;
+		}
+		.loading-bar-0 {
+			width: 0;
+		}
+		.loading-bar-90 {
+			width: 292.5px;
+		}
+		.loading-bar-100 {
+			width: 325px;
+			transition-duration: 2s !important;
+		}
+
+		dialog#complete {
+			border: none;
+			background: #0000006e;
+			color: white;
+			padding: 2rem;
+			border-radius: 4px;
+		}
+    </style>
+	<script>
+		const ping = function() {
+			const response = fetch('dataserver2/logon.ping');
+			response
+			.then(function() {
+				const dialog = document.getElementById('complete');
+				const loadingBar = document.getElementById("loading-bar");
+
+				loadingBar.classList.add('loading-bar-100');
+				dialog.showModal();
+			})
+			.catch(function() {
+				setTimeout(ping, 3000);
+			});
+		}
+
+		ping();
+
+		window.addEventListener('load', function () {
+			fetch('resources/images/illo-loading.svg')
+				.then(r => r.text())
+				.then(text => {
+					const svg = document.createElement('svg');
+					svg.innerHTML = text;
+					document.getElementById("svg-container").appendChild(svg);
+					const loadingBar = document.getElementById("loading-bar");
+
+					loadingBar.removeChild(loadingBar.firstElementChild);
+					setTimeout(() => {
+						loadingBar.classList.add('loading-bar-90');
+					}, 200);
+				});
+		});
+	</script>
 </head>
 
 <body>
-    <img src="resources/images/illo-loading.svg" class="responsive">
+	<dialog id="complete">
+		<p>The site is ready!</p>
+		<button>Continue</button>
+	</dialog>
+	<div id="svg-container" class="responsive">
+	</div>
+	<noscript>
+   		<img src="resources/images/illo-loading.svg" class="responsive">
+	</noscript>
     <section>
         <h1>Hold tight!</h1>
         <p>We are getting everything just right.<br>
@@ -73,3 +136,4 @@
 </body>
 
 </html>
+

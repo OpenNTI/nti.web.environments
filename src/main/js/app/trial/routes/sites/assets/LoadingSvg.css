@@ -1,0 +1,16 @@
+:global(.loading-bar) {
+	transition: width 10s linear;
+}
+
+:global(.loading-bar-0) {
+	width: 0;
+}
+
+:global(.loading-bar-90) {
+	width: 292.5px;
+}
+
+:global(.loading-bar-100) {
+	width: 325px;
+	transition-duration: 2s !important;
+}

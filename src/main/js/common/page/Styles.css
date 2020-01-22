@@ -16,6 +16,10 @@
 	margin: 0 auto;
 }
 
+.page-content .container.fullscreen {
+	max-width: 100%;
+}
+
 .page-image {
 	flex: 1 1 auto;
 	width: 50%;

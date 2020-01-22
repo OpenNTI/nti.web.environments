@@ -8,12 +8,13 @@ const cx = classnames.bind(Styles);
 
 PageContent.propTypes = {
 	className: PropTypes.string,
-	children: PropTypes.any
+	children: PropTypes.any,
+	fullscreen: PropTypes.bool
 };
-export default function PageContent ({className, children, ...otherProps}) {
+export default function PageContent ({className, children, fullscreen, ...otherProps}) {
 	return (
 		<section className={cx('page-content', className)}>
-			<div className={cx('container')}>
+			<div className={cx('container', { fullscreen })}>
 				{children}
 			</div>
 		</section>

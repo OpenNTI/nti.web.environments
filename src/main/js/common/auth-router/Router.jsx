@@ -25,9 +25,9 @@ export default function AuthRouter ({children, isAuthenticated}) {
 	const routes = React.Children.toArray(children)
 		.reduce((acc, child) => {
 			if (child.type === PrivateRoute && child.props.entry) {
-				acc.privateEntry = child.props.path;
+				acc.privateEntry = child.props.redirectPath || child.props.path;
 			} else if (child.type === PublicRoute && child.props.entry) {
-				acc.publicEntry = child.props.path;
+				acc.publicEntry = child.props.redirectPath || child.props.path;
 			}
 
 			return acc;

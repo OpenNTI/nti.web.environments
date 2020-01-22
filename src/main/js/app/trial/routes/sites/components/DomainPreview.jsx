@@ -1,0 +1,70 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import {Loading, Errors} from '@nti/web-commons';
+
+import {resolveDomain} from '../../../../../data';
+import {Text, Inputs} from '../../../../../common';
+
+const CheckDomainBuffer = 300;
+const Checking = Symbol('Checking');
+
+DomainPreview.propTypes = {
+	domain: PropTypes.string,
+	customer: PropTypes.object,
+	onValid: PropTypes.func,
+	onInvalid: PropTypes.func
+};
+export default function DomainPreview ({domain, customer, onValid, onInvalid}) {
+	const [fullDomain, setFullDomain] = React.useState(null);
+	const isChecking = fullDomain === Checking;
+	const isErrored = fullDomain instanceof Error;
+
+	const timeout = React.useRef(null);
+
+	React.useEffect(() => {
+		let unmounted = null;
+
+		const checkDomain = async () => {
+			if (unmounted) { return; }
+			if (!domain) { setFullDomain(''); return; }
+
+			const domainToCheck = domain;
+
+			try {
+				const resolved = await resolveDomain(domainToCheck, customer);
+
+				if (domainToCheck === domain) {
+					setFullDomain(resolved);
+
+					if (onValid) {
+						onValid(resolved);
+					}
+				}
+			} catch (e) {
+				setFullDomain(e);
+
+
+				if (onInvalid) {
+					onInvalid(e);
+				}
+			}
+
+		};
+
+		clearTimeout(timeout);
+		setFullDomain(Checking);
+		timeout.current = setTimeout(checkDomain, CheckDomainBuffer); 
+
+		return () => unmounted = true;
+	}, [domain]);
+
+	return (
+		<div>
+			{!isErrored && (<Inputs.Text type="hidden" value={isChecking ? '' : (fullDomain || '')} name="full-domain" />)}
+			<Loading.Placeholder loading={isChecking} fallback={(<Loading.Spinner blue />)}>
+				{isErrored && (<Errors.Message error={fullDomain} />)}
+				{!isErrored && (<Text.Small>{fullDomain}</Text.Small>)}
+			</Loading.Placeholder>
+		</div>
+	);
+}

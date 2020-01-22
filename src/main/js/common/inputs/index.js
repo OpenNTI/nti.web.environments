@@ -11,12 +11,13 @@ const cx = classnames.bind(Styles);
 function WrapperFactory (Cmp, inputProps, wrapperClassName) {
 	OnboardingFormInput.propTypes = {
 		className: PropTypes.string,
-		inputRef: PropTypes.any
+		inputRef: PropTypes.any,
+		underline: PropTypes.bool
 	};
-	function OnboardingFormInput ({className, inputRef, ...otherProps}) {
+	function OnboardingFormInput ({className, inputRef, underline, ...otherProps}) {
 		return (
 			<Cmp
-				className={cx(className, wrapperClassName, 'form-input')}
+				className={cx(className, wrapperClassName, 'form-input', {underline})}
 				ref={inputRef}
 				{...inputProps}
 				{...otherProps}

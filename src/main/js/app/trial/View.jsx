@@ -20,7 +20,7 @@ export default function NTIOnboardingTrial () {
 				<AuthRouter.PublicRoute path="/" entry component={SignUp} />
 				<AuthRouter.PublicRoute path="verification" component={Verification} />
 				<AuthRouter.PublicRoute path="recover" component={Recovery} />
-				<AuthRouter.PrivateRoute path="sites/*" entry component={Sites} />
+				<AuthRouter.PrivateRoute path="sites/*" entry redirectPath="sites" component={Sites} />
 			</AuthRouter>
 		</Page.Title>
 	);

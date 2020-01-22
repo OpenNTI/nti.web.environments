@@ -12,11 +12,12 @@ function Factory (variant, tag) {
 		className: PropTypes.string,
 		centered: PropTypes.bool,
 		light: PropTypes.bool,
-		white: PropTypes.bool
+		white: PropTypes.bool,
+		callout: PropTypes.bool
 	};
-	function WithClassName ({className, centered, light, white, ...otherProps}) {
+	function WithClassName ({className, centered, light, white, callout, ...otherProps}) {
 		return (
-			<Text.Base className={cx(className, variant, 'text', {centered, light, white})} as={tag} {...otherProps} />
+			<Text.Base className={cx(className, variant, 'text', {centered, light, white, callout})} as={tag} {...otherProps} />
 		);
 	}
 
@@ -26,6 +27,7 @@ function Factory (variant, tag) {
 const TextVariants = {
 	Base: Factory(),
 	Heading: Factory('heading', 'h1'),
+	SmallHeading: Factory('small-heading', 'h1'),
 	Paragraph: Factory('paragraph', 'p'),
 	Small: Factory('small')
 };

@@ -1,0 +1,29 @@
+.heading {
+	font-weight: 300;
+	font-size: 2.25rem;
+	margin: 0 0 1rem;
+}
+
+.section {
+	text-align: center;
+	margin-bottom: 2.5rem;
+	padding: 1rem;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.paragraph {
+	line-height: 1.666;
+	font-size: 1.125rem;
+	margin: 0;
+}
+
+.image {
+	margin-top: auto;
+	margin-bottom: 2rem;
+	max-width: 100%;
+}
+
+.logo {
+	margin-top: 5rem;
+}

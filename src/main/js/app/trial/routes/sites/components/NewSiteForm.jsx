@@ -64,12 +64,14 @@ export default function NewSiteForm ({customer}) {
 				underline
 				name="domain-name"
 				label={t('domain.label')}
+				placeholder={t('domain.placeholder')}
 				value={domain}
 				onChange={value => (setSynced(false), setDomain(value))}
 			/>
 			<DomainPreview domain={domain} customer={customer} onValid={() => setValid(true)} onInvalid={() => setValid(false)} />
 
 			<Text.Paragraph callout>
+				<i className="icon-hint" />
 				<strong>{t('note.label')}</strong>
 				<span>{t('note.message')}</span>
 			</Text.Paragraph>

@@ -16,12 +16,26 @@
 
 .form-input > :global(.nti-text-input) {
 	width: 100%;
-	line-height: 2.5rem;
-	height: 2.5rem;
+	line-height: 3.125rem;
+	height: 3.125rem;
+	padding: 1rem 1.25rem;
+	background: white;
+	border-radius: none;
+}
+
+.form-input.underline > :global(.nti-text-input) {
+	border: none;
+	padding: 0;
+	background: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .form-input + .form-input {
 	margin-top: 0.625rem;
+}
+
+.form-input.underline + .form-input.underline {
+	margin-top: 1.875rem;
 }
 
 .form-input :global(.nti-label-error) {

@@ -28,12 +28,10 @@ export default function DomainPreview ({domain, customer, onValid, onInvalid}) {
 			if (unmounted) { return; }
 			if (!domain) { setFullDomain(''); return; }
 
-			const domainToCheck = domain;
-
 			try {
-				const resolved = await resolveDomain(domainToCheck, customer);
+				const resolved = await resolveDomain(domain, customer);
 
-				if (domainToCheck === domain) {
+				if (!unmounted) {
 					setFullDomain(resolved);
 
 					if (onValid) {
@@ -41,17 +39,19 @@ export default function DomainPreview ({domain, customer, onValid, onInvalid}) {
 					}
 				}
 			} catch (e) {
-				setFullDomain(e);
+				if (!unmounted) {
+					setFullDomain(e);
 
 
-				if (onInvalid) {
-					onInvalid(e);
+					if (onInvalid) {
+						onInvalid(e);
+					}
 				}
 			}
 
 		};
 
-		clearTimeout(timeout);
+		clearTimeout(timeout.current);
 		setFullDomain(Checking);
 		timeout.current = setTimeout(checkDomain, CheckDomainBuffer); 
 

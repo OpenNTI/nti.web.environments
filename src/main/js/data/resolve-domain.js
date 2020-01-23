@@ -11,7 +11,15 @@ const Host = 'nextthought';
 
 function resolveTrialURL (subDomain) {
 	const hash = Rand.randomNumberOfLength(TrialHashSize);
-	const hashedSubDomain = Domain.massageToDomain(`${subDomain}-${hash}`);
+	const maybeValidDomain = Domain.massageToDomain(subDomain, hash.length);
+
+	if (!maybeValidDomain) {
+		const error = Domain.getDomainError(subDomain);
+
+		throw error;
+	}
+
+	const hashedSubDomain = `${maybeValidDomain}-${hash}`;
 
 	return `${hashedSubDomain}.${Host}.${TLD}`;
 }

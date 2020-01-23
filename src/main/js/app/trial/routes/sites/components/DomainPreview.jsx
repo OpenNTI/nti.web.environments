@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames/bind';
 import {Loading, Errors} from '@nti/web-commons';
 
 import {resolveDomain} from '../../../../../data';
 import {Text, Inputs} from '../../../../../common';
 
+import Styles from './DomainPreview.css';
+
 const CheckDomainBuffer = 300;
 const Checking = Symbol('Checking');
+
+const cx = classnames.bind(Styles);
 
 DomainPreview.propTypes = {
 	domain: PropTypes.string,
@@ -59,12 +64,14 @@ export default function DomainPreview ({domain, customer, onValid, onInvalid}) {
 	}, [domain]);
 
 	return (
-		<div>
-			{!isErrored && (<Inputs.Text type="hidden" value={isChecking ? '' : (fullDomain || '')} name="full-domain" />)}
-			<Loading.Placeholder loading={isChecking} fallback={(<Loading.Spinner blue />)}>
-				{isErrored && (<Errors.Message error={fullDomain} />)}
-				{!isErrored && (<Text.Small>{fullDomain}</Text.Small>)}
-			</Loading.Placeholder>
+		<div className={cx('domain-preview-container')}>
+			<div className={cx('domain-preview')}>
+				{!isErrored && (<Inputs.Text type="hidden" value={isChecking ? '' : (fullDomain || '')} name="full-domain" />)}
+				<Loading.Placeholder loading={isChecking} fallback={(<Loading.Spinner blue />)}>
+					{isErrored && (<Errors.Message error={fullDomain} />)}
+					{!isErrored && (<Text.Small>{fullDomain}</Text.Small>)}
+				</Loading.Placeholder>
+			</div>
 		</div>
 	);
 }

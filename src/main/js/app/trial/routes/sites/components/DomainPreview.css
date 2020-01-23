@@ -1,0 +1,14 @@
+.domain-preview-container {
+	padding: 1rem 0;
+	position: relative;
+}
+
+.domain-preview {
+	position: absolute;
+	top: 0.5rem;
+	left: 0;
+}
+
+.domain-preview :global(.loading-spinner) {
+	margin: 0;
+}

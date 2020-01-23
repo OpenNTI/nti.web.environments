@@ -93,7 +93,7 @@ export default function LMSTrailSignup ({location}) {
 								label={(<Text.Small>{t('termsAndConditions')}</Text.Small>)}
 								onChange={(e) => setAgreed(e.target.checked)}
 							/>
-							<Button as={Form.SubmitButton}>
+							<Button as={Form.SubmitButton} fill>
 								<Text.Base white>{t('createAccount')}</Text.Base>
 							</Button>
 						</Form>

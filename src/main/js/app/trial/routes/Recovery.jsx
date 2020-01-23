@@ -58,7 +58,7 @@ export default function LMSTrialRecovery ({location}) {
 					<div className={cx('container')}>
 						<Form className={cx('recover-form')} onSubmit={onSubmit}>
 							<Inputs.Email name="email" required placeholder={t('email.placeholder')} defaultValue={initialValues.email} autoFocus />
-							<Button as={Form.SubmitButton}>
+							<Button as={Form.SubmitButton} fill>
 								<Text.Base white>{t('recover')}</Text.Base>
 							</Button>
 						</Form>

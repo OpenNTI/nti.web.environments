@@ -36,20 +36,17 @@ NewSiteForm.propTypes = {
 export default function NewSiteForm ({customer}) {
 	const defaultValue = customer.orginization || '';
 
-	const [synced, setSynced] = React.useState(true);
-	const [domain, setDomain] = React.useState(defaultValue);
+	const [domain, setDomain] = React.useState({synced: true, value: defaultValue});
 	const [valid, setValid] = React.useState(false);
 
 
 	const onChange = (form) => {
-		if (synced) {
-			setDomain(form.json['site-name']);
+		if (domain.synced) {
+			setDomain({synced: true, value: form.json['site-name']});
 		}
 	};
 
-	const onSubmit = () => {
-		debugger;
-	};
+	const onSubmit = () => {};
 
 	return (
 		<Form className={cx('new-site-form')} onSubmit={onSubmit} onChange={onChange} disabled={!valid} >
@@ -62,13 +59,13 @@ export default function NewSiteForm ({customer}) {
 			/>
 			<Inputs.Text
 				underline
-				name="domain-name"
+				name="sub-domain"
 				label={t('domain.label')}
 				placeholder={t('domain.placeholder')}
-				value={domain}
-				onChange={value => (setSynced(false), setDomain(value))}
+				value={domain.value}
+				onChange={(value, e) => (e.stopPropagation(), e.preventDefault(), setDomain({synced: false, value}))}
 			/>
-			<DomainPreview domain={domain} customer={customer} onValid={() => setValid(true)} onInvalid={() => setValid(false)} />
+			<DomainPreview domain={domain.value} customer={customer} onValid={() => setValid(true)} onInvalid={() => setValid(false)} />
 
 			<Text.Paragraph callout>
 				<i className="icon-hint" />

@@ -24,8 +24,16 @@ function resolveTrialURL (subDomain) {
 	return `${hashedSubDomain}.${Host}.${TLD}`;
 }
 
-function resolveURL () {
-	//TODO: fill this out
+function resolveURL (subDomain) {
+	const maybeValidDomain = Domain.massageToDomain(subDomain);
+
+	if (!maybeValidDomain) {
+		const error = Domain.getDomainError(subDomain);
+
+		throw error;
+	}
+
+	return `${maybeValidDomain}.${Host}.${TLD}`;
 }
 
 function checkURL (url) {
@@ -34,9 +42,9 @@ function checkURL (url) {
 	});
 }
 
-export default function resolveDomain (subDomain, customer) {
+export default function resolveDomain (subDomain, hash) {
 	const tries = new Set();
-	const resolver = customer.canCreateFull ? resolveURL : resolveTrialURL;
+	const resolver = hash ? resolveTrialURL : resolveURL;
 
 	const attempt = async () => {
 		let url = resolver(subDomain);

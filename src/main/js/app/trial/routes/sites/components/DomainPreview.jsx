@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {Loading, Errors} from '@nti/web-commons';
 
-import {resolveDomain} from '../../../../../data';
 import {Text, Inputs} from '../../../../../common';
 
 import Styles from './DomainPreview.css';
@@ -15,7 +14,9 @@ const cx = classnames.bind(Styles);
 
 DomainPreview.propTypes = {
 	domain: PropTypes.string,
-	customer: PropTypes.object,
+	customer: PropTypes.shape({
+		resolveDomain: PropTypes.func
+	}).isRequired,
 	onValid: PropTypes.func,
 	onInvalid: PropTypes.func
 };
@@ -34,7 +35,7 @@ export default function DomainPreview ({domain, customer, onValid, onInvalid}) {
 			if (!domain) { setFullDomain(''); return; }
 
 			try {
-				const resolved = await resolveDomain(domain, customer);
+				const resolved = await customer.resolveDomain(domain);
 
 				if (!unmounted) {
 					setFullDomain(resolved);
@@ -46,7 +47,6 @@ export default function DomainPreview ({domain, customer, onValid, onInvalid}) {
 			} catch (e) {
 				if (!unmounted) {
 					setFullDomain(e);
-
 
 					if (onInvalid) {
 						onInvalid(e);

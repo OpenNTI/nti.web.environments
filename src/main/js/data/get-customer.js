@@ -17,7 +17,7 @@ class Customer {
 	createSite (data) {
 		return new Promise((fulfill) => {
 			setTimeout(() => fulfill({
-				id: 'test-site'
+				id: 'new-site'
 			}), 5000);
 		});
 	} 
@@ -27,8 +27,11 @@ export default function getCustomer () {
 	return new Promise((fulfill) => {
 		setTimeout(() => {
 			fulfill(new Customer({
-				Sites: [],
-				canCreateSite: true
+				Sites: [
+					{id: 'existing-site', url: 'https://alpha.nextthought.com'},
+					{id: 'other-site', url: 'https://alpha.nextthought.com'}
+				],
+				canCreateSite: false
 			}));
 		}, 5000);
 	});

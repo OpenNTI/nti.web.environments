@@ -9,6 +9,7 @@ import {Page, Text} from '../../../../../common';
 import {getCustomer} from '../../../../../data';
 import Image from '../assets/sites-image.png';
 import NewSiteForm from '../components/NewSiteForm';
+import SiteListItem from '../components/SiteListItem';
 
 import Styles from './SiteList.css';
 
@@ -32,6 +33,10 @@ const t = scoped('lms-onboarding.trial.parts.SignUp', {
 		canNotCreate: {
 			heading: 'Choose an existing site.'
 		}
+	},
+	sites: {
+		other: '%(count)s Sites',
+		one: '%(count)s Site'
 	}
 });
 
@@ -65,6 +70,20 @@ export default function LMSTrialSites ({location}) {
 				<Loading.Placeholder loading={isPending(customer)} fallback={(<Loading.Spinner.Large />)}>
 					<Text.SmallHeading className={cx('site-list-heading')}>{getString('heading')}</Text.SmallHeading>
 					{empty && (<NewSiteForm customer={customer} />)}
+					{!empty && (
+						<div className={cx('site-list')}>
+							<div className={cx('header')}>
+								<Text.Small className={cx('count')}>{t('sites', {count: customer.Sites.length})}</Text.Small>
+							</div>
+							<ul>
+								{customer.Sites.map((site, key) => (
+									<li key={key}>
+										<SiteListItem site={site} />
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
 				</Loading.Placeholder>
 			</Page.Content>
 			<Page.Image src={Image} fullscreen />

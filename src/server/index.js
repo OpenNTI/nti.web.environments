@@ -3,6 +3,8 @@
 
 const path = require('path');
 
+const proxy = require('http-proxy-middleware');
+
 let dev;
 let assets = path.resolve(__dirname, '../client');
 
@@ -22,6 +24,11 @@ exports = module.exports = {
 		if (devmode) {
 			expressApp.use(devmode.middleware); //serve in-memory compiled source/assets
 		}
+
+		expressApp.use(
+			'/onboarding',
+			proxy({target: 'http://localhost:6543', xfwd: true, changeOrigin: true})
+		);
 
 		return {
 			devmode,

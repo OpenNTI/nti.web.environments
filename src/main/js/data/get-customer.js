@@ -31,7 +31,7 @@ export default function getCustomer () {
 					{id: 'existing-site', url: 'https://alpha.nextthought.com'},
 					{id: 'other-site', url: 'https://alpha.nextthought.com'}
 				],
-				canCreateSite: false
+				canCreateSite: true
 			}));
 		}, 5000);
 	});

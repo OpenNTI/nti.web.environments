@@ -1,3 +1,25 @@
 .new-site-form.saving {
 	display: none;
 }
+
+.new-site.modal {
+	width: 100vh;
+	max-width: 475px;
+}
+
+.new-site.modal .form-content {
+	padding: 1.25rem 1.5rem;
+}
+
+.new-site.modal .form-content p {
+	margin: 2.5rem 0 0;
+}
+
+.new-site-buttons *:disabled {
+	opacity: 0.7;
+	pointer-events: none;
+}
+
+.new-site.modal .spinner {
+	padding: 2.25rem 0;
+}

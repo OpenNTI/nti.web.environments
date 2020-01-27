@@ -10,13 +10,14 @@ import {getCustomer} from '../../../../../data';
 import Image from '../assets/sites-image.png';
 import NewSiteForm from '../components/NewSiteForm';
 import SiteListItem from '../components/SiteListItem';
+import SiteListHeader from '../components/SiteListHeader';
 
 import Styles from './SiteList.css';
 
 const {isPending, isResolved} = Hooks.useResolver;
 
 const cx = classnames.bind(Styles);
-const t = scoped('lms-onboarding.trial.parts.SignUp', {
+const t = scoped('lms-onboarding.trial.routes.sites.routes.SiteList', {
 	title: 'Sites',
 	empty: {
 		canCreate: {
@@ -33,10 +34,6 @@ const t = scoped('lms-onboarding.trial.parts.SignUp', {
 		canNotCreate: {
 			heading: 'Choose an existing site.'
 		}
-	},
-	sites: {
-		other: '%(count)s Sites',
-		one: '%(count)s Site'
 	}
 });
 
@@ -68,13 +65,11 @@ export default function LMSTrialSites ({location}) {
 		<Page title={t('title')}>
 			<Page.Content padded>
 				<Loading.Placeholder loading={isPending(customer)} fallback={(<Loading.Spinner.Large />)}>
-					<Text.SmallHeading className={cx('site-list-heading')}>{getString('heading')}</Text.SmallHeading>
+					<Text.SmallHeading className={cx('site-list-heading', {empty})}>{getString('heading')}</Text.SmallHeading>
 					{empty && (<NewSiteForm customer={customer} />)}
 					{!empty && (
 						<div className={cx('site-list')}>
-							<div className={cx('header')}>
-								<Text.Small className={cx('count')}>{t('sites', {count: customer.Sites.length})}</Text.Small>
-							</div>
+							<SiteListHeader customer={customer} />
 							<ul>
 								{customer.Sites.map((site, key) => (
 									<li key={key}>

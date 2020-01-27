@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {navigate} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
-import {Loading, Form} from '@nti/web-commons';
+import {Loading, Form, DialogButtons} from '@nti/web-commons';
 
 import {Text, Inputs, Button} from '../../../../../common';
 
@@ -24,7 +24,9 @@ const t = scoped('lms-onboarding.trial.sites.components.NewSiteForm', {
 		label: 'Note: ',
 		message: 'This can be changed later.'
 	},
-	continue: 'Continue'
+	continue: 'Continue',
+	create: 'Create',
+	cancel: 'Cancel'
 });
 
 
@@ -33,9 +35,11 @@ NewSiteForm.propTypes = {
 	customer: PropTypes.shape({
 		orginization: PropTypes.string,
 		createSite: PropTypes.func
-	}).isRequired
+	}).isRequired,
+	onCancel: PropTypes.func,
+	modal: PropTypes.bool
 };
-export default function NewSiteForm ({customer}) {
+export default function NewSiteForm ({customer, modal, onCancel}) {
 	const defaultValue = customer.orginization || '';
 
 	const [domain, setDomain] = React.useState({synced: true, value: defaultValue});
@@ -62,36 +66,48 @@ export default function NewSiteForm ({customer}) {
 	};
 
 	return (
-		<>
+		<div className={cx('new-site', {modal})}>
 			<Form className={cx('new-site-form', {saving})} onSubmit={onSubmit} onChange={onChange} disabled={!valid} >
-				<Inputs.Text
-					underline
-					name="site-name"
-					label={t('siteName.label')}
-					placeholder={t('siteName.placeholder')}
-					defaultValue={defaultValue}
-				/>
-				<Inputs.Text
-					underline
-					name="sub-domain"
-					label={t('domain.label')}
-					placeholder={t('domain.placeholder')}
-					value={domain.value}
-					onChange={(value, e) => (e.stopPropagation(), e.preventDefault(), setDomain({synced: false, value}))}
-				/>
-				<DomainPreview domain={domain.value} customer={customer} onValid={() => setValid(true)} onInvalid={() => setValid(false)} />
+				<div className={cx('form-content')}>
+					<Inputs.Text
+						underline
+						name="site-name"
+						label={t('siteName.label')}
+						placeholder={t('siteName.placeholder')}
+						defaultValue={defaultValue}
+					/>
+					<Inputs.Text
+						underline
+						name="sub-domain"
+						label={t('domain.label')}
+						placeholder={t('domain.placeholder')}
+						value={domain.value}
+						onChange={(value, e) => (e.stopPropagation(), e.preventDefault(), setDomain({synced: false, value}))}
+					/>
+					<DomainPreview domain={domain.value} customer={customer} onValid={() => setValid(true)} onInvalid={() => setValid(false)} />
 
-				<Text.Paragraph callout>
-					<i className="icon-hint" />
-					<strong>{t('note.label')}</strong>
-					<span>{t('note.message')}</span>
-				</Text.Paragraph>
-
-				<Button as={Form.SubmitButton}>
-					<Text.Base>{t('continue')}</Text.Base>
-				</Button>
+					<Text.Paragraph callout>
+						<i className="icon-hint" />
+						<strong>{t('note.label')}</strong>
+						<span>{t('note.message')}</span>
+					</Text.Paragraph>
+				</div>
+				{modal && (
+					<DialogButtons
+						className={cx('new-site-buttons')}
+						buttons={[
+							{label: t('cancel'), onClick: onCancel},
+							{label: t('create'), tag: Form.SubmitButton}
+						]}
+					/>
+				)}
+				{!modal && (
+					<Button as={Form.SubmitButton}>
+						<Text.Base>{t('continue')}</Text.Base>
+					</Button>
+				)}
 			</Form>
-			{saving && (<Loading.Spinner.Large  />)}
-		</>
+			{saving && (<div className={cx('spinner')}><Loading.Spinner.Large  /></div>)}
+		</div>
 	);
 }

@@ -1,0 +1,31 @@
+.site-list-header {
+	margin: 0 0 1.25rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.count {
+	flex: 1 1 auto;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--secondary-grey);
+}
+
+.create {
+	flex: 0 0 auto;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--primary-blue);
+	cursor: pointer;
+}
+
+.create > i {
+	display: inline-block;
+	padding: 0.25rem;
+	margin-right: 0.5rem;
+	border: 2px solid var(--primary-blue);
+	border-radius: 1.5rem;
+}

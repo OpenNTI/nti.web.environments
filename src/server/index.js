@@ -23,12 +23,16 @@ exports = module.exports = {
 
 		if (devmode) {
 			expressApp.use(devmode.middleware); //serve in-memory compiled source/assets
+			expressApp.use(
+				'/onboarding',
+				proxy({
+					target: 'http://localhost:6543',
+					xfwd: true,
+					changeOrigin: true //you probably don't want this (this locks the host to "localhost:6543" on all proxied requests instead of the incoming host ie: "alpha.dev")
+				})
+			);
 		}
 
-		expressApp.use(
-			'/onboarding',
-			proxy({target: 'http://localhost:6543', xfwd: true, changeOrigin: true})
-		);
 
 		return {
 			devmode,

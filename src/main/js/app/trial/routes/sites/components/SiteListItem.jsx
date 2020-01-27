@@ -1,18 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Hooks} from '@nti/web-commons';
+import classnames from 'classnames/bind';
+import {Hooks, Theme} from '@nti/web-commons';
 
+import {Text} from '../../../../../common';
 import {Client} from '../../../../../data';
+
+import Styles from './SiteListItem.css';
 
 const BrandingPath = '/dataserver2/SiteBrand';
 
-async function loadSiteBranding (site) {
+const cx = classnames.bind(Styles);
+
+async function loadSiteTheme (site) {
 	try {
 		const branding = await Client.getServer(site.url).get(BrandingPath);
+		const overrides = Theme.siteBrandToTheme(branding);
+		const theme = Theme.buildTheme();
 
-		return branding;
+		theme.setOverrides(overrides);
+
+		return theme;
 	} catch (e) {
-		throw new Error('Unable to load site branding');
+		return Theme.buildTheme();
 	}
 }
 
@@ -23,11 +33,18 @@ SiteListItem.propTypes = {
 	})
 };
 export default function SiteListItem ({site}) {
-	const branding = Hooks.useResolver(() => loadSiteBranding(site), [site]);
+	const theme = Hooks.useResolver(() => loadSiteTheme(site), [site]);
+	const loading = Hooks.useResolver.isPending(theme);
 
 	return (
-		<div>
-			Site
+		<div className={cx('site-list-item', {loading})}>
+			<div className={cx('icon')}>
+				{!loading && (<Theme.Asset property={theme.assets.logo} />)}
+			</div>
+			<div className={cx('meta')}>
+				<Text.Base className={cx('name')}>{loading ? '' : theme.brandName}</Text.Base>
+				<Text.Base className={cx('url')}>{site.url}</Text.Base>
+			</div>
 		</div>
 	);
 }

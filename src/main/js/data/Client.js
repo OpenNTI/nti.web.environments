@@ -65,12 +65,6 @@ class ServerInterface {
 		const url = this.resolveURL(path);
 		const payload = this.resolvePayload(data);
 
-		const headers = {
-			'x-requested-with': 'XMLHttpRequest',
-			...payload.headers,
-			...(options.headers || {})
-		};
-		debugger;
 		const request = await fetch(url, {
 			mode: options.mode || 'cors',
 			method,
@@ -82,11 +76,9 @@ class ServerInterface {
 			}
 		});
 
-		debugger;
 
 		const response = await this.resolveResponseBody(request, options);
 
-		debugger;
 		if (request.ok) {
 			return response;
 		}

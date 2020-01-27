@@ -1,9 +1,3 @@
-.heading {
-	font-weight: 300;
-	font-size: 2.25rem;
-	margin: 0 0 1rem;
-}
-
 .section {
 	text-align: center;
 	margin-bottom: 2.5rem;
@@ -12,18 +6,29 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.paragraph {
-	line-height: 1.666;
-	font-size: 1.125rem;
-	margin: 0;
+.section > div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-.image {
-	margin-top: auto;
-	margin-bottom: 2rem;
-	max-width: 100%;
+:global(.site-details-exit) {
+	opacity: 1;
 }
 
-.logo {
-	margin-top: 5rem;
+:global(.site-details-exit-active) {
+	opacity: 0;
+	transform: scale(0.8);
+	transition: opacity 300ms, transform 300ms;
+}
+
+:global(.site-details-enter) {
+	opacity: 0;
+	transform: scale(0.8);
+	transition: opacity 300ms, transform 300ms;
+}
+
+:global(.site-details-enter-active) {
+	opacity: 1;
+	transform: scale(1);
 }

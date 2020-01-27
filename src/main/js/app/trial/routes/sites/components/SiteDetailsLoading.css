@@ -1,0 +1,21 @@
+.heading {
+	font-weight: 300;
+	font-size: 2.25rem;
+	margin: 0 0 1rem;
+}
+
+.paragraph {
+	line-height: 1.666;
+	font-size: 1.125rem;
+	margin: 0;
+}
+
+.image {
+	margin-top: auto;
+	margin-bottom: 2rem;
+	max-width: 100%;
+}
+
+.logo {
+	margin-top: 5rem;
+}

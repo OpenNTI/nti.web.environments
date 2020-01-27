@@ -1,14 +1,17 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {Redirect} from '@reach/router';
 import { getServer } from '@nti/web-client';
-import {Loading, Hooks} from '@nti/web-commons';
+import { Hooks } from '@nti/web-commons';
+import confetti from 'canvas-confetti';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import { Page, Text } from '../../../../../common';
+import { Page } from '../../../../../common';
 import { lookUpSite } from '../../../../../data';
-import LoadingSVG from '../assets/LoadingSvg';
+import SiteDetailsLoading from '../components/SiteDetailsLoading';
+import SiteDetailsCompleted from '../components/SiteDetailsCompleted';
 
 import Styles from './SiteDetails.css';
 
@@ -19,6 +22,7 @@ SiteDetails.propTypes = {
 };
 
 export default function SiteDetails ({ siteId }) {
+	const [isLoading, setLoading] = useState(true);
 	const site = Hooks.useResolver(() => lookUpSite(siteId), [siteId]);
 
 	useEffect(() => {
@@ -27,10 +31,20 @@ export default function SiteDetails ({ siteId }) {
 			try {
 				if (unmounted) { return; }
 
-				await getServer().ping();
+				await Promise.resolve(); // getServer().ping();
 				const loadingBar = document.getElementById('loading-bar');
-
 				loadingBar.classList.add('loading-bar-100');
+				setTimeout(() => {
+					confetti({
+						particleCount: 125,
+						spread: 100,
+						origin: {
+							y: 0.65
+						},
+						colors: ['#3fb34f','#629968','#8AC691','#BFE2DF','#FACB57','#13374D']
+					});
+					setLoading(false);
+				}, 2000);
 			} catch (err) {
 				setTimeout(ping, 3000);
 			}
@@ -38,7 +52,7 @@ export default function SiteDetails ({ siteId }) {
 
 		setTimeout(() => {
 			ping();
-		}, 2000);
+		}, 11000);
 
 		return () => unmounted = true;
 	}, []);
@@ -57,20 +71,18 @@ export default function SiteDetails ({ siteId }) {
 	return (
 		<Page>
 			<Page.Content className={cx('section')} fullscreen>
-				<Loading.Placeholder
-					loading={Hooks.useResolver.isPending(site)}
-					fallback={(<Loading.Spinner.Large />)}
-				>
-					<LoadingSVG />
-					<Text.Heading className={cx('heading')}>
-						Hold Tight!
-					</Text.Heading>
-					<Text.Paragraph className={cx('paragraph')}>
-						We are getting everything just right. <br></br> This may
-						take a moment...
-					</Text.Paragraph>
-					<img className={cx('logo')} src="/resources/images/nt-logo.svg" />
-				</Loading.Placeholder>
+				<TransitionGroup component={null}>
+					{isLoading && (
+						<CSSTransition key="details-loading" classNames="site-details" timeout={300}>
+							<SiteDetailsLoading />
+						</CSSTransition>
+					)}
+					{!isLoading && (
+						<CSSTransition key="details-completed" classNames="site-details" timeout={300}>
+							<SiteDetailsCompleted />
+						</CSSTransition>
+					)}
+				</TransitionGroup>
 			</Page.Content>
 		</Page>
 	);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {Hooks, Theme} from '@nti/web-commons';
 
-import {Text} from '../../../../../common';
+import {Text, Link} from '../../../../../common';
 import {Client} from '../../../../../data';
 
 import Styles from './SiteListItem.css';
@@ -29,7 +29,8 @@ async function loadSiteTheme (site) {
 
 SiteListItem.propTypes = {
 	site: PropTypes.shape({
-		url: PropTypes.string
+		url: PropTypes.string,
+		id: PropTypes.string
 	})
 };
 export default function SiteListItem ({site}) {
@@ -37,7 +38,7 @@ export default function SiteListItem ({site}) {
 	const loading = Hooks.useResolver.isPending(theme);
 
 	return (
-		<div className={cx('site-list-item', {loading})}>
+		<Link to={`/sites/${site.id}`} className={cx('site-list-item', {loading})}>
 			<div className={cx('icon')}>
 				{!loading && (<Theme.Asset property={theme.assets.logo} />)}
 			</div>
@@ -45,6 +46,6 @@ export default function SiteListItem ({site}) {
 				<Text.Base className={cx('name')}>{loading ? '' : theme.brandName}</Text.Base>
 				<Text.Base className={cx('url')}>{site.url}</Text.Base>
 			</div>
-		</div>
+		</Link>
 	);
 }

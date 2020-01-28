@@ -1,5 +1,10 @@
 import {Rand, Domain} from '../utils';
 
+import {getServer} from './Client';
+
+const DNSLookupURL = 'onboarding/@@check_dns_name';
+const DNSParamName = 'dns_name';
+
 //To prevent a run away loop checking
 //for valid domains, just limit it to 10
 //tries for now.
@@ -36,33 +41,37 @@ function resolveURL (subDomain) {
 	return `${maybeValidDomain}.${Host}.${TLD}`;
 }
 
-function checkURL (url) {
-	return new Promise((fulfill) => {
-		setTimeout(() => fulfill(), 3000);
-	});
+async function checkURL (url) {
+	const resp = await getServer().get(DNSLookupURL, {searchParams: {[DNSParamName]: url}});
+
+	return resp.is_available ? resp[DNSParamName] : null;
 }
 
-export default function resolveDomain (subDomain, hash) {
+export default function resolveDomain (subDomain, trial) {
 	const tries = new Set();
-	const resolver = hash ? resolveTrialURL : resolveURL;
+	const resolver = trial ? resolveTrialURL : resolveURL;
+	
+	let tryCount = 0;
 
 	const attempt = async () => {
 		let url = resolver(subDomain);
-		let tryCount = 1;
+		
+		tryCount += 1;
+
+		if (tryCount > MaxTries) { throw new Error('Unavailable'); }
 
 		while (tries.has(url)) {
 			url = resolver(subDomain);
-			tryCount += 1;
-
-			if (tryCount > MaxTries) { throw new Error('Unavailable'); }
 		}
 
 		tries.add(url);
 
 		try {
-			await checkURL(url);
+			const availableURL = await checkURL(url);
 
-			return url;
+			if (!availableURL) { throw new Error('URL is not available');}
+
+			return availableURL;
 		} catch (e) {
 			attempt();
 		}

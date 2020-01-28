@@ -18,12 +18,17 @@ class ServerInterface {
 		this.#domain = domain;
 	}
 
-	resolveURL (path) {
-		if (this.#domain === '/') { return Path.join('/', path); }
-
-		const url = new URL(this.#domain);
+	resolveURL (path, searchParams) {
+		const location = this.#domain === '/' ? global.location.origin : this.#domain;
+		const url = new URL(location);
 
 		url.pathname = Path.join(url.pathname, path);
+
+		if (searchParams) {
+			for (let [key, value] of Object.entries(searchParams)) {
+				url.searchParams.append(key, encodeURIComponent(value));
+			}
+		}
 
 		return url.toString();
 	}
@@ -62,7 +67,7 @@ class ServerInterface {
 	}
 
 	async request (path, method, data, options = {}) {
-		const url = this.resolveURL(path);
+		const url = this.resolveURL(path, options.searchParams);
 		const payload = this.resolvePayload(data);
 
 		const request = await fetch(url, {

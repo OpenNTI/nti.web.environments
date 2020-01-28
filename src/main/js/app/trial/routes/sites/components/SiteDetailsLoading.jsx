@@ -11,7 +11,7 @@ import LoadingSVG from '../assets/LoadingSvg';
 import Styles from './SiteDetailsLoading.css';
 
 const cx = classnames.bind(Styles);
-const t = scoped('lms-onboarding.trial.sites.components.SiteDetailsCompleted', {
+const t = scoped('lms-onboarding.trial.sites.components.SiteDetailsLoading', {
 	heading: 'Hold Tight!',
 	paragraph: 'We are getting everything just right.',
 	subparagraph: 'This may take a moment...',

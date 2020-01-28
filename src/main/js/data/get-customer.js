@@ -11,13 +11,31 @@ class Customer {
 		this.#data = data || {};
 	}
 
-	get Sites () { return this.#data.Sites || []; }
+	get Links () { return this.#data.Links || []; }
 	get organization () { return this.#data.organization; }
 	//TODO: drive these off server data
 	get canCreateSite () { return true; }
 	get canCreateFull () { return false; }
 
+	getLink (rel) {
+		for (let link of this.Links) {
+			if (link.rel === rel) {
+				return link.href;
+			}
+		}
+	}
+
 	resolveDomain (subDomain) { return resolveDomain(subDomain, !this.canCreateFull); }
+
+	async getSites () {
+		const link = this.getLink('sites');
+
+		if (!link) { return []; }
+
+		const sites = await getServer().get(link);
+
+		return sites.Items;
+	}
 
 	createSite (data) {
 		return new Promise((fulfill) => {
@@ -25,7 +43,7 @@ class Customer {
 				id: 'new-site'
 			}), 5000);
 		});
-	} 
+	}
 }
 
 async function loadCustomer () {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {Redirect} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
-import {Loading} from '@nti/web-commons';
+import {Loading, Hooks} from '@nti/web-commons';
 
 import {Page, Text, AuthRouter} from '../../../../../common';
 import Image from '../assets/sites-image.png';
@@ -13,6 +13,7 @@ import SiteListHeader from '../components/SiteListHeader';
 
 import Styles from './SiteList.css';
 
+const {isPending, isErrored, isResolved} = Hooks.useResolver;
 
 const cx = classnames.bind(Styles);
 const t = scoped('lms-onboarding.trial.routes.sites.routes.SiteList', {
@@ -40,16 +41,21 @@ LMSTrialSiteList.propTypes = {
 };
 export default function LMSTrialSiteList ({location}) {
 	const auth = AuthRouter.useAuth();
-	const {loading, user:customer} = auth;
+	const {loading:customerLoading, user:customer} = auth;
+
+	const sites = Hooks.useResolver(() => customer && customer.getSites(), [customer]);
+	const siteList = isResolved(sites) && !isErrored(sites) ? (sites || []) : [];
+
+	const loading = customerLoading || isPending(sites);
 
 	//If they only have one site and they can't create a new one, just forward on to that site
-	if (!loading && customer.Sites.length === 1 && !customer.canCreateSite) {
+	if (!loading && siteList.length === 1 && !customer.canCreateSite) {
 		return (
-			<Redirect to={`/sites/${customer.Sites[0].id}`} />
+			<Redirect to={`/sites/${siteList[0].id}`} />
 		);
 	}
 
-	const empty = !loading || !customer || !customer.Sites || customer.Sites.length === 0;
+	const empty = !loading || !customer || !siteList || siteList.length === 0;
 	const canCreate = !loading && customer && customer.canCreateSite;
 	const getString = (key) => t(`${empty ? 'empty' : 'notEmpty'}.${canCreate ? 'canCreate' : 'canNotCreate'}.${key}`);
 
@@ -63,7 +69,7 @@ export default function LMSTrialSiteList ({location}) {
 						<div className={cx('site-list')}>
 							<SiteListHeader customer={customer} />
 							<ul>
-								{customer.Sites.map((site, key) => (
+								{siteList.map((site, key) => (
 									<li key={key}>
 										<SiteListItem site={site} />
 									</li>

@@ -50,15 +50,11 @@ async function checkURL (url) {
 export default function resolveDomain (subDomain, trial) {
 	const tries = new Set();
 	const resolver = trial ? resolveTrialURL : resolveURL;
-	
-	let tryCount = 0;
 
 	const attempt = async () => {
 		let url = resolver(subDomain);
-		
-		tryCount += 1;
 
-		if (tryCount > MaxTries) { throw new Error('Unavailable'); }
+		if (tries.size > MaxTries) { throw new Error('Unavailable'); }
 
 		while (tries.has(url)) {
 			url = resolver(subDomain);

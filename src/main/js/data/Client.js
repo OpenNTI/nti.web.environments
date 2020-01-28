@@ -6,9 +6,9 @@ const Servers = new Map();
 class RequestError extends Error {
 	constructor (info, ...args) {
 		super(...args);
-
 		Object.assign(this, info);
 	}
+
 }
 
 class ServerInterface {
@@ -56,9 +56,9 @@ class ServerInterface {
 		}
 
 		try {
-			if (/json/i.test(request.headers.get('content-type'))) {
-				body = JSON.parse(body);
-			}
+			const json = JSON.parse(body);
+
+			return json;
 		} catch (e) {
 			//not JSON
 		}

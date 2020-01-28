@@ -3,9 +3,20 @@
 	text-align: center;
 }
 
+.verify-form.has-error .code-input :global(.nti-text-input) {
+	border-color: var(--primary-red);
+}
+
 .code-input {
 	position: relative;
 	display: inline-block;
+}
+
+.error-container {
+	position: absolute;
+	top: 100%;
+	left: 0; right: 0;
+	padding: 1.25rem 0 0;
 }
 
 .loading-container {

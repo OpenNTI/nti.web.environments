@@ -115,12 +115,12 @@ export default function LMSTrialVerification ({location}) {
 									<Loading.Spinner size="30px" blue />
 								</div>
 							)}
+							{showError && (
+								<div className={cx('error-container', {show: checking || codeError})}>
+									<Errors.Message error={codeError} />
+								</div>
+							)}
 						</div>
-						{showError && (
-							<div className={cx('error-container', {show: checking || codeError})}>
-								<Errors.Message error={codeError} />
-							</div>
-						)}
 					</Form>
 					<Text.Small as="p" centered light>{t('keep')}</Text.Small>
 					<Text.Small as="p" centered light>{t('spam')}</Text.Small>

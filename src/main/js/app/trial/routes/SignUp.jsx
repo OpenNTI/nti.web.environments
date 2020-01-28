@@ -22,7 +22,7 @@ const t = scoped('lms-onboarding.trial.parts.SignUp', {
 		placeholder: 'First Name'
 	},
 	lastName: {
-		placeholder: 'Last Name'
+		placeholder: 'Last Name (Optional)'
 	},
 	email: {
 		placeholder: 'Email'
@@ -32,14 +32,6 @@ const t = scoped('lms-onboarding.trial.parts.SignUp', {
 	}
 });
 
-
-function renderInput (name, initialValues, Cmp = Inputs.Text, autoFocus) {
-	const getString = (key) => t(`${name}.${key}`);
-
-	return (
-		<Cmp name={name} required defaultValue={initialValues[name] || ''}  placeholder={getString('placeholder')} autoFocus={autoFocus} />
-	);
-}
 
 LMSTrailSignup.propTypes = {
 	location: PropTypes.shape({
@@ -82,10 +74,30 @@ export default function LMSTrailSignup ({location}) {
 					)}
 					<div className={cx('container')}>
 						<Form className={cx('signup-form')} onSubmit={onSubmit} disabled={!agreed}>
-							{renderInput('firstName', initialValues, Inputs.Text, true)}
-							{renderInput('lastName', initialValues)}
-							{renderInput('email', initialValues, Inputs.Email)}
-							{renderInput('orgName', initialValues)}
+							<Inputs.Text
+								required
+								autoFocus
+								name="firstName"
+								defaultValue={initialValues['firstName'] || '' }
+								placeholder={t('firstName.placeholder')}
+							/>
+							<Inputs.Text
+								name="lastName"
+								defaultValue={initialValues['lastName'] || ''}
+								placeholder={t('lastName.placeholder')}
+							/>
+							<Inputs.Email
+								required
+								name="email"
+								defaultValue={initialValues['email'] || ''}
+								placeholder={t('email.placeholder')}
+							/>
+							<Inputs.Text
+								required
+								name="orgName"
+								defaultValue={initialValues['orgName'] || ''}
+								placeholder={t('orgName.placeholder')}
+							/>
 							<Inputs.Checkbox
 								required
 								name="agreed"

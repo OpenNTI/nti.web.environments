@@ -2,7 +2,7 @@ import React from 'react';
 import {scoped} from '@nti/lib-locale';
 
 import {Page, AuthRouter} from '../../common';
-import {isAuthenticated} from '../../data';
+import {getCustomer} from '../../data';
 
 import SignUp from './routes/SignUp';
 import Recovery from './routes/Recovery';
@@ -16,7 +16,7 @@ const t = scoped('lms-onboarding.trial.View', {
 export default function NTIOnboardingTrial () {
 	return (
 		<Page.Title title={t('title')}>
-			<AuthRouter isAuthenticated={isAuthenticated}>
+			<AuthRouter getUser={getCustomer} userProp="customer">
 				<AuthRouter.PublicRoute path="/" entry component={SignUp} />
 				<AuthRouter.PublicRoute path="verification" component={Verification} />
 				<AuthRouter.PublicRoute path="recover" component={Recovery} />

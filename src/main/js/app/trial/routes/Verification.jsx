@@ -22,9 +22,9 @@ const t = scoped('lms-onboarding.trail.parts.Verification', {
 	check: 'Check Code'
 });
 
-const HasNonDigits = /\D/;
+const HasNonAlphaNumeric = /[^a-zA-Z0-9]/;
 const preventInvalidCodes = (value, e) => {
-	if (HasNonDigits.test(value)) {
+	if (HasNonAlphaNumeric.test(value)) {
 		e.stopPropagation();
 		e.preventDefault();
 	}
@@ -51,7 +51,7 @@ export default function LMSTrialVerification ({location}) {
 
 		return {
 			email: session.email,
-			code: session.code
+			'code_prefix': session.code_prefix
 		};
 	}, [location]);
 
@@ -106,7 +106,7 @@ export default function LMSTrialVerification ({location}) {
 					</Text.Paragraph>
 					<Form className={cx('verify-form', {'has-error': showError})} onChange={onChange}>
 						<Inputs.Text type="hidden" name="email" value={sentTo.email} />
-						<Inputs.Text type="hidden" name="pre-code" value={sentTo.code} />
+						<Inputs.Text type="hidden" name="code_prefix" value={sentTo.code_prefix} />
 						<div className={cx('code-input')}>
 							<Inputs.Code name="code" onChange={preventInvalidCodes} value={code} pattern="\d*" autoFocus />
 							{checking && (

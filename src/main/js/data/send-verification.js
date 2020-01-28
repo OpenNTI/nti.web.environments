@@ -1,9 +1,10 @@
-export default function sendVerification (data) {
-	return new Promise((fulfill) => {
-		setTimeout(() => {
-			fulfill({
-				code: '123456'
-			});
-		}, 5000);
+import {getServer} from './Client';
+
+const EmailChallengeURL = '/onboarding/customers/@@email_challenge';
+
+export default async function sendVerification (data) {
+	return getServer().post(EmailChallengeURL, {
+		name: `${data.firstName || ''} ${data.lastName || ''}`,
+		...data
 	});
 }

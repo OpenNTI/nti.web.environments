@@ -89,7 +89,11 @@ class ServerInterface {
 	}
 
 	get (path, options) {
-		return this.request(path, 'GET', null, options);
+		return this.request(path, 'GET', void 0, options);
+	}
+
+	post (path, data, options) {
+		return this.request(path, 'POST', data, options);
 	}
 }
 

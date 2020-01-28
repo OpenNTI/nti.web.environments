@@ -4,11 +4,11 @@ import {Router} from '@reach/router';
 import SiteList from './routes/SiteList';
 import SiteDetails from './routes/SiteDetails';
 
-export default function LMSTrialSites () {
+export default function LMSTrialSites (props) {
 	return (
 		<Router>
-			<SiteList path="/" />
-			<SiteDetails path=":siteId" />
+			<SiteList {...props} path="/" />
+			<SiteDetails {...props} path=":siteId" />
 		</Router>
 	);
 }

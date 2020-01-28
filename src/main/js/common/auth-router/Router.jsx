@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
-import {Router} from '@reach/router';
+import {Router, Location} from '@reach/router';
 import {Hooks, Loading} from '@nti/web-commons';
 
 import  Page from '../page';
@@ -12,15 +12,16 @@ import PublicRoute from './PublicRoute';
 
 const cx = classnames.bind(Styles);
 
-AuthRouter.PrivateRoute = PrivateRoute;
-AuthRouter.PublicRoute = PublicRoute;
 AuthRouter.propTypes = {
 	children: PropTypes.any,
-	isAuthenticated: PropTypes.func.isRequired
+	location: PropTypes.object,
+	getUser: PropTypes.func.isRequired,
+	userProp: PropTypes.string
 };
-export default function AuthRouter ({children, isAuthenticated}) {
-	const authenticated = Hooks.useResolver(isAuthenticated, [isAuthenticated]);
-	const loading = Hooks.useResolver.isPending(authenticated);
+function AuthRouter ({children, location, getUser, userProp = 'user'}) {
+	const user = Hooks.useResolver(getUser, [location]);
+	const loading = Hooks.useResolver.isPending(user);
+	const authenticated = !loading && Boolean(user);
 
 	const routes = React.Children.toArray(children)
 		.reduce((acc, child) => {
@@ -33,7 +34,6 @@ export default function AuthRouter ({children, isAuthenticated}) {
 			return acc;
 		}, {publicEntry: null, privateEntry: null});
 
-
 	return (
 		<>
 			<Router className={cx('auth-router', {loading})}>
@@ -42,8 +42,10 @@ export default function AuthRouter ({children, isAuthenticated}) {
 						child,
 						{
 							routes,
+							authenticated,
+							loading,
 							key: child.props.path,
-							authenticated: loading ? null : authenticated
+							[userProp]: loading ? null : user
 						}
 					);
 				})}
@@ -52,5 +54,15 @@ export default function AuthRouter ({children, isAuthenticated}) {
 				{null}
 			</Loading.Placeholder>
 		</>
+	);
+}
+
+AuthRouterWrapper.PrivateRoute = PrivateRoute;
+AuthRouterWrapper.PublicRoute = PublicRoute;
+export default function AuthRouterWrapper (props) {
+	return (
+		<Location>
+			{({location}) => (<AuthRouter location={location} {...props} />)}
+		</Location>
 	);
 }

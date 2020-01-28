@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {Redirect} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
-import {Hooks, Loading} from '@nti/web-commons';
 
 import {Page, Text} from '../../../../../common';
-import {getCustomer} from '../../../../../data';
 import Image from '../assets/sites-image.png';
 import NewSiteForm from '../components/NewSiteForm';
 import SiteListItem from '../components/SiteListItem';
@@ -14,14 +12,13 @@ import SiteListHeader from '../components/SiteListHeader';
 
 import Styles from './SiteList.css';
 
-const {isPending, isResolved} = Hooks.useResolver;
 
 const cx = classnames.bind(Styles);
 const t = scoped('lms-onboarding.trial.routes.sites.routes.SiteList', {
 	title: 'Sites',
 	empty: {
 		canCreate: {
-			heading: 'Choose were people will access your website.'
+			heading: 'Choose where people will access your website.'
 		},
 		canNotCreateSite: {
 			heading: 'Unable to create a site at this time.'
@@ -37,49 +34,39 @@ const t = scoped('lms-onboarding.trial.routes.sites.routes.SiteList', {
 	}
 });
 
-LMSTrialSites.propTypes = {
-	location: PropTypes.any
+LMSTrialSiteList.propTypes = {
+	location: PropTypes.any,
+	customer: PropTypes.object
 };
-export default function LMSTrialSites ({location}) {
-	const customer = Hooks.useResolver(getCustomer, [location]);
-
-	//If we can't find the customer start over
-	if (Hooks.useResolver.isErrored(customer)) {
-		return (
-			<Redirect to="/" />
-		);
-	}
-
+export default function LMSTrialSiteList ({location, customer}) {
 	//If they only have one site and they can't create a new one, just forward on to that site
-	if (isResolved(customer) && customer.Sites.length === 1 && !customer.canCreateSite) {
+	if (customer && customer.Sites.length === 1 && !customer.canCreateSite) {
 		return (
 			<Redirect to={`/sites/${customer.Sites[0].id}`} />
 		);
 	}
 
-	const empty = isPending(customer) || !customer.Sites || customer.Sites.length === 0;
-	const canCreate = isResolved(customer) && customer.canCreateSite;
+	const empty = !customer || !customer.Sites || customer.Sites.length === 0;
+	const canCreate = customer && customer.canCreateSite;
 	const getString = (key) => t(`${empty ? 'empty' : 'notEmpty'}.${canCreate ? 'canCreate' : 'canNotCreate'}.${key}`);
 
 	return (
 		<Page title={t('title')}>
 			<Page.Content padded>
-				<Loading.Placeholder loading={isPending(customer)} fallback={(<Loading.Spinner.Large />)}>
-					<Text.SmallHeading className={cx('site-list-heading', {empty})}>{getString('heading')}</Text.SmallHeading>
-					{empty && (<NewSiteForm customer={customer} />)}
-					{!empty && (
-						<div className={cx('site-list')}>
-							<SiteListHeader customer={customer} />
-							<ul>
-								{customer.Sites.map((site, key) => (
-									<li key={key}>
-										<SiteListItem site={site} />
-									</li>
-								))}
-							</ul>
-						</div>
-					)}
-				</Loading.Placeholder>
+				<Text.SmallHeading className={cx('site-list-heading', {empty})}>{getString('heading')}</Text.SmallHeading>
+				{empty && (<NewSiteForm customer={customer} />)}
+				{!empty && (
+					<div className={cx('site-list')}>
+						<SiteListHeader customer={customer} />
+						<ul>
+							{customer.Sites.map((site, key) => (
+								<li key={key}>
+									<SiteListItem site={site} />
+								</li>
+							))}
+						</ul>
+					</div>
+				)}
 			</Page.Content>
 			<Page.Image src={Image} fullscreen />
 		</Page>

@@ -40,7 +40,7 @@ async function loadCustomer () {
 	}
 }
 
-getCustomer.setCustomer = (session) => {
+getCustomer.setSession = (session) => {
 	cachedCustomer = session.customer ? new Customer(session.customer) : null;
 };
 getCustomer.clearCustomer = () => cachedCustomer = null;

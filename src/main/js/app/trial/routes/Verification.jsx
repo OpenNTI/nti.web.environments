@@ -74,6 +74,7 @@ export default function LMSTrialVerification ({location}) {
 		try {
 			inflight.current = json.code;
 			setChecking(true);
+
 			await verifyToken(json);
 
 			if (inflight.current !== json.code) { return; }

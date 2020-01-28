@@ -27,7 +27,7 @@ const t = scoped('lms-onboarding.trial.parts.SignUp', {
 	email: {
 		placeholder: 'Email'
 	},
-	orgName: {
+	organization: {
 		placeholder: 'Organization Name'
 	}
 });
@@ -94,9 +94,9 @@ export default function LMSTrailSignup ({location}) {
 							/>
 							<Inputs.Text
 								required
-								name="orgName"
-								defaultValue={initialValues['orgName'] || ''}
-								placeholder={t('orgName.placeholder')}
+								name="organization"
+								defaultValue={initialValues['organization'] || ''}
+								placeholder={t('organization.placeholder')}
 							/>
 							<Inputs.Checkbox
 								required

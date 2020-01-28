@@ -7,8 +7,8 @@ import SiteDetails from './routes/SiteDetails';
 export default function LMSTrialSites (props) {
 	return (
 		<Router>
-			<SiteList {...props} path="/" />
-			<SiteDetails {...props} path=":siteId" />
+			<SiteList path="/" />
+			<SiteDetails path=":siteId" />
 		</Router>
 	);
 }

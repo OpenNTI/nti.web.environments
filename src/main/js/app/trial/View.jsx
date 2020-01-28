@@ -16,7 +16,7 @@ const t = scoped('lms-onboarding.trial.View', {
 export default function NTIOnboardingTrial () {
 	return (
 		<Page.Title title={t('title')}>
-			<AuthRouter getUser={getCustomer} userProp="customer">
+			<AuthRouter getUser={getCustomer}>
 				<AuthRouter.PublicRoute path="/" entry component={SignUp} />
 				<AuthRouter.PublicRoute path="verification" component={Verification} />
 				<AuthRouter.PublicRoute path="recover" component={Recovery} />

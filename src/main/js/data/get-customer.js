@@ -13,7 +13,8 @@ class Customer {
 
 	get Sites () { return this.#data.Sites || []; }
 	get organization () { return this.#data.organization; }
-	get canCreateSite () { return this.#data.canCreateSite; }
+	//TODO: drive these off server data
+	get canCreateSite () { return true; }
 	get canCreateFull () { return false; }
 
 	resolveDomain (subDomain) { return resolveDomain(subDomain, !this.canCreateFull); }

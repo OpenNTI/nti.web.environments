@@ -12,13 +12,14 @@ import PublicRoute from './PublicRoute';
 
 const cx = classnames.bind(Styles);
 
+const Context = React.createContext({loading: true, authenticated: false, user: null});
+
 AuthRouter.propTypes = {
 	children: PropTypes.any,
 	location: PropTypes.object,
 	getUser: PropTypes.func.isRequired,
-	userProp: PropTypes.string
 };
-function AuthRouter ({children, location, getUser, userProp = 'user'}) {
+function AuthRouter ({children, location, getUser,}) {
 	const user = Hooks.useResolver(getUser, [location]);
 	const loading = Hooks.useResolver.isPending(user);
 	const authenticated = !loading && Boolean(user);
@@ -35,7 +36,7 @@ function AuthRouter ({children, location, getUser, userProp = 'user'}) {
 		}, {publicEntry: null, privateEntry: null});
 
 	return (
-		<>
+		<Context.Provider value={{loading, authenticated, user}}>
 			<Router className={cx('auth-router', {loading})}>
 				{React.Children.map(children, (child) => {
 					return React.cloneElement(
@@ -44,8 +45,7 @@ function AuthRouter ({children, location, getUser, userProp = 'user'}) {
 							routes,
 							authenticated,
 							loading,
-							key: child.props.path,
-							[userProp]: loading ? null : user
+							key: child.props.path
 						}
 					);
 				})}
@@ -53,10 +53,11 @@ function AuthRouter ({children, location, getUser, userProp = 'user'}) {
 			<Loading.Placeholder loading={loading} fallback={<Page><Page.Content><Loading.Spinner.Large /></Page.Content></Page>}>
 				{null}
 			</Loading.Placeholder>
-		</>
+		</Context.Provider>
 	);
 }
 
+AuthRouterWrapper.useAuth = () => React.useContext(Context);
 AuthRouterWrapper.PrivateRoute = PrivateRoute;
 AuthRouterWrapper.PublicRoute = PublicRoute;
 export default function AuthRouterWrapper (props) {

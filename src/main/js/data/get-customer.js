@@ -6,7 +6,7 @@ import {getServer} from './Client';
 let cachedCustomer = null;
 const sessionLink = '/onboarding/@@session.ping';
 
-const PollInterval = 45000;
+const PollInterval = 5000;
 const MaxPollCount = 5;
 const SiteStatus = {
 	Pending: 'PENDING',
@@ -33,7 +33,9 @@ class Site {
 	#data = null;
 
 	constructor (data) {
+		data.status = SiteStatus.ACTIVE;
 		this.#data = data || {};
+		this.wasPending = data.status === SiteStatus.Pending;
 	}
 
 	get id () { return this.#data.id; }
@@ -57,17 +59,22 @@ class Site {
 				if (pollCount > MaxPollCount) { reject(new Error('Site is taking too long to finish.')); }
 
 				try {
-					const update = getServer().get(this.href);
+					const update = await getServer().get(this.href);
 
 					this.#data = update;
 
 					if (!this.isPending) { return fulfill(this); }
 
-					setTimeout(() => ping, PollInterval);
+					setTimeout(() => ping(), PollInterval);
 				} catch (e) {
 					this.#data = {...this.#data, status: SiteStatus.Cancelled};
 				}
 			};
+
+			if (!this.isPending) {
+				fulfill(this);
+				return;
+			}
 
 			ping();
 		});

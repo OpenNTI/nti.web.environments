@@ -1,8 +1,33 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import cx from 'classnames';
 
 import './LoadingSvg.css';
 
-export default function LoadingSvg () {
+const CompletedClasses = {
+	90: 'loading-bar-90',
+	100: 'loading-bar-100'
+};
+
+LoadingSvg.propTypes = {
+	progress: PropTypes.number,
+	onFinished: PropTypes.number,
+};
+export default function LoadingSvg ({progress, onFinished}) {
+	const [progressClass, setProgressClass] = React.useState('loading-bar-0');
+
+	React.useEffect(() => {
+		setImmediate(() => {
+			setProgressClass(CompletedClasses[progress] || '');
+		});
+
+		if (progress === 100) {
+			setTimeout(() => {
+				if (onFinished) { onFinished(); }
+			}, 2000);
+		}
+	}, [progress]);
+
 	return (
 		<svg width="820px" height="500px" viewBox="0 0 820 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
 			<title>illo-loading</title>
@@ -114,7 +139,7 @@ export default function LoadingSvg () {
 						<polygon id="Fill-24" fill="#FFFFFE" points="123.102 309.51 465.602 309.51 465.602 225.009 123.102 225.009"></polygon>
 
 						<rect x="122" y="227" width="345" height="82" stroke="#347D3C" strokeWidth="5" strokeLinejoin="round" rx="1"></rect>
-						<rect x="132" y="237" width="0" height="62" fill="#FACB57" id="loading-bar" className="loading-bar loading-bar-0">
+						<rect x="132" y="237" width="0" height="62" fill="#FACB57" id="loading-bar" className={cx('loading-bar', 'loading-bar-0', progressClass)}>
 						</rect>
 						<polyline id="Fill-35" fill="#EC967C" points="390.436 242.123 393.568 249.119 398.665 244.527 395.069 234.335 390.436 242.123"></polyline>
 						<path d="M388.625,242.567 C387.769,242.681 386.957,242.671 386.484,242.37 C383.384,238.86 384.448,228.52 384.448,228.52 L388.076,225.394 L393.623,227.983 L395.069,233.664 C395.455,235.539 394.925,238.828 393.643,240.249 C392.223,241.48 390.488,242.318 388.625,242.567" id="Fill-36" fill="#F0AB85"></path>

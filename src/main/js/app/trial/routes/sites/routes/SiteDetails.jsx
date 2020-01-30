@@ -1,10 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {Redirect} from '@reach/router';
 import { Hooks } from '@nti/web-commons';
-import confetti from 'canvas-confetti';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import { Page, AuthRouter } from '../../../../../common';
@@ -14,72 +13,46 @@ import SiteDetailsCompleted from '../components/SiteDetailsCompleted';
 import Styles from './SiteDetails.css';
 
 const cx = classnames.bind(Styles);
+const {isPending, isErrored, isResolved} = Hooks.useResolver;
 
 SiteDetails.propTypes = {
 	siteId: PropTypes.string,
 };
 
 export default function SiteDetails ({ siteId }) {
-	const [loaded, setLoaded] = useState(false);
+	const [loadFinished, setLoadFinished] = React.useState(false);
 
 	const {loading:customerLoading, user:customer} = AuthRouter.useAuth();
-	const site = Hooks.useResolver(() => customer && customer.getSite(siteId), [siteId, customer]);
-	const isLoading = customerLoading || Hooks.useResolver.isPending(site);
+	const site = Hooks.useResolver(() => !customerLoading && customer && customer.getSite(siteId), [siteId, customer]);
+	const isLoading = customerLoading || isPending(site);
 
-	useEffect(() => {
-		let unmounted = false;
-		const ping = async function () {
-			try {
-				if (unmounted) { return; }
+	const finished = Hooks.useResolver(async () => {
+		if (isLoading) { return false; }
 
-				await Promise.resolve(); // getServer().ping();
-				const loadingBar = document.getElementById('loading-bar');
-				loadingBar.classList.add('loading-bar-100');
-				setTimeout(() => {
-					confetti({
-						particleCount: 125,
-						spread: 100,
-						origin: {
-							y: 0.65
-						},
-						colors: ['#3fb34f','#629968','#8AC691','#BFE2DF','#FACB57','#13374D']
-					});
+		await site.onceFinished();
+		
+		return true;
+	}, [site]);
 
-					setLoaded(false);
-				}, 2000);
-			} catch (err) {
-				setTimeout(ping, 3000);
-			}
-		};
+	const loaded = isResolved(finished) && finished;
+	const timedout = isErrored(finished);
 
-		setTimeout(() => {
-			ping();
-		}, 11000);
-
-		return () => unmounted = true;
-	}, []);
-
-	if (!isLoading && site.isNotPending) {
-		const redirect = site.hasCompletedAdminInvite ? site.domain : site.adminInvite;
-
-		return (<Redirect to={redirect} />);
+	if (loaded && !site.wasPending) {
+		return (<Redirect to={site.domain} />);
 	}
 
-	setTimeout(() => {
-		const loadingBar = document.getElementById('loading-bar');
-		loadingBar?.classList.add('loading-bar-90');
-	}, 200);
+	const onFinished = () => setLoadFinished(true);
 
 	return (
 		<Page>
 			<Page.Content className={cx('section')} fullscreen>
 				<TransitionGroup component={null}>
-					{loaded && (
+					{!loadFinished && (
 						<CSSTransition key="details-loading" classNames="site-details" timeout={300}>
-							<SiteDetailsLoading />
+							<SiteDetailsLoading progress={loaded ? 100 : 90} onFinished={onFinished} />
 						</CSSTransition>
 					)}
-					{!loaded && (
+					{loadFinished && (
 						<CSSTransition key="details-completed" classNames="site-details" timeout={300}>
 							<SiteDetailsCompleted />
 						</CSSTransition>

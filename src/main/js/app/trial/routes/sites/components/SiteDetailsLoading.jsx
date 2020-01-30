@@ -19,17 +19,19 @@ const t = scoped('lms-onboarding.trial.sites.components.SiteDetailsLoading', {
 });
 
 SiteDetailsLoading.propTypes = {
-	site: PropTypes.string
+	site: PropTypes.string,
+	progress: PropTypes.number,
+	onFinished: PropTypes.func
 };
 
-export default function SiteDetailsLoading ({ site }) {
+export default function SiteDetailsLoading ({ site, progress, onFinished }) {
 	return (
 		<Loading.Placeholder
 			loading={Hooks.useResolver.isPending(site)}
 			fallback={<Loading.Spinner.Large />}
 		>
 			<section>
-				<LoadingSVG />
+				<LoadingSVG progress={progress} onFinished={onFinished} />
 				<Text.Heading className={cx('heading')}>{t('heading')}</Text.Heading>
 				<Text.Paragraph className={cx('paragraph')}>
 					{t('paragraph')}

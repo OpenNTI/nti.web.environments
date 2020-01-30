@@ -10,5 +10,11 @@ export default async function verifyToken (data) {
 	});
 
 
-	getCustomer.setSession(session);
+	//Currently the session coming back as the response
+	//isn't fully decorating the customer...
+	//clearing the session will trigger us to load the
+	//session the next time we try and get the customer
+	// getCustomer.setSession(session);
+	getCustomer.clearSession();
+	return session;
 }

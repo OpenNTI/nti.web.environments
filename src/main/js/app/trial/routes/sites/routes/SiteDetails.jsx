@@ -3,13 +3,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {Redirect} from '@reach/router';
-import { getServer } from '@nti/web-client';
 import { Hooks } from '@nti/web-commons';
 import confetti from 'canvas-confetti';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import { Page } from '../../../../../common';
-import { lookUpSite } from '../../../../../data';
+import { Page, AuthRouter } from '../../../../../common';
 import SiteDetailsLoading from '../components/SiteDetailsLoading';
 import SiteDetailsCompleted from '../components/SiteDetailsCompleted';
 
@@ -22,8 +20,11 @@ SiteDetails.propTypes = {
 };
 
 export default function SiteDetails ({ siteId }) {
-	const [isLoading, setLoading] = useState(true);
-	const site = Hooks.useResolver(() => lookUpSite(siteId), [siteId]);
+	const [loaded, setLoaded] = useState(false);
+
+	const {loading:customerLoading, user:customer} = AuthRouter.useAuth();
+	const site = Hooks.useResolver(() => customer && customer.getSite(siteId), [siteId, customer]);
+	const isLoading = customerLoading || Hooks.useResolver.isPending(site);
 
 	useEffect(() => {
 		let unmounted = false;
@@ -43,7 +44,8 @@ export default function SiteDetails ({ siteId }) {
 						},
 						colors: ['#3fb34f','#629968','#8AC691','#BFE2DF','#FACB57','#13374D']
 					});
-					setLoading(false);
+
+					setLoaded(false);
 				}, 2000);
 			} catch (err) {
 				setTimeout(ping, 3000);
@@ -57,7 +59,7 @@ export default function SiteDetails ({ siteId }) {
 		return () => unmounted = true;
 	}, []);
 
-	if (Hooks.useResolver.isResolved(site) && site.isNotPending) {
+	if (!isLoading && site.isNotPending) {
 		const redirect = site.hasCompletedAdminInvite ? site.domain : site.adminInvite;
 
 		return (<Redirect to={redirect} />);
@@ -72,12 +74,12 @@ export default function SiteDetails ({ siteId }) {
 		<Page>
 			<Page.Content className={cx('section')} fullscreen>
 				<TransitionGroup component={null}>
-					{isLoading && (
+					{loaded && (
 						<CSSTransition key="details-loading" classNames="site-details" timeout={300}>
 							<SiteDetailsLoading />
 						</CSSTransition>
 					)}
-					{!isLoading && (
+					{!loaded && (
 						<CSSTransition key="details-completed" classNames="site-details" timeout={300}>
 							<SiteDetailsCompleted />
 						</CSSTransition>

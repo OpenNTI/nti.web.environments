@@ -66,7 +66,7 @@ export default function DomainPreview ({domain, customer, onValid, onInvalid}) {
 	return (
 		<div className={cx('domain-preview-container')}>
 			<div className={cx('domain-preview')}>
-				{!isErrored && (<Inputs.Text type="hidden" value={isChecking ? '' : (fullDomain || '')} name="full-domain" />)}
+				{!isErrored && (<Inputs.Text type="hidden" value={isChecking ? '' : (fullDomain || '')} name="dns_name" />)}
 				<Loading.Placeholder loading={isChecking} fallback={(<Loading.Spinner blue />)}>
 					{isErrored && (<Errors.Message error={fullDomain} />)}
 					{!isErrored && (<Text.Small>{fullDomain}</Text.Small>)}

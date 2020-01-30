@@ -43,7 +43,7 @@ export default function LMSTrialSiteList ({location}) {
 	const auth = AuthRouter.useAuth();
 	const {loading:customerLoading, user:customer} = auth;
 
-	const sites = Hooks.useResolver(() => customer && customer.getSites(), [customer]);
+	const sites = Hooks.useResolver(() => !customerLoading && customer && customer.getSites(), [customer]);
 	const siteList = isResolved(sites) && !isErrored(sites) ? (sites || []) : [];
 
 	const loading = customerLoading || isPending(sites);
@@ -55,7 +55,7 @@ export default function LMSTrialSiteList ({location}) {
 		);
 	}
 
-	const empty = !loading || !customer || !siteList || siteList.length === 0;
+	const empty = loading || !customer || !siteList || siteList.length === 0;
 	const canCreate = !loading && customer && customer.canCreateSite;
 	const getString = (key) => t(`${empty ? 'empty' : 'notEmpty'}.${canCreate ? 'canCreate' : 'canNotCreate'}.${key}`);
 
@@ -67,7 +67,7 @@ export default function LMSTrialSiteList ({location}) {
 					{empty && (<NewSiteForm customer={customer} />)}
 					{!empty && (
 						<div className={cx('site-list')}>
-							<SiteListHeader customer={customer} />
+							<SiteListHeader customer={customer} sites={siteList} />
 							<ul>
 								{siteList.map((site, key) => (
 									<li key={key}>

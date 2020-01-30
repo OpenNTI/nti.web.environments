@@ -29,7 +29,7 @@ async function loadSiteTheme (site) {
 
 SiteListItem.propTypes = {
 	site: PropTypes.shape({
-		url: PropTypes.string,
+		domain: PropTypes.string,
 		id: PropTypes.string
 	})
 };
@@ -44,7 +44,7 @@ export default function SiteListItem ({site}) {
 			</div>
 			<div className={cx('meta')}>
 				<Text.Base className={cx('name')}>{loading ? '' : theme.brandName}</Text.Base>
-				<Text.Base className={cx('url')}>{site.url}</Text.Base>
+				<Text.Base className={cx('url')}>{site.domain}</Text.Base>
 			</div>
 		</Link>
 	);

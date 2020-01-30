@@ -21,12 +21,12 @@ const t = scoped('lms-onboarding.trial.routes.sites.routes.SiteList', {
 
 SiteListHeader.propTypes = {
 	customer: PropTypes.shape({
-		Sites: PropTypes.array,
 		canCreateSite: PropTypes.bool
-	}).isRequired
+	}).isRequired,
+	sites: PropTypes.array
 };
-export default function SiteListHeader ({customer}) {
-	const {Sites, canCreateSite} = customer;
+export default function SiteListHeader ({customer, sites}) {
+	const {canCreateSite} = customer;
 
 	const [prompt, setPrompt] = React.useState(false);
 
@@ -36,7 +36,7 @@ export default function SiteListHeader ({customer}) {
 	return (
 		<div className={cx('site-list-header')}>
 			<Text.Base className={cx('count')}>
-				{t('sites', {count: Sites.length})}
+				{t('sites', {count: sites.length})}
 			</Text.Base>
 			{canCreateSite && (
 				<div role="button" className={cx('create')} onClick={openPrompt}>

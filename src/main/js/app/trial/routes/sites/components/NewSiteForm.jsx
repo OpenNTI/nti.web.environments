@@ -34,7 +34,8 @@ const t = scoped('lms-onboarding.trial.sites.components.NewSiteForm', {
 NewSiteForm.propTypes = {
 	customer: PropTypes.shape({
 		orginization: PropTypes.string,
-		createSite: PropTypes.func
+		createSite: PropTypes.func,
+		id: PropTypes.any
 	}).isRequired,
 	onCancel: PropTypes.func,
 	modal: PropTypes.bool
@@ -49,7 +50,7 @@ export default function NewSiteForm ({customer, modal, onCancel}) {
 
 	const onChange = (form) => {
 		if (domain.synced) {
-			setDomain({synced: true, value: form.json['site-name']});
+			setDomain({synced: true, value: form.json['client_name']});
 		}
 	};
 
@@ -69,16 +70,17 @@ export default function NewSiteForm ({customer, modal, onCancel}) {
 		<div className={cx('new-site', {modal})}>
 			<Form className={cx('new-site-form', {saving})} onSubmit={onSubmit} onChange={onChange} disabled={!valid} >
 				<div className={cx('form-content')}>
+					<Inputs.Text type="hidden" name="owner" value={customer.id} />
 					<Inputs.Text
 						underline
-						name="site-name"
+						name="client_name"
 						label={t('siteName.label')}
 						placeholder={t('siteName.placeholder')}
 						defaultValue={defaultValue}
 					/>
 					<Inputs.Text
 						underline
-						name="sub-domain"
+						name="domain"
 						label={t('domain.label')}
 						placeholder={t('domain.placeholder')}
 						value={domain.value}

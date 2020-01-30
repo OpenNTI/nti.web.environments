@@ -11,7 +11,7 @@ const CompletedClasses = {
 
 LoadingSvg.propTypes = {
 	progress: PropTypes.number,
-	onFinished: PropTypes.number,
+	onFinished: PropTypes.func,
 };
 export default function LoadingSvg ({progress, onFinished}) {
 	const [progressClass, setProgressClass] = React.useState('loading-bar-0');

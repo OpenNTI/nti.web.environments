@@ -30,7 +30,7 @@ export default function SiteDetails ({ siteId }) {
 		if (isLoading) { return false; }
 
 		await site.onceFinished();
-		
+
 		return true;
 	}, [site]);
 
@@ -54,7 +54,7 @@ export default function SiteDetails ({ siteId }) {
 					)}
 					{loadFinished && (
 						<CSSTransition key="details-completed" classNames="site-details" timeout={300}>
-							<SiteDetailsCompleted site={site} timedout={timedout} />
+							<SiteDetailsCompleted site={site} />
 						</CSSTransition>
 					)}
 				</TransitionGroup>

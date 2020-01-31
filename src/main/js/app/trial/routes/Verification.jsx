@@ -15,7 +15,7 @@ const t = scoped('lms-onboarding.trail.parts.Verification', {
 	title: 'Verification',
 	heading: 'Check your Email',
 	sent: 'We\'ve sent a 6-digit information code to:',
-	change: 'Not You? Click here',
+	change: 'Edit',
 	expires: 'It will expire shortly, so enter it soon.',
 	keep: 'Keep this window open while checking for your code.',
 	spam: 'Remember to try your spam folder!',
@@ -95,12 +95,7 @@ export default function LMSTrialVerification ({location}) {
 				<Loading.Placeholder loading={Hooks.useResolver.isPending(sentTo)} fallback={(<Loading.Spinner.Large />)}>
 					<div className={cx('verify-sent')}>
 						<Text.Paragraph centered>{t('sent')}</Text.Paragraph>
-						<Text.Paragraph centered><strong>{sentTo.email}</strong></Text.Paragraph>
-						<Text.Small centered>
-							<Link to="/">
-								{t('change')}
-							</Link>
-						</Text.Small>
+						<Text.Paragraph centered><strong>{sentTo.email}</strong> <Link className={cx('change')} to="/">{t('change')}</Link></Text.Paragraph>
 					</div>
 					<Text.Paragraph centered>
 						{t('expires')}

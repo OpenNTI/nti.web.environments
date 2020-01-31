@@ -62,7 +62,7 @@ export default function LMSTrialSiteList ({location}) {
 	return (
 		<Page title={t('title')}>
 			<Loading.Placeholder loading={loading} fallback={(<Page.Content><Loading.Spinner.Large /></Page.Content>)}>
-				<Page.Content padded>
+				<Page.Content className={cx('site-list-content')} padded>
 					<Text.SmallHeading className={cx('site-list-heading', {empty})}>{getString('heading')}</Text.SmallHeading>
 					{empty && (<NewSiteForm customer={customer} />)}
 					{!empty && (
@@ -78,7 +78,7 @@ export default function LMSTrialSiteList ({location}) {
 						</div>
 					)}
 				</Page.Content>
-				<Page.Image src={Image} fullscreen />
+				<Page.Image className={cx('site-image')} src={Image} fullscreen />
 			</Loading.Placeholder>
 		</Page>
 	);

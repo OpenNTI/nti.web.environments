@@ -54,7 +54,7 @@ export default function SiteDetails ({ siteId }) {
 					)}
 					{loadFinished && (
 						<CSSTransition key="details-completed" classNames="site-details" timeout={300}>
-							<SiteDetailsCompleted />
+							<SiteDetailsCompleted site={site} timedout={timedout} />
 						</CSSTransition>
 					)}
 				</TransitionGroup>

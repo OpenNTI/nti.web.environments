@@ -6,14 +6,11 @@ import {getServer} from './Client';
 let cachedCustomer = null;
 const sessionLink = '/onboarding/@@session.ping';
 
-const PollInterval = 5000;
-const MaxPollCount = 5;
-const SiteStatus = {
-	Pending: 'PENDING',
-	Active: 'ACTIVE',
-	Inactive: 'INACTIVE',
-	Unknown: 'UNKNOWN',
-	Cancelled: 'Cancelled'
+const PollInterval = 30000;
+const SiteStates = {
+	Pending: 'application/vnd.nextthought.app.environments.setupstatepending',
+	Success: 'application/vnd.nextthought.app.environments.setupstatesuccess',
+	Failure: 'application/vnd.nextthought.app.environments.setupstatefailure'
 };
 
 class Site {
@@ -33,9 +30,8 @@ class Site {
 	#data = null;
 
 	constructor (data) {
-		data.status = SiteStatus.ACTIVE;
 		this.#data = data || {};
-		this.wasPending = data.status === SiteStatus.Pending;
+		this.wasPending = this.isPending;
 	}
 
 	get id () { return this.#data.id; }
@@ -43,20 +39,16 @@ class Site {
 	get domain () { return (this.#data.dns_names || [])[0]; }
 
 	get status () { return this.#data.status; }
-	get isPending () { return this.status === SiteStatus.Pending; }
-	get isActive () { return this.status === SiteStatus.Active; }
-	get isInactive () { return this.status === SiteStatus.Inactive; }
-	get isUnknown () { return this.status === SiteStatus.Unknown; }
-	get isCancelled () { return this.status === SiteStatus.Cancelled; }
+	get setupState () { return this.#data['setup_state'];}
+	get state () { return this.setupState?.mimeType; }
+	get isPending () { return this.state === SiteStates.Pending; }
+	get isSuccess () { return this.state === SiteStates.Success; }
+	get isFailure () { return this.state === SiteStates.Failure; }
 
 	onceFinished () {
-		this.poll = this.poll || new Promise((fulfill, reject) => {
+		this.poll = this.poll || new Promise((fulfill) => {
 			let pollCount = 0;
-
 			const ping = async () => {
-				pollCount += 1;
-
-				if (pollCount > MaxPollCount) { reject(new Error('Site is taking too long to finish.')); }
 
 				try {
 					const update = await getServer().get(this.href);
@@ -65,9 +57,10 @@ class Site {
 
 					if (!this.isPending) { return fulfill(this); }
 
-					setTimeout(() => ping(), PollInterval);
+					setTimeout(() => ping(), PollInterval + (PollInterval * pollCount));
+					pollCount += 1;
 				} catch (e) {
-					this.#data = {...this.#data, status: SiteStatus.Cancelled};
+					this.#data = {...this.#data, status: SiteStates.Cancelled};
 				}
 			};
 

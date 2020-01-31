@@ -13,7 +13,7 @@ const cx = classnames.bind(Styles);
 const t = scoped('lms-onboarding.trial.sites.components.SiteDetailsCompleted', {
 	success: {
 		heading: 'Yay! Your site is ready to go!',
-		paragraph: 'Continue to ',
+		paragraph: 'Continue to %(domain)s',
 		button: 'Go to Your Site'
 	},
 	failure: {
@@ -55,7 +55,7 @@ export default function SiteDetailsCompleted ({site}) {
 			)}
 			<Text.Heading className={cx('heading')}>{t(`${state}.heading`)}</Text.Heading>
 			<Text.Paragraph className={cx('paragraph')}>
-				{t(`${state}.paragraph`)}
+				{t(`${state}.paragraph`, {domain: site.domain})}
 			</Text.Paragraph>
 			<Button rounded className={cx('continue-btn')} as={site.isFailure ? 'a' : ''} href={site.isFailure ? `mailto:${supportEmail}` : site.continueLink}>{t(`${state}.button`)}</Button>
 		</section>

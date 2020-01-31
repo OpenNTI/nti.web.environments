@@ -18,11 +18,8 @@ const t = scoped('lms-onboarding.trial.parts.SignUp', {
 	termsAndConditions: 'By signing up you agree to the <a href="#">terms and conditions.</a>',
 	createAccount: 'Create an Account',
 	recover: 'Already have a Trial Site?',
-	firstName: {
-		placeholder: 'First Name'
-	},
-	lastName: {
-		placeholder: 'Last Name (Optional)'
+	name: {
+		placeholder: 'Full Name'
 	},
 	email: {
 		placeholder: 'Email'
@@ -77,14 +74,9 @@ export default function LMSTrailSignup ({location}) {
 							<Inputs.Text
 								required
 								autoFocus
-								name="firstName"
-								defaultValue={initialValues['firstName'] || '' }
-								placeholder={t('firstName.placeholder')}
-							/>
-							<Inputs.Text
-								name="lastName"
-								defaultValue={initialValues['lastName'] || ''}
-								placeholder={t('lastName.placeholder')}
+								name="name"
+								defaultValue={initialValues['name'] || '' }
+								placeholder={t('name.placeholder')}
 							/>
 							<Inputs.Email
 								required

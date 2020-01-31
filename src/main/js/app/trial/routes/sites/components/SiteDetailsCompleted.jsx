@@ -31,7 +31,7 @@ const supportEmail = 'support@nextthought.com?subject=Unable to set up site';
 
 export default function SiteDetailsCompleted ({site}) {
 	let state;
-	if(site.isSuccess()) {
+	if(site.isSuccess) {
 		React.useEffect(() => {
 			confetti({
 				particleCount: 125,
@@ -43,21 +43,21 @@ export default function SiteDetailsCompleted ({site}) {
 			});
 		}, []);
 		state = 'success';
-	} else if (site.isFailure()) {
+	} else if (site.isFailure) {
 		state = 'failure';
 	}
 
 	return (
 		<section className={cx('loading-complete')}>
 			{(
-				site.isFailure() &&
+				site.isFailure &&
 				<img src="resources/images/illo-page-not-found.svg" className={cx('responsive')}></img>
 			)}
 			<Text.Heading className={cx('heading')}>{t(`${state}.heading`)}</Text.Heading>
 			<Text.Paragraph className={cx('paragraph')}>
 				{t(`${state}.paragraph`)}
 			</Text.Paragraph>
-			<Button rounded className={cx('continue-btn')} as={site.isFailure() ? 'a' : ''} href={site.isFailure() ? `mailto:${supportEmail}` : site.continueLink}>{t(`${state}.button`)}</Button>
+			<Button rounded className={cx('continue-btn')} as={site.isFailure ? 'a' : ''} href={site.isFailure ? `mailto:${supportEmail}` : site.continueLink}>{t(`${state}.button`)}</Button>
 		</section>
 	);
 }

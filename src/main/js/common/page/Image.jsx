@@ -13,7 +13,7 @@ PageImage.propTypes = {
 };
 export default function PageImage ({src, className, fullscreen}) {
 	return (
-		<section className={cx('page-image', {fullscreen})}>
+		<section className={cx('page-image', {fullscreen}, className)}>
 			<img src={src} alt="" />
 		</section>
 	);

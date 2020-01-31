@@ -6,7 +6,7 @@ import {getServer} from './Client';
 let cachedCustomer = null;
 const sessionLink = '/onboarding/@@session.ping';
 
-const PollInterval = 30000;
+const PollInterval = 10000;
 const SiteStates = {
 	Pending: 'application/vnd.nextthought.app.environments.setupstatepending',
 	Success: 'application/vnd.nextthought.app.environments.setupstatesuccess',
@@ -58,7 +58,6 @@ class Site {
 		this.poll = this.poll || new Promise((fulfill) => {
 			let pollCount = 0;
 			const ping = async () => {
-
 				try {
 					const update = await getServer().get(this.href);
 

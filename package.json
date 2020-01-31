@@ -1,5 +1,5 @@
 {
-  "name": "@nti/web-onboarding",
+  "name": "@nti/web-environments",
   "version": "1.0.0-alpha",
   "description": "NextThought Onboarding Application",
   "main": "index.js",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NextThought/nti.web.onboarding.git"
+    "url": "git+https://github.com/NextThought/nti.web.environments.git"
   },
   "publishConfig": {
     "registry": "https://npm.nextthought.com"
@@ -24,7 +24,7 @@
   "author": "NextThought",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/NextThought/nti.web.onboarding/issues"
+    "url": "https://github.com/NextThought/nti.web.environments/issues"
   },
   "homepage": "http://localhost:8000/",
   "dependencies": {},

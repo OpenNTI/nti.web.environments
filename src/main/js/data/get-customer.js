@@ -13,6 +13,12 @@ const SiteStates = {
 	Failure: 'application/vnd.nextthought.app.environments.setupstatefailure'
 };
 
+function getLink (links = [], rel) {
+	for (let link of links) {
+		if (link.rel === rel) { return link.href; }
+	}
+}
+
 class Site {
 	static Cache = new Map();
 
@@ -34,13 +40,16 @@ class Site {
 		this.wasPending = this.isPending;
 	}
 
+	getLink (rel) { return getLink(this.#data.Links, rel); }
+
 	get id () { return this.#data.id; }
 	get href () { return this.#data.href; }
 	get domain () { return (this.#data.dns_names || [])[0]; }
+	get continueLink () { return this.getLink('setup.continue'); }
 
 	get status () { return this.#data.status; }
 	get setupState () { return this.#data['setup_state'];}
-	get state () { return this.setupState?.mimeType; }
+	get state () { return this.setupState?.MimeType; }
 	get isPending () { return this.state === SiteStates.Pending; }
 	get isSuccess () { return this.state === SiteStates.Success; }
 	get isFailure () { return this.state === SiteStates.Failure; }
@@ -92,13 +101,7 @@ class Customer {
 	//TODO: drive these off server data
 	get canCreateFull () { return false; }
 
-	getLink (rel) {
-		for (let link of this.Links) {
-			if (link.rel === rel) {
-				return link.href;
-			}
-		}
-	}
+	getLink (rel) { return getLink(this.#data.Links, rel); }
 
 	resolveDomain (subDomain) { return resolveDomain(subDomain, !this.canCreateFull); }
 

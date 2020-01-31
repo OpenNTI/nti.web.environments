@@ -37,7 +37,7 @@ export default function SiteDetails ({ siteId }) {
 	const loaded = isResolved(finished) && finished;
 
 	if (loaded && !site.wasPending) {
-		return (<Redirect to={site.domain} />);
+		return (<Redirect to={site.continueLink} />);
 	}
 
 	const onFinished = () => setLoadFinished(true);

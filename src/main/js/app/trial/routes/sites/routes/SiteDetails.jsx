@@ -13,7 +13,7 @@ import SiteDetailsCompleted from '../components/SiteDetailsCompleted';
 import Styles from './SiteDetails.css';
 
 const cx = classnames.bind(Styles);
-const {isPending, isErrored, isResolved} = Hooks.useResolver;
+const {isPending, isResolved} = Hooks.useResolver;
 
 SiteDetails.propTypes = {
 	siteId: PropTypes.string,
@@ -35,7 +35,6 @@ export default function SiteDetails ({ siteId }) {
 	}, [site]);
 
 	const loaded = isResolved(finished) && finished;
-	const timedout = isErrored(finished);
 
 	if (loaded && !site.wasPending) {
 		return (<Redirect to={site.domain} />);

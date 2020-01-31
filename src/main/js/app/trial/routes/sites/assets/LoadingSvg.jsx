@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import classnames from 'classnames/bind';
 
-import './LoadingSvg.css';
+import Styles from './LoadingSvg.css';
 
 const CompletedClasses = {
 	90: 'loading-bar-90',
 	100: 'loading-bar-100'
 };
+
+const cx = classnames.bind(Styles);
 
 LoadingSvg.propTypes = {
 	progress: PropTypes.number,
@@ -29,7 +31,7 @@ export default function LoadingSvg ({progress, onFinished}) {
 	}, [progress]);
 
 	return (
-		<svg width="820px" height="500px" viewBox="0 0 820 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+		<svg className={cx('loading-svg')} viewBox="0 0 820 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
 			<title>illo-loading</title>
 			<desc>Created with Sketch.</desc>
 			<defs>

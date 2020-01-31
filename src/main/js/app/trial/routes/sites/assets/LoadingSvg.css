@@ -14,3 +14,11 @@
 	width: 325px;
 	transition-duration: 2s !important;
 }
+
+.loading-svg {
+	width: 100vw;
+	height: auto;
+	min-height: 200px;
+	max-width: 820px;
+	max-height: 500px;
+}

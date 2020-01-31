@@ -13,7 +13,7 @@ import SiteDetailsCompleted from '../components/SiteDetailsCompleted';
 import Styles from './SiteDetails.css';
 
 const cx = classnames.bind(Styles);
-const {isPending, isResolved} = Hooks.useResolver;
+const {isResolved} = Hooks.useResolver;
 
 SiteDetails.propTypes = {
 	siteId: PropTypes.string,
@@ -23,18 +23,18 @@ export default function SiteDetails ({ siteId }) {
 	const [loadFinished, setLoadFinished] = React.useState(false);
 
 	const {loading:customerLoading, user:customer} = AuthRouter.useAuth();
-	const site = Hooks.useResolver(() => !customerLoading && customer && customer.getSite(siteId), [siteId, customer]);
-	const isLoading = customerLoading || isPending(site);
 
-	const finished = Hooks.useResolver(async () => {
-		if (isLoading) { return false; }
+	const site = Hooks.useResolver(async () => {
+		if (customerLoading || !customer) { return false; }
 
-		await site.onceFinished();
+		const resolvedSite = await customer.getSite(siteId);
 
-		return true;
-	}, [site]);
+		await resolvedSite.onceFinished();
 
-	const loaded = isResolved(finished) && finished;
+		return resolvedSite;
+	}, [siteId, customer]);
+
+	const loaded = isResolved(site) && site;
 
 	if (loaded && !site.wasPending) {
 		return (<Redirect to={site.continueLink} />);
@@ -44,7 +44,7 @@ export default function SiteDetails ({ siteId }) {
 
 	return (
 		<Page>
-			<Page.Content className={cx('section')} fullscreen>
+			<Page.Content className={cx('section', {loaded})} fullscreen>
 				<TransitionGroup component={null}>
 					{!loadFinished && (
 						<CSSTransition key="details-loading" classNames="site-details" timeout={300}>

@@ -50,7 +50,7 @@ class Site {
 	get status () { return this.#data.status; }
 	get setupState () { return this.#data['setup_state'];}
 	get state () { return this.setupState?.MimeType; }
-	get isPending () { return this.state === SiteStates.Pending; }
+	get isPending () { return (!this.state && this.status === 'PENDING') || this.state === SiteStates.Pending; }
 	get isSuccess () { return this.state === SiteStates.Success; }
 	get isFailure () { return this.state === SiteStates.Failure; }
 

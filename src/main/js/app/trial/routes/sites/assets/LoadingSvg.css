@@ -1,5 +1,5 @@
 :global(.loading-bar) {
-	transition: width 10s linear;
+	transition: width 70s linear;
 }
 
 :global(.loading-bar-0) {

@@ -2,7 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
-import {Redirect} from '@reach/router';
 import { Hooks } from '@nti/web-commons';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -35,13 +34,15 @@ export default function SiteDetails ({ siteId }) {
 	}, [siteId, customer]);
 
 	const loaded = isResolved(site) && site;
-	const siteIsSetup = loaded && !site.wasPending;
+	const siteWasSetup = loaded && !site.wasPending;
 
 	React.useEffect(() => {
-		global.?location?.replace(site.continueLink);
-	}, [siteIsSetup]);
+		if (siteWasSetup) {
+			global?.location?.replace(site.continueLink);
+		}
+	}, [siteWasSetup]);
 
-	if (siteIsSetup) {
+	if (siteWasSetup) {
 		return null;
 	}
 

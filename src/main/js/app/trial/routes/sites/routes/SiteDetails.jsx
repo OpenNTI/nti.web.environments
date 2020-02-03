@@ -35,9 +35,14 @@ export default function SiteDetails ({ siteId }) {
 	}, [siteId, customer]);
 
 	const loaded = isResolved(site) && site;
+	const siteIsSetup = loaded && !site.wasPending;
 
-	if (loaded && !site.wasPending) {
-		return (<Redirect to={site.continueLink} />);
+	React.useEffect(() => {
+		global.?location?.replace(site.continueLink);
+	}, [siteIsSetup]);
+
+	if (siteIsSetup) {
+		return null;
 	}
 
 	const onFinished = () => setLoadFinished(true);

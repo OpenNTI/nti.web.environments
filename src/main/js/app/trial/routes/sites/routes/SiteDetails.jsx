@@ -2,39 +2,59 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
-import { Hooks } from '@nti/web-commons';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { scoped } from '@nti/lib-locale';
+import { Hooks, Loading } from '@nti/web-commons';
 
-import { Page, AuthRouter } from '../../../../../common';
+import { Page, AuthRouter, Text, Link } from '../../../../../common';
 import SiteDetailsLoading from '../components/SiteDetailsLoading';
 import SiteDetailsCompleted from '../components/SiteDetailsCompleted';
 
 import Styles from './SiteDetails.css';
 
+const {isResolved, isPending, isErrored} = Hooks.useResolver;
+
 const cx = classnames.bind(Styles);
-const {isResolved} = Hooks.useResolver;
+const t = scoped('lms-onboarding.trial.sites.routes.SiteDetails', {
+	loading: 'Looking up your site...',
+	notfound: {
+		heading: 'Site Not Found'
+	}
+});
 
 SiteDetails.propTypes = {
 	siteId: PropTypes.string,
 };
 
 export default function SiteDetails ({ siteId }) {
-	const [loadFinished, setLoadFinished] = React.useState(false);
+	const [loadAnimationFiniahed, setLoadAnimationFinished] = React.useState(false);
+	const onAnimationFinished = () => setLoadAnimationFinished(true);
 
 	const {loading:customerLoading, user:customer} = AuthRouter.useAuth();
 
-	const site = Hooks.useResolver(async () => {
-		if (customerLoading || !customer) { return false; }
+	const siteResolver = Hooks.useResolver(async () => {
+		if (customerLoading || !customer) { return null; }
 
 		const resolvedSite = await customer.getSite(siteId);
 
-		await resolvedSite.onceFinished();
-
 		return resolvedSite;
-	}, [siteId, customer]);
+	}, [siteId, customerLoading]);
 
-	const loaded = isResolved(site) && site;
-	const siteWasSetup = loaded && !site.wasPending && site.isSuccess;
+	const siteLoading = isPending(siteResolver) || customerLoading || !siteResolver;
+	const siteError = isErrored(siteResolver) ? siteResolver : null;
+	const site = !siteLoading && !siteError ? siteResolver : null;
+
+	const finished = Hooks.useResolver(async () => {
+		if (!site) { return false; }
+
+		await site.onceFinished();
+	
+		return true;
+	}, [site]);
+
+
+	const loaded = isResolved(finished) && finished;
+	const siteWasSetup = loaded && site && !site.wasPending && site.isSuccess;
 
 	React.useEffect(() => {
 		if (siteWasSetup && site.continueLink) {
@@ -46,23 +66,35 @@ export default function SiteDetails ({ siteId }) {
 		return null;
 	}
 
-	const onFinished = () => setLoadFinished(true);
-
 	return (
 		<Page>
 			<Page.Content className={cx('section', {loaded})} fullscreen>
-				<TransitionGroup component={null}>
-					{!loadFinished && (
-						<CSSTransition key="details-loading" classNames="site-details" timeout={300}>
-							<SiteDetailsLoading progress={loaded ? 100 : 90} onFinished={onFinished} />
-						</CSSTransition>
-					)}
-					{loadFinished && (
-						<CSSTransition key="details-completed" classNames="site-details" timeout={300}>
-							<SiteDetailsCompleted site={site} />
-						</CSSTransition>
-					)}
-				</TransitionGroup>
+				{siteError && (
+					<div className={cx('missing-site')}>
+						<Text.Heading>
+							{t('notfound.heading')}
+						</Text.Heading>
+						<Text.Paragraph>
+							<Link to="..">Go back to Sites</Link>
+						</Text.Paragraph>
+					</div>
+				)}
+				{!siteError && (
+					<Loading.Placeholder loading={siteLoading} fallback={(<Text.Paragraph centered>{t('loading')}</Text.Paragraph>)}>
+						<TransitionGroup component={null}>
+							{!loadAnimationFiniahed && (
+								<CSSTransition key="details-loading" classNames="site-details" timeout={300}>
+									<SiteDetailsLoading progress={loaded ? 100 : 90} onFinished={onAnimationFinished} />
+								</CSSTransition>
+							)}
+							{loadAnimationFiniahed && (
+								<CSSTransition key="details-completed" classNames="site-details" timeout={300}>
+									<SiteDetailsCompleted site={site} />
+								</CSSTransition>
+							)}
+						</TransitionGroup>
+					</Loading.Placeholder>
+				)}
 			</Page.Content>
 		</Page>
 	);

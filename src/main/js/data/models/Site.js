@@ -51,7 +51,11 @@ export default class Site {
 
 	constructor (data) {
 		this.#data = data || {};
-		this.wasPending = this.isPending;
+		//Since the poll is mutating the site instance.
+		//We are tracking the initial pending value to determine
+		//if the site was already finished when we loaded it, or
+		//finished after polling.
+		this.wasPending = true;//this.isPending;
 	}
 
 	getLink (rel) { return getLink(this.#data.Links, rel); }
@@ -82,7 +86,14 @@ export default class Site {
 
 					setTimeout(() => ping(), getInterval());
 				} catch (e) {
-					this.#data = {...this.#data, status: SiteStates.Cancelled};
+					this.#data = {
+						...this.#data,
+						'setup_state': {
+							MimeType: SiteStates.Failure
+						}
+					};
+
+					fulfill(this);
 				}
 			};
 

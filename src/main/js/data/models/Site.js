@@ -64,6 +64,7 @@ export default class Site {
 	get href () { return this.#data.href; }
 	get domain () { return (this.#data.dns_names || [])[0]; }
 	get continueLink () { return this.getLink('setup.continue'); }
+	get pollLink () { return this.getLink('setup.check-pending'); }
 
 	get status () { return this.#data.status; }
 	get setupState () { return this.#data['setup_state'];}
@@ -78,7 +79,15 @@ export default class Site {
 
 			const ping = async () => {
 				try {
-					const update = await getServer().get(this.href);
+					const update = await getServer()
+						.get(
+							this.pollLink,
+							{
+								searchParams: {
+									'max_wait': 10
+								}
+							}
+						);
 
 					this.#data = update;
 

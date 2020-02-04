@@ -55,7 +55,7 @@ export default class Site {
 		//We are tracking the initial pending value to determine
 		//if the site was already finished when we loaded it, or
 		//finished after polling.
-		this.wasPending = true;//this.isPending;
+		this.wasPending = this.isPending;
 	}
 
 	getLink (rel) { return getLink(this.#data.Links, rel); }

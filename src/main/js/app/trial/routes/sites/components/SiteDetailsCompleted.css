@@ -1,3 +1,7 @@
+.success-spacer {
+	padding-bottom: 61%;
+}
+
 .heading {
 	font-weight: 300;
 	font-size: 2.25rem;
@@ -9,11 +13,6 @@
 	font-size: 1.125rem;
 	margin: 0;
 	margin-bottom: 50px;
-}
-
-.loading-complete {
-	position: absolute;
-	top: 350px;
 }
 
 .continue-btn {

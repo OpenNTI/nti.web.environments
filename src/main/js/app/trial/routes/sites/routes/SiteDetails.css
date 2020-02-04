@@ -14,6 +14,8 @@
 
 :global(.site-details-exit) {
 	opacity: 1;
+	position: absolute;
+	top: 1rem;
 }
 
 :global(.site-details-exit-active) {

@@ -49,13 +49,14 @@ export default function SiteDetailsCompleted ({site}) {
 
 	return (
 		<section className={cx('loading-complete')}>
-			{(
-				site.isFailure &&
-				<img src="resources/images/illo-page-not-found.svg" className={cx('responsive')}></img>
-			)}
+			{
+				site.isFailure ?
+					(<img src="/resources/images/illo-page-not-found.svg" className={cx('responsive')}></img>) :
+					(<div className={cx('success-spacer')} />)
+			}
 			<Text.Heading className={cx('heading')}>{t(`${state}.heading`)}</Text.Heading>
 			<Text.Paragraph className={cx('paragraph')}>
-				{t(`${state}.paragraph`, {domain: site.domain})}
+				{t(`${state}.paragraph`, {domain: site.domain || ''})}
 			</Text.Paragraph>
 			<Button rounded className={cx('continue-btn')} as={site.isFailure ? 'a' : ''} href={site.isFailure ? `mailto:${supportEmail}` : site.continueLink}>{t(`${state}.button`)}</Button>
 		</section>

@@ -37,7 +37,7 @@ export default function SiteDetails ({ siteId }) {
 	const siteWasSetup = loaded && !site.wasPending && site.isSuccess;
 
 	React.useEffect(() => {
-		if (siteWasSetup) {
+		if (siteWasSetup && site.continueLink) {
 			global?.location?.replace(site.continueLink);
 		}
 	}, [siteWasSetup]);

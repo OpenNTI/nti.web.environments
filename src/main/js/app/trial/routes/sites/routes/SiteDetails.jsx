@@ -34,7 +34,7 @@ export default function SiteDetails ({ siteId }) {
 	}, [siteId, customer]);
 
 	const loaded = isResolved(site) && site;
-	const siteWasSetup = loaded && !site.wasPending;
+	const siteWasSetup = loaded && !site.wasPending && site.isSuccess;
 
 	React.useEffect(() => {
 		if (siteWasSetup) {

@@ -27,7 +27,7 @@ SiteDetails.propTypes = {
 };
 
 export default function SiteDetails ({ siteId }) {
-	const [loadAnimationFiniahed, setLoadAnimationFinished] = React.useState(false);
+	const [loadAnimationFinished, setLoadAnimationFinished] = React.useState(false);
 	const onAnimationFinished = () => setLoadAnimationFinished(true);
 
 	const {loading:customerLoading, user:customer} = AuthRouter.useAuth();
@@ -54,17 +54,19 @@ export default function SiteDetails ({ siteId }) {
 
 
 	const loaded = isResolved(finished) && finished;
-	const siteWasSetup = loaded && site && !site.wasPending && site.isSuccess;
+	const autoRedirect = loaded && site && !site.wasPending && site.isSuccess;
 
 	React.useEffect(() => {
-		if (siteWasSetup && site.continueLink) {
+		if (autoRedirect && site.continueLink) {
 			global?.location?.replace(site.continueLink);
 		}
-	}, [siteWasSetup]);
+	}, [autoRedirect]);
 
-	if (siteWasSetup) {
+	if (autoRedirect) {
 		return null;
 	}
+
+	const showLoading = siteLoading || (!loadAnimationFinished && site.wasPending);
 
 	return (
 		<Page>
@@ -82,12 +84,12 @@ export default function SiteDetails ({ siteId }) {
 				{!siteError && (
 					<Loading.Placeholder loading={siteLoading} fallback={(<Text.Paragraph centered>{t('loading')}</Text.Paragraph>)}>
 						<TransitionGroup component={null}>
-							{!loadAnimationFiniahed && (
+							{showLoading && (
 								<CSSTransition key="details-loading" classNames="site-details" timeout={300}>
 									<SiteDetailsLoading progress={loaded ? 100 : 90} onFinished={onAnimationFinished} />
 								</CSSTransition>
 							)}
-							{loadAnimationFiniahed && (
+							{!showLoading && (
 								<CSSTransition key="details-completed" classNames="site-details" timeout={300}>
 									<SiteDetailsCompleted site={site} />
 								</CSSTransition>

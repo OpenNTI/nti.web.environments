@@ -2,7 +2,7 @@
   "name": "@nti/web-environments",
   "version": "1.0.0-alpha",
   "description": "NextThought Onboarding Application",
-  "main": "index.js",
+  "main": "dist/server/index.js",
   "scripts": {
     "test": "app-scripts test",
     "start": "app-scripts start",

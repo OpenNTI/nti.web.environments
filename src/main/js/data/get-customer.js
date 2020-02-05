@@ -21,6 +21,7 @@ getCustomer.setSession = (session) => {
 	cachedCustomer = session.customer ? new Customer(session.customer) : null;
 };
 getCustomer.clearSession = () => cachedCustomer = null;
+getCustomer.hasCached = () => !cachedCustomer;
 export default async function getCustomer () {
 	if (!cachedCustomer) { cachedCustomer = loadCustomer(); }
 

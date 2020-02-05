@@ -18,9 +18,10 @@ AuthRouter.propTypes = {
 	children: PropTypes.any,
 	location: PropTypes.object,
 	getUser: PropTypes.func.isRequired,
+	shouldReload: PropTypes.func
 };
-function AuthRouter ({children, location, getUser,}) {
-	const user = Hooks.useResolver(getUser, [location]);
+function AuthRouter ({children, location, getUser, shouldReload}) {
+	const user = Hooks.useResolver(getUser, [shouldReload ? shouldReload(location) : location]);
 	const loading = Hooks.useResolver.isPending(user);
 	const authenticated = !loading && Boolean(user);
 

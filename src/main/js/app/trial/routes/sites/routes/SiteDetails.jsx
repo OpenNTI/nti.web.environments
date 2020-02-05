@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import {Redirect} from '@reach/router';
 import { scoped } from '@nti/lib-locale';
 import { Hooks, Loading } from '@nti/web-commons';
 
@@ -24,9 +25,12 @@ const t = scoped('lms-onboarding.trial.sites.routes.SiteDetails', {
 
 SiteDetails.propTypes = {
 	siteId: PropTypes.string,
+	location: PropTypes.shape({
+		hash: PropTypes.string
+	})
 };
 
-export default function SiteDetails ({ siteId }) {
+export default function SiteDetails ({siteId, location}) {
 	const [loadAnimationFinished, setLoadAnimationFinished] = React.useState(false);
 	const onAnimationFinished = () => setLoadAnimationFinished(true);
 
@@ -68,6 +72,9 @@ export default function SiteDetails ({ siteId }) {
 
 	const showLoading = siteLoading || (!loadAnimationFinished && site.wasPending);
 
+	const currentState = location.hash;
+	const state = showLoading ? '#loading' : (site.isSuccess ? '#success' : '#failure');
+
 	return (
 		<Page>
 			<Page.Content className={cx('section', {loaded})} fullscreen>
@@ -97,6 +104,7 @@ export default function SiteDetails ({ siteId }) {
 						</TransitionGroup>
 					</Loading.Placeholder>
 				)}
+				{state !== currentState ? (<Redirect to={`/sites/${siteId}/${state}`} noThrow />) : null}
 			</Page.Content>
 		</Page>
 	);

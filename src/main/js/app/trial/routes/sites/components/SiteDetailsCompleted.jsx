@@ -17,8 +17,8 @@ const t = scoped('lms-onboarding.trial.sites.components.SiteDetailsCompleted', {
 		button: 'Go to Your Site'
 	},
 	failure: {
-		heading: 'We\'re sorry, your site could not be created',
-		paragraph: 'Please go ahead and contact support',
+		heading: 'Yikes! It looks like we\'ve hit a bit of a snag setting up your site.',
+		paragraph: 'Don\'t worry—our world-class support team has been notified of the issue and will connect with you via email to resolve the problem.',
 		button: 'Contact Support'
 	}
 });

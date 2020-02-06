@@ -6,7 +6,7 @@ import {scoped} from '@nti/lib-locale';
 import {Loading, Hooks} from '@nti/web-commons';
 
 import {Page, Text, AuthRouter} from '../../../../../common';
-import Image from '../assets/sites-image.png';
+import Image from '../assets/create-a-site-image.jpg';
 import NewSiteForm from '../components/NewSiteForm';
 import SiteListItem from '../components/SiteListItem';
 import SiteListHeader from '../components/SiteListHeader';

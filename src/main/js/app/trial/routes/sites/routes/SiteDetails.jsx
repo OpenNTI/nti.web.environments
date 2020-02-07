@@ -13,7 +13,7 @@ import SiteDetailsCompleted from '../components/SiteDetailsCompleted';
 
 import Styles from './SiteDetails.css';
 
-const {isResolved, isPending, isErrored} = Hooks.useResolver;
+const {isPending, isErrored} = Hooks.useResolver;
 
 const cx = classnames.bind(Styles);
 const t = scoped('lms-onboarding.trial.sites.routes.SiteDetails', {
@@ -48,20 +48,12 @@ export default function SiteDetails ({siteId, location}) {
 	const siteError = isErrored(siteResolver) ? siteResolver : null;
 	const site = !siteLoading && !siteError ? siteResolver : null;
 
-	const finished = Hooks.useResolver(async () => {
-		if (!site) { return false; }
-
-		await site.onceFinished();
-	
-		return true;
-	}, [site]);
-
-
-	const loaded = isResolved(finished) && finished;
-	const autoRedirect = loaded && site && !site.wasPending && site.isSuccess;
+	//If we have a site, it wasn't pending when we loaded it, and its not
+	//pending now we need to auto redirect.
+	const autoRedirect = site && !site.wasPending && !site.isPending && site.continueLink;
 
 	React.useEffect(() => {
-		if (autoRedirect && site.continueLink) {
+		if (autoRedirect) {
 			global?.location?.replace(site.continueLink);
 		}
 	}, [autoRedirect]);
@@ -70,14 +62,19 @@ export default function SiteDetails ({siteId, location}) {
 		return null;
 	}
 
-	const showLoading = siteLoading || (!loadAnimationFinished && site.wasPending);
+	//Show loading if we don't have a site yet, the site is pending, or the site is
+	//no longer pending but the animation has not finished.
+	//
+	//NOTE: if the site is still loading we don't show the site progress bar, but we don't have a site
+	//yet so we need to short circuit
+	const showLoading = siteLoading || site.isPending || (site.wasPending && !loadAnimationFinished);
 
 	const currentState = location.hash;
 	const state = showLoading ? '#loading' : (site.isSuccess ? '#success' : '#failure');
 
 	return (
 		<Page>
-			<Page.Content className={cx('section', {loaded})} fullscreen>
+			<Page.Content className={cx('section')} fullscreen>
 				{siteError && (
 					<div className={cx('missing-site')}>
 						<Text.Heading>
@@ -93,7 +90,7 @@ export default function SiteDetails ({siteId, location}) {
 						<TransitionGroup component={null}>
 							{showLoading && (
 								<CSSTransition key="details-loading" classNames="site-details" timeout={300}>
-									<SiteDetailsLoading progress={loaded ? 100 : 90} onFinished={onAnimationFinished} />
+									<SiteDetailsLoading site={site} onFinished={onAnimationFinished} />
 								</CSSTransition>
 							)}
 							{!showLoading && (

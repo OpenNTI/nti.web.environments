@@ -4,10 +4,38 @@
 	margin: 0 0 1rem;
 }
 
-.paragraph {
-	line-height: 1.666;
+.messages {
+	min-height: 200px;
+	position: relative;
+}
+
+.message {
+	position: absolute;
+	top: 0; bottom: 0;
+	left: 0; right: 0;
+
 	font-size: 1.125rem;
-	margin: 0;
+	line-height: 1.666;
+
+	transition: opacity 0.3s;
+}
+
+.message:global(.fade-enter) {
+	opacity: 0;
+	transition: opacity 200ms 400ms;
+}
+
+.message:global(.fade-enter-active) {
+	opacity: 1;
+}
+
+.message:global(.fade-exit) {
+	opacity: 1;
+	transition: opacity 200ms;
+}
+
+.message:global(.fade-exit-active) {
+	opacity: 0;
 }
 
 .image {
@@ -16,6 +44,3 @@
 	max-width: 100%;
 }
 
-.logo {
-	margin-top: 5rem;
-}

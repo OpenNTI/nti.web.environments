@@ -79,15 +79,7 @@ export default class Site {
 
 			const ping = async () => {
 				try {
-					const update = await getServer()
-						.get(
-							this.pollLink,
-							{
-								searchParams: {
-									'max_wait': 10
-								}
-							}
-						);
+					const update = await getServer().get(this.pollLink);
 
 					this.#data = update;
 

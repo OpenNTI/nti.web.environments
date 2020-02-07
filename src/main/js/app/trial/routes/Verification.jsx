@@ -104,7 +104,7 @@ export default function LMSTrialVerification ({location}) {
 						<Inputs.Text type="hidden" name="email" value={sentTo.email} />
 						<Inputs.Text type="hidden" name="code_prefix" value={sentTo.code_prefix} />
 						<div className={cx('code-input')}>
-							<Inputs.Code name="code" onChange={preventInvalidCodes} value={code} pattern="\d*" autoFocus />
+							<Inputs.Code name="code" onChange={preventInvalidCodes} value={code} autoFocus pattern="[a-zA-Z0-9]{6}" title="6 letters or numbers"/>
 							{checking && (
 								<div className={cx('loading-container')}>
 									<Loading.Spinner size="30px" blue />

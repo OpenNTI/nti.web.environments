@@ -65,7 +65,7 @@ export default function LMSTrialVerification ({location}) {
 	const onChange = async ({json}) => {
 		if (json.code.length > 6) { return; }
 
-		setCode(json.code);
+		setCode(json.code.toUpperCase());
 		setCodeError(null);
 		setChecking(false);
 

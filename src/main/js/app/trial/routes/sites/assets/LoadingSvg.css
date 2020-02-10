@@ -1,17 +1,18 @@
 :global(.loading-bar) {
-	transition: width 70s linear;
+	transition: transform 70s linear;
+	transform-origin: 132px ;
 }
 
 :global(.loading-bar-0) {
-	width: 0;
+	transform: scaleX(0);
 }
 
 :global(.loading-bar-90) {
-	width: 292.5px;
+	transform: scaleX(0.9);
 }
 
 :global(.loading-bar-100) {
-	width: 325px;
+	transform: scaleX(1);
 	transition-duration: 2s !important;
 }
 

@@ -5,7 +5,7 @@ import {scoped} from '@nti/lib-locale';
 import {Form, Hooks, Loading} from '@nti/web-commons';
 
 import {Page, Text, Inputs, Button, Link} from '../../../common';
-import {sendVerification, Session} from '../../../data';
+import {sendRecovery, Session} from '../../../data';
 
 import Styles from './Recover.css';
 
@@ -38,7 +38,7 @@ export default function LMSTrialRecovery ({location}) {
 		setSaving(true);
 
 		try {
-			await sendVerification(json);
+			await sendRecovery(json);
 
 			setSentTo(json.email);
 			setSaving(false);

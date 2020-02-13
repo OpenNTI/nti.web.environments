@@ -1,7 +1,7 @@
 import {getServer} from './Client';
 
-const RecoveryChallengeURL = '/onboarding/customers/@@recovery_challenge';
+const EmailChallengeURL = '/onboarding/customers/@@email_challenge';
 
 export default async function sendVerification (data) {
-	return getServer().post(RecoveryChallengeURL, data);
+	return getServer().post(EmailChallengeURL, data);
 }

@@ -1,6 +1,7 @@
 export * as Client from './Client';
 export getCustomer from './get-customer';
 export resolveDomain from './resolve-domain';
+export sendRecovery from './send-recovery';
 export sendVerification from './send-verification';
 export * as Session from './Session';
 export verifyToken from './verify-token';

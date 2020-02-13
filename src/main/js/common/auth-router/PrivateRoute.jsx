@@ -7,7 +7,7 @@ import Styles from './Styles.css';
 
 const cx = classnames.bind(Styles);
 
-PublicRoute.propTypes = {
+PrivateRoute.propTypes = {
 	className: PropTypes.string,
 	authenticated: PropTypes.bool,
 	loading: PropTypes.bool,
@@ -16,7 +16,7 @@ PublicRoute.propTypes = {
 		publicEntry: PropTypes.string
 	})
 };
-export default function PublicRoute ({authenticated, loading, routes, className, component:Cmp, ...otherProps}) {
+export default function PrivateRoute ({authenticated, loading, routes, className, component:Cmp, ...otherProps}) {
 	if (authenticated === false && !loading) {
 		return (
 			<Redirect to={routes.publicEntry} noThrow />

@@ -14,6 +14,17 @@ const cx = classnames.bind(Styles);
 
 const Context = React.createContext({loading: true, authenticated: false, user: null});
 
+
+const getUserDependency = (shouldReload, location) => {
+	if (!shouldReload) { return location; }
+
+	if (shouldReload(location)) {
+		getUserDependency.lastReload = Date.now();
+	}
+
+	return getUserDependency.lastReload;
+};
+
 AuthRouter.propTypes = {
 	children: PropTypes.any,
 	location: PropTypes.object,
@@ -21,7 +32,7 @@ AuthRouter.propTypes = {
 	shouldReload: PropTypes.func
 };
 function AuthRouter ({children, location, getUser, shouldReload}) {
-	const user = Hooks.useResolver(getUser, [shouldReload ? shouldReload(location) : location]);
+	const user = Hooks.useResolver(getUser, [getUserDependency(shouldReload, location)]);
 	const loading = Hooks.useResolver.isPending(user);
 	const authenticated = !loading && Boolean(user);
 

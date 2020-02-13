@@ -1,4 +1,5 @@
-.container {
+.container,
+.sent-to {
 	max-width: 400px;
 	margin: 2.5rem auto;
 	padding: 0.625rem;

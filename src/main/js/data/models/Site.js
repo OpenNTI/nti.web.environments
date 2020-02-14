@@ -1,4 +1,5 @@
 import {getServer} from '../Client';
+import {getIntervalGenerator} from '../../utils';
 
 import getLink from './get-link';
 
@@ -7,30 +8,6 @@ const SiteStates = {
 	Success: 'application/vnd.nextthought.app.environments.setupstatesuccess',
 	Failure: 'application/vnd.nextthought.app.environments.setupstatefailure'
 };
-
-const Intervals = {
-	OneMinute: 60000,
-	TwoMinutes: 120000
-};
-
-function getIntervalGenerator () {
-	const start = new Date();
-
-	return () => {
-		const now = new Date();
-		const diff = now - start;
-
-		if (diff <= Intervals.OneMinute) {
-			return 15000;
-		}
-
-		if (diff <= Intervals.TwoMinutes) {
-			return 5000;
-		}
-
-		return diff - Intervals.TwoMinutes;
-	};
-}
 
 
 export default class Site {

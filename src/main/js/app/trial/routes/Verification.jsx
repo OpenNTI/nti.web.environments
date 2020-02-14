@@ -30,6 +30,8 @@ const preventInvalidCodes = (value, e) => {
 	}
 };
 
+const noop = () => {};
+
 LMSTrialVerification.propTypes = {
 	location: PropTypes.object	
 };
@@ -100,7 +102,7 @@ export default function LMSTrialVerification ({location}) {
 					<Text.Paragraph centered>
 						{t('expires')}
 					</Text.Paragraph>
-					<Form className={cx('verify-form', {'has-error': showError})} onChange={onChange}>
+					<Form className={cx('verify-form', {'has-error': showError})} onChange={onChange} onSubmit={noop}>
 						<Inputs.Text type="hidden" name="email" value={sentTo.email} />
 						<Inputs.Text type="hidden" name="code_prefix" value={sentTo.code_prefix} />
 						<div className={cx('code-input')}>

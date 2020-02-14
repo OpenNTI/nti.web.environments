@@ -28,7 +28,7 @@ function getIntervalGenerator () {
 			return 5000;
 		}
 
-		return diff;
+		return diff - Intervals.TwoMinutes;
 	};
 }
 

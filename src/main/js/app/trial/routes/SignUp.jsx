@@ -40,7 +40,7 @@ export default function LMSTrailSignup ({location}) {
 	const [saving, setSaving] = React.useState(false);
 
 	const initialValues = Hooks.useResolver(() => {
-		//NOTE: this doesn't have to be async, originally this made 
+		//NOTE: this doesn't have to be async, originally this made
 		//a server call to get some info. We'll keep it open to that
 		//in the future.
 		return Session.get() || {};
@@ -53,7 +53,7 @@ export default function LMSTrailSignup ({location}) {
 			const resp = await sendVerification(json);
 
 			Session.set({...Session.get(), ...json, ...resp});
-			navigate('verification');
+			navigate('verification#start');
 		} catch (e) {
 			setSaving(false);
 			throw e;

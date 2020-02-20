@@ -53,7 +53,7 @@ export default function LMSTrailSignup ({location}) {
 			const resp = await sendVerification(json);
 
 			Session.set({...Session.get(), ...json, ...resp});
-			navigate('verification#start');
+			navigate('verification');
 		} catch (e) {
 			setSaving(false);
 			throw e;

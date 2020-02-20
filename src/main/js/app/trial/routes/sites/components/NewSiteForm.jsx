@@ -60,7 +60,7 @@ export default function NewSiteForm ({customer, modal, onCancel}) {
 		try {
 			const site = await customer.createSite(json);
 
-			navigate(`/sites/${site.id}`);
+			navigate(`/sites/${site.id}#start`);
 		} finally {
 			setSaving(false);
 		}

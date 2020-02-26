@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {navigate} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
-import {Loading, Form, Hooks} from '@nti/web-commons';
+import {Loading, Form, Hooks, Errors} from '@nti/web-commons';
 
 import {Page, Text, Inputs, Button, Link} from '../../../common';
 import {sendVerification, Session} from '../../../data';
@@ -70,7 +70,7 @@ export default function LMSTrailSignup ({location}) {
 						<Loading.Spinner.Large />
 					)}
 					<div className={cx('container')}>
-						<Form className={cx('signup-form')} onSubmit={onSubmit} disabled={!agreed}>
+						<Form className={cx('signup-form')} onSubmit={onSubmit} disabled={!agreed} initialError={Errors.getErrorFromLocation(location)}>
 							<Inputs.Text
 								required
 								autoFocus

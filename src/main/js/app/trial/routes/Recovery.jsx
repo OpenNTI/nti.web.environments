@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {scoped} from '@nti/lib-locale';
-import {Form, Hooks, Loading} from '@nti/web-commons';
+import {Form, Hooks, Loading, Errors} from '@nti/web-commons';
 
 import {Page, Text, Inputs, Button, Link} from '../../../common';
 import {sendRecovery, Session} from '../../../data';
@@ -70,7 +70,7 @@ export default function LMSTrialRecovery ({location}) {
 							<Loading.Spinner.Large />
 						)}
 						<div className={cx('container')}>
-							<Form className={cx('recover-form')} onSubmit={onSubmit}>
+							<Form className={cx('recover-form')} onSubmit={onSubmit} initialError={Errors.getErrorFromLocation(location)}>
 								<Inputs.Email name="email" required placeholder={t('email.placeholder')} defaultValue={initialValues.email} autoFocus />
 								<Button as={Form.SubmitButton} fill>
 									<Text.Base white>{t('recover')}</Text.Base>

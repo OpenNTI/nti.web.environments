@@ -17,7 +17,7 @@ function WrapperFactory (Cmp, inputProps, wrapperClassName) {
 	function OnboardingFormInput ({className, inputRef, underline, ...otherProps}) {
 		return (
 			<Cmp
-				className={cx(className, wrapperClassName, 'form-input', {underline})}
+				className={cx(className, wrapperClassName, 'form-input')}
 				ref={inputRef}
 				{...inputProps}
 				{...otherProps}
@@ -33,6 +33,7 @@ export default {
 	Text: WrapperFactory(Form.Input.Text),
 	Code: WrapperFactory(Form.Input.Text, {}, 'code'),
 	Email: WrapperFactory(Form.Input.Email),
+	Hidden: WrapperFactory(Form.Input.Hidden),
 	Checkbox: WrapperFactory(Form.Input.Checkbox),
 	Domain: WrapperFactory(Form.Input.wrap(Domain))
 };

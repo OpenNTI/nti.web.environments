@@ -72,17 +72,18 @@ export default function NewSiteForm ({customer, modal, onCancel}) {
 				<div className={cx('form-content')}>
 					<Inputs.Text type="hidden" name="owner" value={customer.id} />
 					<Inputs.Text
-						underline
+						underlined
+						fill
 						name="client_name"
 						label={t('siteName.label')}
-						placeholder={t('siteName.placeholder')}
 						defaultValue={defaultValue}
 					/>
 					<Inputs.Text
-						underline
+						underlined
+						fill
+						noError
 						name="domain"
 						label={t('domain.label')}
-						placeholder={t('domain.placeholder')}
 						value={domain.value}
 						onChange={(value, e) => (e.stopPropagation(), e.preventDefault(), setDomain({synced: false, value}))}
 					/>

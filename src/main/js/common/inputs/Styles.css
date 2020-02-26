@@ -14,43 +14,9 @@
 	text-transform: none;
 }
 
-.form-input > :global(.nti-text-input) {
-	width: 100%;
-	line-height: 3.125rem;
-	height: 3.125rem;
-	padding: 1rem 1.25rem;
-	background: white;
-	border-radius: none;
-}
-
-.form-input.underline > :global(.nti-text-input) {
-	border: none;
-	padding: 0;
-	background: none;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-}
-
-.form-input + .form-input {
-	margin-top: 0.625rem;
-}
-
-.form-input.underline + .form-input.underline {
-	margin-top: 1.875rem;
-}
-
-.form-input :global(.nti-label-error) {
-	text-align: left;
-	display: block;
-	padding: 0.25rem 0.5rem;
-}
-
-.form-input:global(.nti-labeled-input.error .nti-text-input) {
-	border-color: var(--primary-red);
-}
-
 .form-input.code {
 	margin: 0 auto;
-	max-width: 398px;
+	max-width: 432px;
 	width: calc(100% - 30px);
 }
 

@@ -19,7 +19,8 @@ const t = scoped('lms-onboarding.trail.parts.Verification', {
 	expires: 'It will expire shortly, so enter it soon.',
 	keep: 'Keep this window open while checking for your code.',
 	spam: 'Remember to try your spam folder!',
-	check: 'Check Code'
+	check: 'Check Code',
+	label: '6 Digit Code'
 });
 
 const HasNonAlphaNumeric = /[^a-zA-Z0-9]/;
@@ -103,18 +104,24 @@ export default function LMSTrialVerification ({location}) {
 						{t('expires')}
 					</Text.Paragraph>
 					<Form className={cx('verify-form', {'has-error': showError})} onChange={onChange} onSubmit={noop}>
-						<Inputs.Text type="hidden" name="email" value={sentTo.email} />
-						<Inputs.Text type="hidden" name="code_prefix" value={sentTo.code_prefix} />
+						<Inputs.Hidden name="email" value={sentTo.email} />
+						<Inputs.Hidden name="code_prefix" value={sentTo.code_prefix} />
 						<div className={cx('code-input')}>
-							<Inputs.Code name="code" onChange={preventInvalidCodes} value={code} autoFocus pattern="[a-zA-Z0-9]{6}" title="6 letters or numbers"/>
+							<Inputs.Code
+								name="code"
+								onChange={preventInvalidCodes}
+								value={code}
+								autoFocus
+								pattern="[a-zA-Z0-9]{6}"
+								title="6 letters or numbers"
+								label={t('label')}
+								error={showError ? codeError : null}
+								locked
+								center
+							/>
 							{checking && (
 								<div className={cx('loading-container')}>
 									<Loading.Spinner size="30px" blue />
-								</div>
-							)}
-							{showError && (
-								<div className={cx('error-container', {show: checking || codeError})}>
-									<Errors.Message error={codeError} />
 								</div>
 							)}
 						</div>

@@ -15,7 +15,7 @@ const t = scoped('lms-onboarding.trial.parts.SignUp', {
 	title: 'Sign Up',
 	heading: 'Welcome to NextThought',
 	message: 'Complete your account details to get started.',
-	termsAndConditions: 'By signing up you agree to the <a href="https://docs.google.com/document/u/1/pub?id=1rM40we-bbPNvq8xivEKhkoLE7wmIETmO4kerCYmtISM">terms of use</a> and <a href="https://docs.google.com/document/u/1/pub?id=1W9R8s1jIHWTp38gvacXOStsfmUz5TjyDYYy3CVJ2SmM">Privacy Policy.</a>',
+	termsAndConditions: 'By signing up you agree to the <a href="https://docs.google.com/document/d/e/2PACX-1vRJd0Irh_YFX7Ci9irWLmqrEqddrxSLrDkrJMANlCqQAo-PrLznTjk4G0hfCsjxD8M21Vd54iQ1Rqbn/pub">terms of use</a> and <a href="https://docs.google.com/document/u/1/pub?id=1W9R8s1jIHWTp38gvacXOStsfmUz5TjyDYYy3CVJ2SmM">Privacy Policy.</a>',
 	createAccount: 'Create an Account',
 	recover: 'Already have a Trial Site?',
 	name: {

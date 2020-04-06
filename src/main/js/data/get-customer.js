@@ -4,12 +4,22 @@ import {getServer} from './Client';
 let cachedCustomer = null;
 const sessionLink = '/onboarding/@@session.ping';
 
+function maybeTrackHubspot (customer) {
+	if (customer.hubspot_contact) {
+		const _hsq = window._hsq = window._hsq || [];
+		_hsq.push(['identify',{
+			email: customer.email
+		}]);
+	}
+}
 
 async function loadCustomer () {
 	try {
 		const session = await getServer().get(sessionLink);
 
 		if (!session.customer) { return null; }
+
+		maybeTrackHubspot(session.customer);
 
 		return new Customer(session.customer);
 	} catch (e) { //Instead of throwing up, just return that there is no customer

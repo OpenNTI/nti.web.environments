@@ -4,6 +4,7 @@ import classnames from 'classnames/bind';
 import {Form} from '@nti/web-commons';
 
 import Domain from './Domain';
+import Phone from './Phone';
 import Styles from './Styles.css';
 
 const cx = classnames.bind(Styles);
@@ -35,5 +36,6 @@ export default {
 	Email: WrapperFactory(Form.Input.Email),
 	Hidden: WrapperFactory(Form.Input.Hidden),
 	Checkbox: WrapperFactory(Form.Input.Checkbox),
-	Domain: WrapperFactory(Form.Input.wrap(Domain))
+	Domain: WrapperFactory(Form.Input.wrap(Domain)),
+	Phone: WrapperFactory(Form.Input.wrap(Phone))
 };

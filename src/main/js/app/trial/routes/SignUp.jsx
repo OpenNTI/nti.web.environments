@@ -26,6 +26,9 @@ const t = scoped('lms-onboarding.trial.parts.SignUp', {
 	},
 	organization: {
 		label: 'Organization Name'
+	},
+	phone: {
+		label: 'Phone'
 	}
 });
 
@@ -85,6 +88,14 @@ export default function LMSTrailSignup ({location}) {
 								name="email"
 								defaultValue={initialValues['email'] || ''}
 								label={t('email.label')}
+								underlined
+								fill
+							/>
+							<Inputs.Phone
+								required
+								name="phone"
+								defaultValue={initialValues['phone'] || ''}
+								label={t('phone.label')}
 								underlined
 								fill
 							/>

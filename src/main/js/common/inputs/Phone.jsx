@@ -5,9 +5,10 @@ import PhoneInput from 'react-phone-number-input/input';
 NTIPhoneInput.propTypes = {
 	value: PropTypes.string,
 	name: PropTypes.string,
+	required: PropTypes.bool,
 	onChange: PropTypes.func,
 };
-function NTIPhoneInput ({value:valueProp, name, onChange:onChangeProp}, ref) {
+function NTIPhoneInput ({value:valueProp, name, required, onChange:onChangeProp}, ref) {
 	const inputRef = React.useRef();
 	const [value, setValue] = React.useState(null);
 
@@ -28,6 +29,7 @@ function NTIPhoneInput ({value:valueProp, name, onChange:onChangeProp}, ref) {
 	return (
 		<PhoneInput
 			name={name}
+			required={required}
 			ref={inputRef}
 			value={value}
 			onChange={onChange}

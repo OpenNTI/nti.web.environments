@@ -13,10 +13,10 @@ import Styles from './SignUp.css';
 const cx = classnames.bind(Styles);
 const t = scoped('lms-onboarding.trial.parts.SignUp', {
 	title: 'Sign Up',
-	heading: 'Welcome to NextThought',
-	message: 'Complete your account details to get started.',
+	heading: 'Train your team with NextThought.',
+	message: '14-Day Free Trial! No credit card required!',
 	termsAndConditions: 'By signing up you agree to the <a href="https://docs.google.com/document/d/e/2PACX-1vRJd0Irh_YFX7Ci9irWLmqrEqddrxSLrDkrJMANlCqQAo-PrLznTjk4G0hfCsjxD8M21Vd54iQ1Rqbn/pub">terms of use</a> and <a href="https://docs.google.com/document/u/1/pub?id=1W9R8s1jIHWTp38gvacXOStsfmUz5TjyDYYy3CVJ2SmM">Privacy Policy.</a>',
-	createAccount: 'Create an Account',
+	createAccount: 'Start my Free Trial!',
 	recover: 'Already have a Trial Site?',
 	name: {
 		label: 'Full Name'
@@ -65,7 +65,7 @@ export default function LMSTrailSignup ({location}) {
 
 	return (
 		<Page title={t('title')}>
-			<Page.Content className={cx('signup', {saving})}>
+			<Page.Content className={cx('signup', {saving})} containerClassName={cx('signup-container')}>
 				<Text.Heading centered>{t('heading')}</Text.Heading>
 				<Text.Paragraph centered>{t('message')}</Text.Paragraph>
 				<Loading.Placeholder loading={Hooks.useResolver.isPending(initialValues)} fallback={(<Loading.Spinner.Large />)}>

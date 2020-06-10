@@ -10,6 +10,12 @@ function maybeTrackHubspot (customer) {
 		_hsq.push(['identify',{
 			email: customer.email
 		}]);
+		// calling identify isn't enough to get hs to associate
+		// data, we actually have to ram an event through
+		// for the identify to do anything.
+		_hsq.push(['trackEvent', {
+			id: "ASCI Customer Identified"
+		}]);
 	}
 }
 

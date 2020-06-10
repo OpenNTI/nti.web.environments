@@ -87,7 +87,7 @@ export default function EmailVerification ({location}) {
 				window.location = json.returnUrl;
 			}
 			else {
-				navigate('/sites');
+				navigate('/');
 			}
 		} catch (e) {
 			if (inflight.current === json.code) {

@@ -13,7 +13,7 @@ import Styles from './Form.css';
 const cx = classnames.bind(Styles);
 const t = scoped('lms-onboarding.email-auth.parts.Form', {
 	title: 'Verify Email',
-	heading: 'Confirm you email.',
+	heading: 'Confirm your email.',
 	message: 'First we need to verify your email address.',
 	createAccount: 'Verify my email!',
 	email: {

@@ -25,9 +25,7 @@
     "url": "https://github.com/NextThought/nti.web.environments/issues"
   },
   "homepage": "http://localhost:8000/",
-  "dependencies": {
-    "react-phone-number-input": "^3.0.22"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@nti/app-scripts": "^2.14.6",
     "@nti/lib-commons": "NextThought/nti.lib.commons",
@@ -40,6 +38,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-phone-number-input": "^3.0.22",
     "react-transition-group": "^4.3.0",
     "canvas-confetti": "^1.0.3"
   }

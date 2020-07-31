@@ -1,6 +1,6 @@
 {
   "name": "@nti/web-environments",
-  "version": "1.4.0",
+  "version": "1.5.0-alpha",
   "description": "NextThought Onboarding Application",
   "main": "dist/server/index.js",
   "scripts": {

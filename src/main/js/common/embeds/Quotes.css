@@ -48,8 +48,8 @@
 	}
 
 	& .quote {
-		width: 432px;
-		max-width: 80vw;
+		width: 100%;
+		max-width: 432px;
 		padding: 5% 7%;
 		border-radius: 10px;
 		box-shadow: 0 8px 2.6rem 1px rgba(193, 199, 208, 0.23);

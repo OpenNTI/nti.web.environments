@@ -13,11 +13,12 @@
 		list-style: none;
 		padding: 0;
 		margin: 0 auto;
-		max-width: 1400px;
+		max-width: 999px;
 		width: 100%;
-		overflow-x: auto;
 		display: flex;
 		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
 		align-items: middle;
 
 		& li {
@@ -30,6 +31,12 @@
 				height: auto;
 			}
 		}
+	}
+}
+
+@media (min-width: 1435px) {
+	.companies ul {
+		max-width: 1400px;
 	}
 }
 

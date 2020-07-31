@@ -44,6 +44,7 @@
 	& :global(.slick-slide) {
 		padding: 30px;
 		outline: none;
+		max-width: 25%;
 	}
 
 	& .quote {

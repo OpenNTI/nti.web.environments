@@ -5,7 +5,7 @@ import {navigate} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
 import {Loading, Form, Hooks, Errors} from '@nti/web-commons';
 
-import {Page, Text, Inputs, Button, Link} from '../../../common';
+import {Page, Text, Inputs, Button, Link, Embeds} from '../../../common';
 import {sendVerification, Session} from '../../../data';
 
 import Styles from './SignUp.css';
@@ -65,7 +65,7 @@ export default function LMSTrailSignup ({location}) {
 
 	return (
 		<Page title={t('title')}>
-			<Page.Content className={cx('signup', {saving})} containerClassName={cx('signup-container')}>
+			<Page.Content className={cx('signup', {saving})} containerClassName={cx('signup-container')} fullscreen>
 				<Text.Heading centered>{t('heading')}</Text.Heading>
 				<Text.Paragraph centered>{t('message')}</Text.Paragraph>
 				<Loading.Placeholder loading={Hooks.useResolver.isPending(initialValues)} fallback={(<Loading.Spinner.Large />)}>
@@ -122,6 +122,7 @@ export default function LMSTrailSignup ({location}) {
 							<Text.Base>{t('recover')}</Text.Base>
 						</Link>
 					</div>
+					<Embeds.Quotes className={cx('signup-quotes')} />
 				</Loading.Placeholder>
 			</Page.Content>
 		</Page>

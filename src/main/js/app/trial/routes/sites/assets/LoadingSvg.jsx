@@ -12,10 +12,11 @@ const CompletedClasses = {
 const cx = classnames.bind(Styles);
 
 LoadingSvg.propTypes = {
+	className: PropTypes.string,
 	progress: PropTypes.number,
 	onFinished: PropTypes.func,
 };
-export default function LoadingSvg ({progress, onFinished}) {
+export default function LoadingSvg ({className, progress, onFinished}) {
 	const [progressClass, setProgressClass] = React.useState('loading-bar-0');
 
 	React.useEffect(() => {
@@ -31,7 +32,7 @@ export default function LoadingSvg ({progress, onFinished}) {
 	}, [progress]);
 
 	return (
-		<svg className={cx('loading-svg')} viewBox="0 0 820 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+		<svg className={cx('loading-svg', className)} viewBox="0 0 820 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
 			<title>illo-loading</title>
 			<desc>Created with Sketch.</desc>
 			<defs>

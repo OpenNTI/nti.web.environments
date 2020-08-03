@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {navigate} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
+import isTouch from '@nti/util-detection-touch';
 import {Loading, Form, Hooks, Errors} from '@nti/web-commons';
 
 import {Page, Text, Inputs, Button, Link, Embeds} from '../../../common';
@@ -76,7 +77,7 @@ export default function LMSTrailSignup ({location}) {
 						<Form className={cx('signup-form')} onSubmit={onSubmit} disabled={!agreed} initialError={Errors.getErrorFromLocation(location)}>
 							<Inputs.Text
 								required
-								autoFocus
+								autoFocus={!isTouch}
 								name="name"
 								defaultValue={initialValues['name'] || '' }
 								label={t('name.label')}

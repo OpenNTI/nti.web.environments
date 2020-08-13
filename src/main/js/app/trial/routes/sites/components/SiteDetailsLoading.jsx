@@ -17,8 +17,8 @@ const {isPending} = Hooks.useResolver;
 const cx = classnames.bind(Styles);
 const t = scoped('lms-onboarding.trial.sites.components.SiteDetailsLoading', {
 	heading: 'Hold Tight!',
-	whileYouWait: 'While You Wait...',
-	continue: 'Or continue to your site.'
+	whileYouWait: 'Claim your free eLearning Strategy Session!',
+	continue: 'I\'m not ready to talk strategy. Maybe later...'
 });
 
 const MeetingFormEmbed = `
@@ -27,9 +27,6 @@ const MeetingFormEmbed = `
 <!-- End of Meetings Embed Script -->
 `;
 
-const Messages = [
-	(<>We are getting everything just right. <br /> This may take a moment...</>)
-];
 
 function embedMeetingScript () {
 	if (!global.document || embedMeetingScript.script) { return; }
@@ -54,13 +51,12 @@ SiteDetailsLoading.propTypes = {
 	onFinished: PropTypes.func
 };
 export default function SiteDetailsLoading ({ site, onFinished }) {
+	const [showForm, setShowForm] = React.useState(false);
 	const [skipForm, setSkipForm] = React.useState(false);
 
-	const ticks = Timer.useTicks(Timer.Second * 3);
-	const messageIndex = ticks % Messages.length;
-	const message = Messages[messageIndex] || Messages[0];
+	const doShowForm = !skipForm && showForm;
 
-	const showForm = !skipForm && ticks > Messages.length;
+	Timer.useWait(() => setShowForm(true), 2000);
 
 	const finished = Hooks.useResolver(async () => {
 		await site.onceFinished();
@@ -71,11 +67,11 @@ export default function SiteDetailsLoading ({ site, onFinished }) {
 	const progress = isPending(finished) ? 90 : 100;
 
 	const maybeLoadScript = (node) => node && embedMeetingScript();
-	const onLoadingFinished = () => !showForm && onFinished();
+	const onLoadingFinished = () => !doShowForm && onFinished();
 	const doSkipForm = () => isPending(finished) ? setSkipForm(true) : onFinished();
 
 	return (
-		<section className={cx('site-loading-details', {'show-form': showForm})}>
+		<section className={cx('site-loading-details', {'show-form': doShowForm})}>
 			<LoadingSVG progress={progress} className={cx('progress-bar')} onFinished={onLoadingFinished} />
 			<div className={cx('form')}>
 				<Text.Heading className={cx('heading')}>{t('whileYouWait')}</Text.Heading>
@@ -84,9 +80,9 @@ export default function SiteDetailsLoading ({ site, onFinished }) {
 			<div className={cx('intro')}>
 				<Text.Heading className={cx('heading')}>{t('heading')}</Text.Heading>
 				<TransitionGroup className={cx('messages')}>
-					<CSSTransition key={messageIndex} classNames="fade" timeout={500}>
+					<CSSTransition key="message" classNames="fade" timeout={500}>
 						<Text.Paragraph className={cx('message')}>
-							{message}
+							We are getting everything just right. <br /> This may take a moment...
 						</Text.Paragraph>
 					</CSSTransition>
 				</TransitionGroup>

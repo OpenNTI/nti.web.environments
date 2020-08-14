@@ -1,8 +1,8 @@
 /*eslint-disable no-console, strict, import/no-commonjs*/
 'use strict';
-
 const path = require('path');
 
+const api = require('./lib/api');
 
 let dev;
 let assets = path.resolve(__dirname, '../client');
@@ -34,6 +34,7 @@ exports = module.exports = {
 			);
 		}
 
+		api.register(expressApp, config);
 
 		return {
 			devmode,

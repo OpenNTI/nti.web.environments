@@ -27,10 +27,6 @@ const MeetingFormEmbed = `
 <!-- End of Meetings Embed Script -->
 `;
 
-//Hubspot has to have a hard coded redirect url...
-//it needs to be set to:
-//{asci-test.nextthought.com || setup.nextthought.com}/post-query-params.html?ntmeetingsetup=1
-
 function embedMeetingScript () {
 	if (!global.document || embedMeetingScript.script) { return; }
 
@@ -57,23 +53,7 @@ export default function SiteDetailsLoading ({ site, onFinished }) {
 	const [showForm, setShowForm] = React.useState(false);
 	const [skipForm, setSkipForm] = React.useState(false);
 
-	const doShowForm = !skipForm && showForm;
-
 	Timer.useWait(() => setShowForm(true), 2000);
-
-	React.useEffect(() => {
-		const onMessage = (e) => {
-			const {data: eventData} = e;
-
-			if (eventData.ntmeetingsetup === '1') {
-				setSkipForm(true);
-			}
-		};
-
-		global.addEventListener?.('message', onMessage);
-
-		return () => global.removeEventListener?.('message', onMessage);
-	}, []);
 
 	const finished = Hooks.useResolver(async () => {
 		await site.onceFinished();
@@ -82,9 +62,10 @@ export default function SiteDetailsLoading ({ site, onFinished }) {
 	}, [site]);
 
 	const progress = isPending(finished) ? 90 : 100;
+	const doShowForm = !skipForm && showForm;
 
 	const maybeLoadScript = (node) => node && embedMeetingScript();
-	const onLoadingFinished = () => !doShowForm && onFinished();
+	const onLoadingFinished = () => onFinished();
 	const doSkipForm = () => isPending(finished) ? setSkipForm(true) : onFinished();
 
 	return (

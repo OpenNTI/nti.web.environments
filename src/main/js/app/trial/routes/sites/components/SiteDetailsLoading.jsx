@@ -23,7 +23,7 @@ const t = scoped('lms-onboarding.trial.sites.components.SiteDetailsLoading', {
 
 const MeetingFormEmbed = `
 <!-- Start of Meetings Embed Script -->
-<div class="meetings-iframe-container" data-src="https://app.hubspot.com/meetings/julie-zhu?embed=true"></div>
+<div class="meetings-iframe-container" data-src="https://app.hubspot.com/meetings/max-bevan/nextthought-lms-demo-with-max?embed=true"></div>
 <!-- End of Meetings Embed Script -->
 `;
 

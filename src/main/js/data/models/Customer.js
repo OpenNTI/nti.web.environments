@@ -57,4 +57,11 @@ export default class Customer {
 
 		return Site.createSite(raw);
 	}
+
+	async getMostRecentSite () {
+		const sites = await this.getSites();
+		const sorted = (sites ?? []).sort((a, b) => b.createdTime - a.createdTime);
+
+		return sorted[0];
+	}
 }

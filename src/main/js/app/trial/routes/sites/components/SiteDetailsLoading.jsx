@@ -17,8 +17,7 @@ const {isPending} = Hooks.useResolver;
 const cx = classnames.bind(Styles);
 const t = scoped('lms-onboarding.trial.sites.components.SiteDetailsLoading', {
 	heading: 'Hold Tight!',
-	whileYouWait: 'Claim your free eLearning Strategy Session!',
-	continue: 'I\'m not ready to talk strategy. Maybe later...'
+	whileYouWait: 'While you wait &mdash; let\'s schedule a quick chat.',
 });
 
 const MeetingFormEmbed = `
@@ -72,7 +71,7 @@ export default function SiteDetailsLoading ({ site, onFinished }) {
 		<section className={cx('site-loading-details', {'show-form': doShowForm})}>
 			<LoadingSVG progress={progress} className={cx('progress-bar')} onFinished={onLoadingFinished} />
 			<div className={cx('form')}>
-				<Text.Heading className={cx('heading')}>{t('whileYouWait')}</Text.Heading>
+				<Text.Heading localized className={cx('heading')}>{t('whileYouWait')}</Text.Heading>
 				<div className={'frame'} ref={maybeLoadScript} {...rawContent(MeetingFormEmbed)} />
 			</div>
 			<div className={cx('intro')}>
@@ -85,7 +84,6 @@ export default function SiteDetailsLoading ({ site, onFinished }) {
 					</CSSTransition>
 				</TransitionGroup>
 			</div>
-			<Text.Base className={cx('continue')} onClick={doSkipForm}>{t('continue')}</Text.Base>
 			<img className={cx('logo')} src="/resources/images/nt-logo.svg" />
 		</section>
 	);

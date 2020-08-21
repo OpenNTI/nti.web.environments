@@ -1,6 +1,7 @@
 import React from 'react';
 import {Router} from '@reach/router';
 
+import '@nti/style-common/all.scss';
 import '@nti/style-common/variables.css';
 import './View.css';
 

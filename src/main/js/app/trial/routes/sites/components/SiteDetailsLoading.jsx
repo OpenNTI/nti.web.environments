@@ -50,7 +50,6 @@ SiteDetailsLoading.propTypes = {
 };
 export default function SiteDetailsLoading ({ site, onFinished }) {
 	const [showForm, setShowForm] = React.useState(false);
-	const [skipForm, setSkipForm] = React.useState(false);
 
 	Timer.useWait(() => setShowForm(true), 2000);
 
@@ -61,14 +60,12 @@ export default function SiteDetailsLoading ({ site, onFinished }) {
 	}, [site]);
 
 	const progress = isPending(finished) ? 90 : 100;
-	const doShowForm = !skipForm && showForm;
 
 	const maybeLoadScript = (node) => node && embedMeetingScript();
 	const onLoadingFinished = () => onFinished();
-	const doSkipForm = () => isPending(finished) ? setSkipForm(true) : onFinished();
 
 	return (
-		<section className={cx('site-loading-details', {'show-form': doShowForm})}>
+		<section className={cx('site-loading-details', {'show-form': showForm})}>
 			<LoadingSVG progress={progress} className={cx('progress-bar')} onFinished={onLoadingFinished} />
 			<div className={cx('form')}>
 				<Text.Heading localized className={cx('heading')}>{t('whileYouWait')}</Text.Heading>

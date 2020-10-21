@@ -1,6 +1,6 @@
 :global(.loading-bar) {
 	transition: transform 70s linear;
-	transform-origin: 132px ;
+	transform-origin: 132px;
 }
 
 :global(.loading-bar-0) {

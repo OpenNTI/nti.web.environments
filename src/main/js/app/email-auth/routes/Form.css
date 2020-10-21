@@ -6,8 +6,8 @@
 }
 
 .signup :global(.checkbox-component input[type=checkbox]:focus + span.label::before) {
-    box-shadow: 0 0 1px 1px var(--primary-blue);
-    border-radius: 4px;
+	box-shadow: 0 0 1px 1px var(--primary-blue);
+	border-radius: 4px;
 }
 
 .signup .signup-container {
@@ -34,4 +34,3 @@
 .signup.saving .recover-link {
 	display: none;
 }
-

@@ -5,7 +5,7 @@ import {navigate} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
 import {Loading, Form, Hooks, Errors} from '@nti/web-commons';
 
-import {Page, Text, Inputs, Button, Link} from '../../../common';
+import {Page, Text, Inputs, Button} from '../../../common';
 import {sendVerification, Session} from '../../../data';
 
 import Styles from './Form.css';
@@ -24,7 +24,8 @@ const t = scoped('lms-onboarding.email-auth.parts.Form', {
 
 EmailAuthForm.propTypes = {
 	location: PropTypes.shape({
-		search: PropTypes.string
+		search: PropTypes.string,
+		href: PropTypes.string,
 	})
 };
 export default function EmailAuthForm ({location}) {

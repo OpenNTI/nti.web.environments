@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {Redirect, navigate} from '@reach/router';
 import {scoped} from '@nti/lib-locale';
-import {Loading, Form, Hooks, Errors} from '@nti/web-commons';
+import {Loading, Form, Hooks} from '@nti/web-commons';
 
 import {Page, Text, Link, Inputs} from '../../../common';
 import {verifyToken, Session} from '../../../data';
@@ -34,7 +34,7 @@ const preventInvalidCodes = (value, e) => {
 const noop = () => {};
 
 LMSTrialVerification.propTypes = {
-	location: PropTypes.object	
+	location: PropTypes.object
 };
 export default function LMSTrialVerification ({location}) {
 	const inflight = React.useRef(null);

@@ -14,7 +14,7 @@ function maybeTrackHubspot (customer) {
 		// data, we actually have to ram an event through
 		// for the identify to do anything.
 		_hsq.push(['trackEvent', {
-			id: "ASCI Customer Identified"
+			id: 'ASCI Customer Identified'
 		}]);
 	}
 }

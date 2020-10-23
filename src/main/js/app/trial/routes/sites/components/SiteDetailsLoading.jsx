@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
@@ -51,7 +51,7 @@ SiteDetailsLoading.propTypes = {
 export default function SiteDetailsLoading ({ site, onFinished }) {
 	const [showForm, setShowForm] = React.useState(false);
 
-	Timer.useWait(() => setShowForm(true), 2000);
+	Timer.useWait(useCallback(() => setShowForm(true)), 2000);
 
 	const finished = Hooks.useResolver(async () => {
 		await site.onceFinished();

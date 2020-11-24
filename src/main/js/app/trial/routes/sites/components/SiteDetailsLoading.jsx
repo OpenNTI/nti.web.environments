@@ -18,6 +18,7 @@ const cx = classnames.bind(Styles);
 const t = scoped('lms-onboarding.trial.sites.components.SiteDetailsLoading', {
 	heading: 'Hold Tight!',
 	whileYouWait: 'While you wait &mdash; let\'s schedule a quick chat.',
+	continue: 'Just let me try things out.'
 });
 
 const MeetingFormEmbed = `
@@ -50,6 +51,7 @@ SiteDetailsLoading.propTypes = {
 };
 export default function SiteDetailsLoading ({ site, onFinished }) {
 	const [showForm, setShowForm] = React.useState(false);
+	const [skipForm, setSkipForm] = React.useState(false);
 
 	Timer.useWait(useCallback(() => setShowForm(true)), 2000);
 
@@ -60,12 +62,14 @@ export default function SiteDetailsLoading ({ site, onFinished }) {
 	}, [site]);
 
 	const progress = isPending(finished) ? 90 : 100;
+	const doShowForm = !skipForm && showForm;
 
 	const maybeLoadScript = (node) => node && embedMeetingScript();
 	const onLoadingFinished = () => onFinished();
+	const doSkipForm = () => isPending(finished) ? setSkipForm(true) : onFinished();
 
 	return (
-		<section className={cx('site-loading-details', {'show-form': showForm})}>
+		<section className={cx('site-loading-details', {'show-form': doShowForm})}>
 			<LoadingSVG progress={progress} className={cx('progress-bar')} onFinished={onLoadingFinished} />
 			<div className={cx('form')}>
 				<Text.Heading localized className={cx('heading')}>{t('whileYouWait')}</Text.Heading>
@@ -81,6 +85,7 @@ export default function SiteDetailsLoading ({ site, onFinished }) {
 					</CSSTransition>
 				</TransitionGroup>
 			</div>
+			<Text.Base className={cx('continue')} onClick={doSkipForm}>{t('continue')}</Text.Base>
 			<img className={cx('logo')} src="/resources/images/nt-logo.svg" />
 		</section>
 	);

@@ -58,7 +58,7 @@ export default function SiteDetailsCompleted ({site}) {
 			<Text.Paragraph className={cx('paragraph')}>
 				{t(`${state}.paragraph`, {domain: site.domain || ''})}
 			</Text.Paragraph>
-			<Button rounded className={cx('continue-btn')} as={site.isFailure ? 'a' : ''} href={site.isFailure ? `mailto:${supportEmail}` : site.continueLink}>{t(`${state}.button`)}</Button>
+			<Button rounded className={cx('continue-btn')} href={site.isFailure ? `mailto:${supportEmail}` : site.continueLink}>{t(`${state}.button`)}</Button>
 		</section>
 	);
 }

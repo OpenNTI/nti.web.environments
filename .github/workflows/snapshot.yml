@@ -27,7 +27,7 @@ jobs:
       - name: clone
         uses: actions/checkout@v2
         with:
-          persist-credentials: false
+          ssh-key: ${{ secrets.ACTIONS_REPO_ACCESS }}
 
       - name: setup nodejs
         uses: actions/setup-node@v1

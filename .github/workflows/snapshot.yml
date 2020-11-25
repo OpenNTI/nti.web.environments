@@ -27,7 +27,7 @@ jobs:
       - name: clone
         uses: actions/checkout@v2
         with:
-          ssh-key: ${{ secrets.ACTIONS_REPO_ACCESS }}
+          persist-credentials: false
 
       - name: setup nodejs
         uses: actions/setup-node@v1
@@ -60,7 +60,7 @@ jobs:
         env:
           LINK: ${{ format('<https://github.com/{0}/actions|{1} failed>', github.repository, steps.build.outputs.SNAPSHOT_ID) }}
         run: |
-          MESSAGE="{\"text\": \"#### :stop_sign: $LINK :eyes:\" }"
+          MESSAGE="{\"text\": \"#### :stop_sign: $LINK\" }"
           curl -i -X POST -H 'Content-Type: application/json' -d "$MESSAGE" ${{secrets.MM_HOOK}}
 
       - name: notify of new snap

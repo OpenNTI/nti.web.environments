@@ -27,7 +27,7 @@
   "homepage": "http://localhost:8000/",
   "dependencies": {},
   "devDependencies": {
-    "@nti/app-scripts": "^2.14.6",
+    "@nti/app-scripts": "^2.31.8",
     "@nti/lib-commons": "NextThought/nti.lib.commons",
     "@nti/lib-locale": "NextThought/nti.lib.locale",
     "@nti/style-common": "NextThought/nti.style.common",
@@ -39,25 +39,5 @@
     "react-slick": "^0.27.1",
     "react-transition-group": "^4.3.0",
     "canvas-confetti": "^1.0.3"
-  },
-  "peerDependencies": {
-    "classnames": "*",
-    "react": "*",
-    "react-dom": "*",
-    "prop-types": "*"
-  },
-  "peerDependenciesMeta": {
-    "classnames": {
-      "optional": true
-    },
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    },
-    "prop-types": {
-      "optional": true
-    }
   }
 }

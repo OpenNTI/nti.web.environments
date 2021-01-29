@@ -1,1 +1,1 @@
-export Quotes from './Quotes';
+export { default as Quotes } from './Quotes';

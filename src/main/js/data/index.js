@@ -1,8 +1,8 @@
 export * as Client from './Client';
-export getCustomer from './get-customer';
-export resolveDomain from './resolve-domain';
-export sendRecovery from './send-recovery';
-export sendVerification from './send-verification';
+export { default as getCustomer } from './get-customer';
+export { default as resolveDomain } from './resolve-domain';
+export { default as sendRecovery } from './send-recovery';
+export { default as sendVerification } from './send-verification';
 export * as Session from './Session';
-export verifyToken from './verify-token';
-export lookUpSite from './look-up-site';
+export { default as verifyToken } from './verify-token';
+export { default as lookUpSite } from './look-up-site';

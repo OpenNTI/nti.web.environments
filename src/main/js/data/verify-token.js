@@ -17,7 +17,7 @@ function insertCapterraTracking () {
 	var s = document.getElementsByTagName('script')[0];
 	s.parentNode.insertBefore(ct, s);
 }
-/* eslint-disable */
+/* eslint-enable */
 
 export default async function verifyToken (data) {
 	const session = await getServer().post(EmailVerifyURL, {

@@ -1,8 +1,8 @@
 const Intervals = {
-	ThreeMinutes: 180000
+	ThreeMinutes: 180000,
 };
 
-export default function getIntervalGenerator () {
+export default function getIntervalGenerator() {
 	const start = new Date();
 
 	return () => {

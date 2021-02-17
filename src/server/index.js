@@ -17,7 +17,7 @@ try {
 }
 
 exports = module.exports = {
-	async register (expressApp, config) {
+	async register(expressApp, config) {
 		const devmode = dev ? await dev.setupDeveloperMode(config) : null;
 
 		if (devmode) {
@@ -29,7 +29,7 @@ exports = module.exports = {
 				proxy({
 					target: 'http://localhost:6543',
 					xfwd: true,
-					changeOrigin: true //you probably don't want this (this locks the host to "localhost:6543" on all proxied requests instead of the incoming host ie: "alpha.dev")
+					changeOrigin: true, //you probably don't want this (this locks the host to "localhost:6543" on all proxied requests instead of the incoming host ie: "alpha.dev")
 				})
 			);
 		}
@@ -38,7 +38,7 @@ exports = module.exports = {
 
 		return {
 			devmode,
-			assets
+			assets,
 		};
-	}
+	},
 };

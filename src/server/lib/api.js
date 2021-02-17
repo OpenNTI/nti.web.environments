@@ -3,11 +3,11 @@
 const path = require('path');
 
 const Handlers = {
-	postMessageQueryParams: /^\/post-query-params/i
+	postMessageQueryParams: /^\/post-query-params/i,
 };
 
 exports = module.exports = {
-	register (express, config) {
+	register(express, config) {
 		this.basepath = config.basepath;
 
 		express.set('views', path.resolve(__dirname, '../templates'));
@@ -15,7 +15,9 @@ exports = module.exports = {
 		express.use((req, res, next) => {
 			let url = req.url;
 
-			if (!url) { return next(); }
+			if (!url) {
+				return next();
+			}
 
 			for (let handlerName of Object.keys(Handlers)) {
 				let test = Handlers[handlerName];
@@ -29,15 +31,15 @@ exports = module.exports = {
 		});
 	},
 
-	postMessageQueryParams (req, res, next) {
+	postMessageQueryParams(req, res, next) {
 		const parts = new URL(req.url, 'x:/');
 		const pathParts = parts.pathname.split('/');
 
 		res.render('post-message', {
 			DATA: JSON.stringify({
 				key: pathParts[pathParts.length - 1],
-				params: req.query
-			})
+				params: req.query,
+			}),
 		});
-	}
+	},
 };

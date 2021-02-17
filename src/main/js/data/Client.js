@@ -4,22 +4,22 @@ const Default = '/';
 const Servers = new Map();
 
 class RequestError extends Error {
-	constructor (info, ...args) {
+	constructor(info, ...args) {
 		super(...args);
 		Object.assign(this, info);
 	}
-
 }
 
 class ServerInterface {
-	#domain = ''
+	#domain = '';
 
-	constructor (domain) {
+	constructor(domain) {
 		this.#domain = domain;
 	}
 
-	resolveURL (path, searchParams) {
-		const location = this.#domain === '/' ? global.location.origin : this.#domain;
+	resolveURL(path, searchParams) {
+		const location =
+			this.#domain === '/' ? global.location.origin : this.#domain;
 		const url = new URL(location);
 
 		url.pathname = Path.join(url.pathname, path);
@@ -33,20 +33,24 @@ class ServerInterface {
 		return url.toString();
 	}
 
-	resolvePayload (data) {
-		if (!data) { return {headers: {}}; }
-		if (data instanceof FormData) { return {body: data, headers: {}}; }
+	resolvePayload(data) {
+		if (!data) {
+			return { headers: {} };
+		}
+		if (data instanceof FormData) {
+			return { body: data, headers: {} };
+		}
 		if (typeof data === 'object') {
 			return {
 				body: JSON.stringify(data),
 				headers: {
-					'Content-Type': 'application/json'
-				}
+					'Content-Type': 'application/json',
+				},
 			};
 		}
 	}
 
-	async resolveResponseBody (request) {
+	async resolveResponseBody(request) {
 		let body = null;
 
 		try {
@@ -66,7 +70,7 @@ class ServerInterface {
 		return body;
 	}
 
-	async request (path, method, data, options = {}) {
+	async request(path, method, data, options = {}) {
 		const url = this.resolveURL(path, options.searchParams);
 		const payload = this.resolvePayload(data);
 
@@ -77,10 +81,9 @@ class ServerInterface {
 			headers: {
 				'x-requested-with': 'XMLHttpRequest',
 				...payload.headers,
-				...(options.headers || {})
-			}
+				...(options.headers || {}),
+			},
 		});
-
 
 		const response = await this.resolveResponseBody(request, options);
 
@@ -88,25 +91,27 @@ class ServerInterface {
 			return response;
 		}
 
-		const {status} = request;
+		const { status } = request;
 
-		throw new RequestError({status, ...(typeof response === 'object' ? response : {response})});
+		throw new RequestError({
+			status,
+			...(typeof response === 'object' ? response : { response }),
+		});
 	}
 
-	get (path, options) {
+	get(path, options) {
 		return this.request(path, 'GET', void 0, options);
 	}
 
-	post (path, data, options) {
+	post(path, data, options) {
 		return this.request(path, 'POST', data, options);
 	}
 }
 
-export function getServer (domain = Default) {
+export function getServer(domain = Default) {
 	if (!Servers.has(domain)) {
 		Servers.set(domain, new ServerInterface(domain));
 	}
 
 	return Servers.get(domain);
 }
-

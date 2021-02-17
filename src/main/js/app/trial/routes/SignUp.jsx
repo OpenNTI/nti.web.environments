@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
-import {navigate} from '@reach/router';
-import {scoped} from '@nti/lib-locale';
+import { navigate } from '@reach/router';
+import { scoped } from '@nti/lib-locale';
 import isTouch from '@nti/util-detection-touch';
-import {Loading, Form, Hooks, Errors} from '@nti/web-commons';
+import { Loading, Form, Hooks, Errors } from '@nti/web-commons';
 
-import {Page, Text, Inputs, Button, Link, Embeds} from '../../../common';
-import {sendVerification, Session} from '../../../data';
+import { Page, Text, Inputs, Button, Link, Embeds } from '../../../common';
+import { sendVerification, Session } from '../../../data';
 
 import Styles from './SignUp.css';
 
@@ -16,30 +16,30 @@ const t = scoped('lms-onboarding.trial.parts.SignUp', {
 	title: 'Sign Up',
 	heading: 'Train your team with NextThought.',
 	message: '14-Day Free Trial! No credit card required!',
-	termsAndConditions: 'By signing up you agree to the <a href="https://docs.google.com/document/d/e/2PACX-1vRJd0Irh_YFX7Ci9irWLmqrEqddrxSLrDkrJMANlCqQAo-PrLznTjk4G0hfCsjxD8M21Vd54iQ1Rqbn/pub">terms of use</a> and <a href="https://docs.google.com/document/u/1/pub?id=1W9R8s1jIHWTp38gvacXOStsfmUz5TjyDYYy3CVJ2SmM">Privacy Policy.</a>',
+	termsAndConditions:
+		'By signing up you agree to the <a href="https://docs.google.com/document/d/e/2PACX-1vRJd0Irh_YFX7Ci9irWLmqrEqddrxSLrDkrJMANlCqQAo-PrLznTjk4G0hfCsjxD8M21Vd54iQ1Rqbn/pub">terms of use</a> and <a href="https://docs.google.com/document/u/1/pub?id=1W9R8s1jIHWTp38gvacXOStsfmUz5TjyDYYy3CVJ2SmM">Privacy Policy.</a>',
 	createAccount: 'Start my Free Trial!',
 	recover: 'Already have a Trial Site?',
 	name: {
-		label: 'Full Name'
+		label: 'Full Name',
 	},
 	email: {
-		label: 'Email'
+		label: 'Email',
 	},
 	organization: {
-		label: 'Organization Name'
+		label: 'Organization Name',
 	},
 	phone: {
-		label: 'Phone'
-	}
+		label: 'Phone',
+	},
 });
-
 
 LMSTrailSignup.propTypes = {
 	location: PropTypes.shape({
-		search: PropTypes.string
-	})
+		search: PropTypes.string,
+	}),
 };
-export default function LMSTrailSignup ({location}) {
+export default function LMSTrailSignup({ location }) {
 	const [agreed, setAgreed] = React.useState(false);
 	const [saving, setSaving] = React.useState(false);
 
@@ -50,13 +50,13 @@ export default function LMSTrailSignup ({location}) {
 		return Session.get() || {};
 	}, [location]);
 
-	const onSubmit = async ({json}) => {
+	const onSubmit = async ({ json }) => {
 		setSaving(true);
 
 		try {
 			const resp = await sendVerification(json);
 
-			Session.set({...Session.get(), ...json, ...resp});
+			Session.set({ ...Session.get(), ...json, ...resp });
 			navigate('verification');
 		} catch (e) {
 			setSaving(false);
@@ -66,20 +66,30 @@ export default function LMSTrailSignup ({location}) {
 
 	return (
 		<Page title={t('title')}>
-			<Page.Content className={cx('signup', {saving})} containerClassName={cx('signup-container')} fullscreen>
+			<Page.Content
+				className={cx('signup', { saving })}
+				containerClassName={cx('signup-container')}
+				fullscreen
+			>
 				<Text.Heading centered>{t('heading')}</Text.Heading>
 				<Text.Paragraph centered>{t('message')}</Text.Paragraph>
-				<Loading.Placeholder loading={Hooks.useResolver.isPending(initialValues)} fallback={(<Loading.Spinner.Large />)}>
-					{saving && (
-						<Loading.Spinner.Large />
-					)}
+				<Loading.Placeholder
+					loading={Hooks.useResolver.isPending(initialValues)}
+					fallback={<Loading.Spinner.Large />}
+				>
+					{saving && <Loading.Spinner.Large />}
 					<div className={cx('container')}>
-						<Form className={cx('signup-form')} onSubmit={onSubmit} disabled={!agreed} initialError={Errors.getErrorFromLocation(location)}>
+						<Form
+							className={cx('signup-form')}
+							onSubmit={onSubmit}
+							disabled={!agreed}
+							initialError={Errors.getErrorFromLocation(location)}
+						>
 							<Inputs.Text
 								required
 								autoFocus={!isTouch}
 								name="name"
-								defaultValue={initialValues['name'] || '' }
+								defaultValue={initialValues['name'] || ''}
 								label={t('name.label')}
 								underlined
 								fill
@@ -103,7 +113,9 @@ export default function LMSTrailSignup ({location}) {
 							<Inputs.Text
 								required
 								name="organization"
-								defaultValue={initialValues['organization'] || ''}
+								defaultValue={
+									initialValues['organization'] || ''
+								}
 								label={t('organization.label')}
 								underlined
 								fill
@@ -112,11 +124,17 @@ export default function LMSTrailSignup ({location}) {
 								required
 								name="agreed"
 								checked={agreed}
-								label={(<Text.Small>{t('termsAndConditions')}</Text.Small>)}
-								onChange={(e) => setAgreed(e.target.checked)}
+								label={
+									<Text.Small>
+										{t('termsAndConditions')}
+									</Text.Small>
+								}
+								onChange={e => setAgreed(e.target.checked)}
 							/>
 							<Button as={Form.SubmitButton} fill>
-								<Text.Base white>{t('createAccount')}</Text.Base>
+								<Text.Base white>
+									{t('createAccount')}
+								</Text.Base>
 							</Button>
 						</Form>
 						<Link to="recover" className={cx('recover-link')}>

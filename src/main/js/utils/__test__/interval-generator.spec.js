@@ -1,10 +1,9 @@
 /* eslint-env jest */
-import {Date as DateUtils} from '@nti/lib-commons';
+import { Date as DateUtils } from '@nti/lib-commons';
 
 import getIntervalGenerator from '../interval-generator';
 
-const {MockDate} = DateUtils;
-
+const { MockDate } = DateUtils;
 
 const dates = {
 	start: 'February 14, 2020 12:00:00',
@@ -20,7 +19,7 @@ const dates = {
 	plus150: 'February 14, 2020 12:02:30',
 	plus165: 'February 14, 2020 12:02:45',
 	plus180: 'February 14, 2020 12:03:00',
-	plus195: 'February 14, 2020 12:03:15'
+	plus195: 'February 14, 2020 12:03:15',
 };
 
 const quick = [
@@ -35,12 +34,10 @@ const quick = [
 	dates.plus135,
 	dates.plus150,
 	dates.plus165,
-	dates.plus180
+	dates.plus180,
 ];
 
-const long = [
-	dates.plus195
-];
+const long = [dates.plus195];
 
 describe('intervalGenerator', () => {
 	beforeEach(() => {
@@ -65,6 +62,5 @@ describe('intervalGenerator', () => {
 			MockDate.setDestination(date).illBeBack();
 			expect(nextInterval()).toEqual(30000);
 		}
-
 	});
 });

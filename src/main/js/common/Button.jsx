@@ -10,15 +10,21 @@ Button.propTypes = {
 	as: PropTypes.any,
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
-	fill: PropTypes.bool
+	fill: PropTypes.bool,
 };
-export default function Button ({as:tag, className, disabled, fill, ...otherProps}) {
+export default function Button({
+	as: tag,
+	className,
+	disabled,
+	fill,
+	...otherProps
+}) {
 	const Cmp = tag || 'button';
 
 	return (
 		<Cmp
 			{...otherProps}
-			className={cx(className, 'button', {disabled, fill})}
+			className={cx(className, 'button', { disabled, fill })}
 			aria-disabled={disabled}
 		/>
 	);

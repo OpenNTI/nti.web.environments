@@ -1,9 +1,9 @@
 import React from 'react';
-import {Form} from '@nti/web-commons';
+import { Form } from '@nti/web-commons';
 
-import {Domain}	from '../../utils/index';
+import { Domain } from '../../utils/index';
 
-export default function DomainInput ({reservedSpace = 0, ...props}) {
+export default function DomainInput({ reservedSpace = 0, ...props }) {
 	const [domain, setDomain] = React.useState('');
 
 	return (

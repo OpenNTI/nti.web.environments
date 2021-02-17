@@ -6,7 +6,4 @@ import App from './app';
 
 initErrorReporter();
 
-ReactDOM.render(
-	React.createElement(App),
-	document.getElementById('content')
-);
+ReactDOM.render(React.createElement(App), document.getElementById('content'));

@@ -9,15 +9,24 @@ describe('massageToDomain', () => {
 		startsWithNumber: ['1337yo', 'yo'],
 		endsWithNumber: ['glhf7', 'glhf7'],
 		allNumbers: ['123456789', ''],
-		startsWithInvalidCharacters: ['朱莉是最好的 is my domain', 'is-my-domain'],
-		endsWithInvalidCharacters: ['My domain is 朱莉仍然是最好的', 'my-domain-is'],
-		containsInvalidCharacters: ['Domains are @%#!ing #*!@%', 'domains-are-ing'],
+		startsWithInvalidCharacters: [
+			'朱莉是最好的 is my domain',
+			'is-my-domain',
+		],
+		endsWithInvalidCharacters: [
+			'My domain is 朱莉仍然是最好的',
+			'my-domain-is',
+		],
+		containsInvalidCharacters: [
+			'Domains are @%#!ing #*!@%',
+			'domains-are-ing',
+		],
 		tooLong: [
 			'This is an incredibly long site name that I have no idea why anyone in their right mind would use',
-			'this-is-an-incredibly-long-site-name-that-i-have-no-idea-why-an'
-		]
+			'this-is-an-incredibly-long-site-name-that-i-have-no-idea-why-an',
+		],
 	};
-	for(let [key, value] of Object.entries(mappings)) {
+	for (let [key, value] of Object.entries(mappings)) {
 		test(key, () => {
 			expect(Domain.massageToDomain(value[0])).toEqual(value[1]);
 		});
@@ -57,10 +66,18 @@ describe('validateDomain', () => {
 	});
 
 	test('allows 63 characters', () => {
-		expect(Domain.validateDomain('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')).toBe(true);
+		expect(
+			Domain.validateDomain(
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+			)
+		).toBe(true);
 	});
 
 	test('disallows 64 characters', () => {
-		expect(Domain.validateDomain('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')).toBe(false);
+		expect(
+			Domain.validateDomain(
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+			)
+		).toBe(false);
 	});
 });

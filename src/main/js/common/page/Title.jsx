@@ -5,7 +5,7 @@ const TitleContext = React.createContext('Title');
 const prefix = 'NextThought: ';
 const separator = ' - ';
 
-const setRootTitle = (title) => {
+const setRootTitle = title => {
 	clearTimeout(setRootTitle.timeout);
 
 	setRootTitle.timeout = setTimeout(() => {
@@ -18,36 +18,36 @@ const setRootTitle = (title) => {
 export default class PageTitle extends React.Component {
 	static propTypes = {
 		title: PropTypes.string,
-		children: PropTypes.any
+		children: PropTypes.any,
 	};
 
 	static contextType = TitleContext;
 
-	componentDidMount () {
-		const {title} = this.props;
+	componentDidMount() {
+		const { title } = this.props;
 
 		this.setTitle(title, this.subTitle);
 	}
 
-	componentDidUpdate (prevProps) {
-		const {title} = this.props;
-		const {title: prevTitle} = prevProps;
+	componentDidUpdate(prevProps) {
+		const { title } = this.props;
+		const { title: prevTitle } = prevProps;
 
 		if (title !== prevTitle) {
 			this.setTitle(title, this.subTitle);
 		}
 	}
 
-	setSubTitle = (subTitle) => {
-		const {title} = this.props;
+	setSubTitle = subTitle => {
+		const { title } = this.props;
 
 		this.subTitle = subTitle;
 
 		this.setTitle(title, subTitle);
-	}
+	};
 
-	setTitle (title, subTitle) {
-		const {setTitle} = this.context;
+	setTitle(title, subTitle) {
+		const { setTitle } = this.context;
 
 		let fullTitle;
 
@@ -66,12 +66,11 @@ export default class PageTitle extends React.Component {
 		}
 	}
 
-
-	render () {
-		const {children} = this.props;
+	render() {
+		const { children } = this.props;
 
 		return (
-			<TitleContext.Provider value={{setTitle: this.setSubTitle}}>
+			<TitleContext.Provider value={{ setTitle: this.setSubTitle }}>
 				{children}
 			</TitleContext.Provider>
 		);

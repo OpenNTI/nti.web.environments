@@ -9,11 +9,11 @@ const cx = classnames.bind(Styles);
 PageImage.propTypes = {
 	src: PropTypes.string,
 	className: PropTypes.string,
-	fullscreen: PropTypes.bool
+	fullscreen: PropTypes.bool,
 };
-export default function PageImage ({src, className, fullscreen}) {
+export default function PageImage({ src, className, fullscreen }) {
 	return (
-		<section className={cx('page-image', {fullscreen}, className)}>
+		<section className={cx('page-image', { fullscreen }, className)}>
 			<img src={src} alt="" />
 		</section>
 	);

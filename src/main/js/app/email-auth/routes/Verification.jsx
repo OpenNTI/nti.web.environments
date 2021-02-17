@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
-import {Redirect, navigate} from '@reach/router';
-import {scoped} from '@nti/lib-locale';
-import {Loading, Form, Hooks} from '@nti/web-commons';
+import { Redirect, navigate } from '@reach/router';
+import { scoped } from '@nti/lib-locale';
+import { Loading, Form, Hooks } from '@nti/web-commons';
 
-import {Page, Text, Link, Inputs} from '../../../common';
-import {verifyToken, Session} from '../../../data';
+import { Page, Text, Link, Inputs } from '../../../common';
+import { verifyToken, Session } from '../../../data';
 
 import Styles from './Verification.css';
 
@@ -14,13 +14,13 @@ const cx = classnames.bind(Styles);
 const t = scoped('lms-onboarding.trail.parts.Verification', {
 	title: 'Verification',
 	heading: 'Check your Email',
-	sent: 'We\'ve sent a 6-digit information code to:',
+	sent: "We've sent a 6-digit information code to:",
 	change: 'Edit',
 	expires: 'It will expire shortly, so enter it soon.',
 	keep: 'Keep this window open while checking for your code.',
 	spam: 'Remember to try your spam folder!',
 	check: 'Check Code',
-	label: '6 Digit Code'
+	label: '6 Digit Code',
 });
 
 const HasNonAlphaNumeric = /[^a-zA-Z0-9]/;
@@ -34,9 +34,9 @@ const preventInvalidCodes = (value, e) => {
 const noop = () => {};
 
 EmailVerification.propTypes = {
-	location: PropTypes.object
+	location: PropTypes.object,
 };
-export default function EmailVerification ({location}) {
+export default function EmailVerification({ location }) {
 	const inflight = React.useRef(null);
 	const [code, setCode] = React.useState(null);
 	const [codeError, setCodeError] = React.useState(null);
@@ -54,26 +54,28 @@ export default function EmailVerification ({location}) {
 
 		return {
 			email: session.email,
-			'code_prefix': session.code_prefix,
-			returnUrl: session.returnUrl
+			code_prefix: session.code_prefix,
+			returnUrl: session.returnUrl,
 		};
 	}, [location]);
 
 	// If we can't figure out the sent info we can't submit this form
 	if (Hooks.useResolver.isErrored(sentTo)) {
-		return (
-			<Redirect to="/email-auth/" />
-		);
+		return <Redirect to="/email-auth/" />;
 	}
 
-	const onChange = async ({json}) => {
-		if (json.code.length > 6) { return; }
+	const onChange = async ({ json }) => {
+		if (json.code.length > 6) {
+			return;
+		}
 
 		setCode(json.code.toUpperCase());
 		setCodeError(null);
 		setChecking(false);
 
-		if (json.code.length < 6) { return; }
+		if (json.code.length < 6) {
+			return;
+		}
 
 		try {
 			inflight.current = json.code;
@@ -81,12 +83,13 @@ export default function EmailVerification ({location}) {
 
 			await verifyToken(json, '/onboarding/@@login.email.verify');
 
-			if (inflight.current !== json.code) { return; }
+			if (inflight.current !== json.code) {
+				return;
+			}
 
 			if (json.returnUrl) {
 				window.location = json.returnUrl;
-			}
-			else {
+			} else {
 				navigate('/');
 			}
 		} catch (e) {
@@ -101,18 +104,36 @@ export default function EmailVerification ({location}) {
 		<Page title={t('title')}>
 			<Page.Content>
 				<Text.Heading centered>{t('heading')}</Text.Heading>
-				<Loading.Placeholder loading={Hooks.useResolver.isPending(sentTo)} fallback={(<Loading.Spinner.Large />)}>
+				<Loading.Placeholder
+					loading={Hooks.useResolver.isPending(sentTo)}
+					fallback={<Loading.Spinner.Large />}
+				>
 					<div className={cx('verify-sent')}>
 						<Text.Paragraph centered>{t('sent')}</Text.Paragraph>
-						<Text.Paragraph centered><strong>{sentTo.email}</strong> <Link className={cx('change')} to="/email-auth/">{t('change')}</Link></Text.Paragraph>
+						<Text.Paragraph centered>
+							<strong>{sentTo.email}</strong>{' '}
+							<Link className={cx('change')} to="/email-auth/">
+								{t('change')}
+							</Link>
+						</Text.Paragraph>
 					</div>
-					<Text.Paragraph centered>
-						{t('expires')}
-					</Text.Paragraph>
-					<Form className={cx('verify-form', {'has-error': showError})} onChange={onChange} onSubmit={noop}>
+					<Text.Paragraph centered>{t('expires')}</Text.Paragraph>
+					<Form
+						className={cx('verify-form', {
+							'has-error': showError,
+						})}
+						onChange={onChange}
+						onSubmit={noop}
+					>
 						<Inputs.Hidden name="email" value={sentTo.email} />
-						<Inputs.Hidden name="returnUrl" value={sentTo.returnUrl} />
-						<Inputs.Hidden name="code_prefix" value={sentTo.code_prefix} />
+						<Inputs.Hidden
+							name="returnUrl"
+							value={sentTo.returnUrl}
+						/>
+						<Inputs.Hidden
+							name="code_prefix"
+							value={sentTo.code_prefix}
+						/>
 						<div className={cx('code-input')}>
 							<Inputs.Code
 								name="code"
@@ -133,8 +154,12 @@ export default function EmailVerification ({location}) {
 							)}
 						</div>
 					</Form>
-					<Text.Small as="p" centered light>{t('keep')}</Text.Small>
-					<Text.Small as="p" centered light>{t('spam')}</Text.Small>
+					<Text.Small as="p" centered light>
+						{t('keep')}
+					</Text.Small>
+					<Text.Small as="p" centered light>
+						{t('spam')}
+					</Text.Small>
 				</Loading.Placeholder>
 			</Page.Content>
 		</Page>

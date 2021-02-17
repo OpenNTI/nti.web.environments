@@ -1,11 +1,11 @@
 import React from 'react';
-import {navigate} from '@reach/router';
+import { navigate } from '@reach/router';
 
-import {AuthRouter} from '../../../../../common';
+import { AuthRouter } from '../../../../../common';
 
-export default function MostRecentSite ({location}) {
+export default function MostRecentSite({ location }) {
 	const auth = AuthRouter.useAuth();
-	const {user} = auth;
+	const { user } = auth;
 
 	React.useEffect(() => {
 		let unmounted = false;
@@ -13,20 +13,24 @@ export default function MostRecentSite ({location}) {
 			try {
 				const mostRecent = await user.getMostRecentSite();
 
-				if (unmounted) { return; }
+				if (unmounted) {
+					return;
+				}
 
 				if (!mostRecent) {
-					navigate('/', {replace: true});
+					navigate('/', { replace: true });
 				} else {
-					navigate(`/${mostRecent.id}#nosurvey`, {replace: true});
+					navigate(`/${mostRecent.id}#nosurvey`, { replace: true });
 				}
 			} catch (e) {
-				if (!unmounted) { navigate('/', {replace: true}); }
+				if (!unmounted) {
+					navigate('/', { replace: true });
+				}
 			}
 		};
 
 		getMostRecent();
-		return () => unmounted = true;
+		return () => (unmounted = true);
 	}, [user]);
 
 	return null;

@@ -1,11 +1,11 @@
 import React from 'react';
-import {Router} from '@reach/router';
+import { Router } from '@reach/router';
 
 import MostRecent from './routes/MostRecentSite';
 import SiteList from './routes/SiteList';
 import SiteDetails from './routes/SiteDetails';
 
-export default function LMSTrialSites (props) {
+export default function LMSTrialSites(props) {
 	return (
 		<Router>
 			<SiteList path="/" />

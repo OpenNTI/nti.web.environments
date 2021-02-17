@@ -8,7 +8,10 @@ NTIPhoneInput.propTypes = {
 	required: PropTypes.bool,
 	onChange: PropTypes.func,
 };
-function NTIPhoneInput ({value:valueProp, name, required, onChange:onChangeProp}, ref) {
+function NTIPhoneInput(
+	{ value: valueProp, name, required, onChange: onChangeProp },
+	ref
+) {
 	const inputRef = React.useRef();
 	const [value, setValue] = React.useState(null);
 
@@ -18,12 +21,12 @@ function NTIPhoneInput ({value:valueProp, name, required, onChange:onChangeProp}
 
 	React.useImperativeHandle(ref, () => inputRef.current);
 
-	const onChange = (val) => {
+	const onChange = val => {
 		setValue(val);
 
 		if (onChangeProp) {
 			onChangeProp(val);
-		} 
+		}
 	};
 
 	return (

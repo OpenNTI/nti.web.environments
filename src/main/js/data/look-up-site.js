@@ -1,4 +1,3 @@
-
 /**
  * Testing Configs
  */
@@ -11,18 +10,18 @@ const base = {
 const adminHasNotCompleted = {
 	hasCompletedAdminInvite: false,
 	isNotPending: false,
-	...base
+	...base,
 };
 
 /**
  * End
  */
 
-export default function lookUpSite (token) {
+export default function lookUpSite(token) {
 	return new Promise((fulfill, reject) => {
 		setTimeout(() => {
 			fulfill({
-				...adminHasNotCompleted
+				...adminHasNotCompleted,
 			});
 		}, 5000);
 	});

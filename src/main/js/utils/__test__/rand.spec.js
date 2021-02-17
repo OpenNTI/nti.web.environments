@@ -2,7 +2,7 @@
 import * as Rand from '../rand.js';
 
 describe('randomNumberOfLength', () => {
-	test ('to have the correct length', () => {
+	test('to have the correct length', () => {
 		const length = 6;
 		expect(Rand.randomNumberOfLength(length)).toHaveLength(length);
 	});

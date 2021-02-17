@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
-import {Redirect} from '@reach/router';
+import { Redirect } from '@reach/router';
 
 import Styles from './Styles.css';
 
@@ -13,14 +13,19 @@ PrivateRoute.propTypes = {
 	loading: PropTypes.bool,
 	component: PropTypes.any.isRequired,
 	routes: PropTypes.shape({
-		publicEntry: PropTypes.string
-	})
+		publicEntry: PropTypes.string,
+	}),
 };
-export default function PrivateRoute ({authenticated, loading, routes, className, component:Cmp, ...otherProps}) {
+export default function PrivateRoute({
+	authenticated,
+	loading,
+	routes,
+	className,
+	component: Cmp,
+	...otherProps
+}) {
 	if (authenticated === false && !loading) {
-		return (
-			<Redirect to={routes.publicEntry} noThrow />
-		);
+		return <Redirect to={routes.publicEntry} noThrow />;
 	}
 
 	return (

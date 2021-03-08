@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { Redirect } from '@reach/router';
+
 import { scoped } from '@nti/lib-locale';
 import { Loading, Hooks } from '@nti/web-commons';
+import { Page, Text, AuthRouter } from 'internal/common';
 
-import { Page, Text, AuthRouter } from '../../../../../common';
 import Image from '../assets/create-a-site-image.jpg';
 import NewSiteForm from '../components/NewSiteForm';
 import SiteListItem from '../components/SiteListItem';

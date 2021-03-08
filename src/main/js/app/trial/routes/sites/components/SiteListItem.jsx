@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
-import { Hooks, Theme } from '@nti/web-commons';
 
-import { Text, Link } from '../../../../../common';
-import { Client } from '../../../../../data';
+import { Hooks, Theme } from '@nti/web-commons';
+import { Text, Link } from 'internal/common';
+import { Client } from 'internal/data';
 
 import Styles from './SiteListItem.css';
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
+
 import { scoped } from '@nti/lib-locale';
 import { Form, Hooks, Loading, Errors } from '@nti/web-commons';
-
-import { Page, Text, Inputs, Button, Link } from '../../../common';
-import { sendRecovery, Session } from '../../../data';
+import { Page, Text, Inputs, Button, Link } from 'internal/common';
+import { sendRecovery, Session } from 'internal/data';
 
 import Styles from './Recover.css';
 

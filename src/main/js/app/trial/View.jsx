@@ -1,8 +1,8 @@
 import React from 'react';
-import { scoped } from '@nti/lib-locale';
 
-import { Page, AuthRouter } from '../../common';
-import { getCustomer } from '../../data';
+import { scoped } from '@nti/lib-locale';
+import { Page, AuthRouter } from 'internal/common';
+import { getCustomer } from 'internal/data';
 
 import SignUp from './routes/SignUp';
 import Recovery from './routes/Recovery';

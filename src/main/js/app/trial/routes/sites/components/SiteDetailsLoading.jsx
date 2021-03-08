@@ -2,11 +2,11 @@ import React, { useCallback } from 'react';
 import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+
 import { scoped } from '@nti/lib-locale';
 import { rawContent } from '@nti/lib-commons';
 import { Timer, Hooks } from '@nti/web-commons';
-
-import { Text } from 'common';
+import { Text } from 'internal/common';
 
 import LoadingSVG from '../assets/LoadingSvg';
 

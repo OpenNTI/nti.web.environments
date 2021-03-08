@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { Redirect, navigate } from '@reach/router';
+
 import { scoped } from '@nti/lib-locale';
 import { Loading, Form, Hooks } from '@nti/web-commons';
-
-import { Page, Text, Link, Inputs } from '../../../common';
-import { verifyToken, Session } from '../../../data';
+import { Page, Text, Link, Inputs } from 'internal/common';
+import { verifyToken, Session } from 'internal/data';
 
 import Styles from './Verification.css';
 

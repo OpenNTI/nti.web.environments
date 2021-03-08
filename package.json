@@ -36,6 +36,7 @@
     "@nti/web-commons": "NextThought/nti.web.commons",
     "@reach/router": "^1.2.1",
     "http-proxy-middleware": "^1.0.6",
+    "internal": "./src/main/js",
     "react-phone-number-input": "^3.0.22",
     "react-slick": "^0.28.0",
     "react-transition-group": "^4.3.0",

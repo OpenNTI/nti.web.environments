@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import { initErrorReporter } from '@nti/web-client';
 import { init as initLocale } from '@nti/lib-locale';
 

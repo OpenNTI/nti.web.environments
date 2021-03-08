@@ -1,7 +1,7 @@
 import React from 'react';
 import { navigate } from '@reach/router';
 
-import { AuthRouter } from '../../../../../common';
+import { AuthRouter } from 'internal/common';
 
 export default function MostRecentSite({ location }) {
 	const auth = AuthRouter.useAuth();

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
-import { Button } from '@nti/web-commons';
-import { scoped } from '@nti/lib-locale';
 import confetti from 'canvas-confetti';
 
-import { Text } from 'common';
+import { Button } from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { Text } from 'internal/common';
 
 import Styles from './SiteDetailsCompleted.css';
 

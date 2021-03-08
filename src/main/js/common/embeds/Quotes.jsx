@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import classnames from 'classnames/bind';
+
 import { scoped } from '@nti/lib-locale';
 import { Hooks } from '@nti/web-commons';
 

@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { navigate } from '@reach/router';
+
 import { scoped } from '@nti/lib-locale';
 import { Loading, Form, DialogButtons } from '@nti/web-commons';
-
-import { Text, Inputs, Button } from '../../../../../common';
+import { Text, Inputs, Button } from 'internal/common';
 
 import Styles from './NewSiteForm.css';
 import DomainPreview from './DomainPreview';

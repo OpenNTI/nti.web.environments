@@ -1,6 +1,6 @@
 {
   "name": "@nti/web-environments",
-  "version": "1.9.0-alpha",
+  "version": "1.9.0",
   "description": "NextThought Onboarding Application",
   "main": "dist/server/index.js",
   "scripts": {
@@ -25,7 +25,6 @@
     "url": "https://github.com/NextThought/nti.web.environments/issues"
   },
   "homepage": "http://localhost:8000/",
-  "dependencies": {},
   "devDependencies": {
     "@nti/app-scripts": "^2.31.8",
     "@nti/lib-commons": "NextThought/nti.lib.commons",
@@ -35,11 +34,11 @@
     "@nti/web-client": "NextThought/nti.web.client",
     "@nti/web-commons": "NextThought/nti.web.commons",
     "@reach/router": "^1.2.1",
+    "canvas-confetti": "^1.0.3",
     "http-proxy-middleware": "^1.0.6",
     "internal": "./src/main/js",
     "react-phone-number-input": "^3.0.22",
     "react-slick": "^0.28.0",
-    "react-transition-group": "^4.3.0",
-    "canvas-confetti": "^1.0.3"
+    "react-transition-group": "^4.3.0"
   }
 }

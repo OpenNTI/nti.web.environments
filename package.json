@@ -9,7 +9,8 @@
     "start": "app-scripts start",
     "clean": "app-scripts clean",
     "check": "app-scripts check",
-    "release": "app-scripts release",
+    "release": "npx @nti/release",
+    "snapshot": "npx @nti/snapshot",
     "fix": "app-scripts fix"
   },
   "repository": {

@@ -20,9 +20,9 @@ export default function LoadingSvg({ className, progress, onFinished }) {
 	const [progressClass, setProgressClass] = React.useState('loading-bar-0');
 
 	React.useEffect(() => {
-		setImmediate(() => {
+		setTimeout(() => {
 			setProgressClass(CompletedClasses[progress] || '');
-		});
+		}, 0);
 
 		if (progress === 100) {
 			setTimeout(() => {

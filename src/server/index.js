@@ -18,12 +18,13 @@ try {
 
 exports = module.exports = {
 	async register(expressApp, config) {
-		const devmode = dev ? await dev.setupDeveloperMode(config) : null;
+		const devmode = dev
+			? await dev.setupDeveloperMode(config, expressApp)
+			: null;
 
 		if (devmode) {
 			const proxy = require('http-proxy-middleware');
 
-			expressApp.use(devmode.middleware); //serve in-memory compiled source/assets
 			expressApp.use(
 				'/onboarding',
 				proxy({

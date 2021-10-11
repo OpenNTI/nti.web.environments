@@ -42,6 +42,7 @@
     "@nti/util-detection-touch": "NextThought/nti.util.detection.touch",
     "@nti/web-client": "NextThought/nti.web.client",
     "@nti/web-commons": "NextThought/nti.web.commons",
+    "@nti/web-core": "NextThought/nti.web.core",
     "@reach/router": "^1.2.1",
     "canvas-confetti": "^1.0.3",
     "http-proxy-middleware": "^2.0.0",

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { navigate } from '@reach/router';
@@ -31,7 +31,7 @@ const t = scoped('lms-onboarding.trial.sites.components.NewSiteForm', {
 
 NewSiteForm.propTypes = {
 	customer: PropTypes.shape({
-		orginization: PropTypes.string,
+		organization: PropTypes.string,
 		createSite: PropTypes.func,
 		id: PropTypes.any,
 	}).isRequired,
@@ -39,15 +39,15 @@ NewSiteForm.propTypes = {
 	modal: PropTypes.bool,
 };
 export default function NewSiteForm({ customer, modal, onCancel }) {
-	const defaultValue = customer.orginization || '';
+	const defaultValue = customer.organization || '';
 
-	const [domain, setDomain] = React.useState({
+	const [domain, setDomain] = useState({
 		synced: true,
 		value: defaultValue,
 	});
-	const [valid, setValid] = React.useState(false);
+	const [valid, setValid] = useState(false);
 
-	const [saving, setSaving] = React.useState(false);
+	const [saving, setSaving] = useState(false);
 
 	const onChange = form => {
 		if (domain.synced) {

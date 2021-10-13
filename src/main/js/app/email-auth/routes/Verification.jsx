@@ -1,4 +1,4 @@
-import React from 'react';
+import { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { Redirect, navigate } from '@reach/router';
@@ -37,10 +37,10 @@ EmailVerification.propTypes = {
 	location: PropTypes.object,
 };
 export default function EmailVerification({ location }) {
-	const inflight = React.useRef(null);
-	const [code, setCode] = React.useState(null);
-	const [codeError, setCodeError] = React.useState(null);
-	const [checking, setChecking] = React.useState(false);
+	const inflight = useRef(null);
+	const [code, setCode] = useState(null);
+	const [codeError, setCodeError] = useState(null);
+	const [checking, setChecking] = useState(false);
 	const showError = !checking && codeError;
 
 	const sentTo = Hooks.useResolver(() => {

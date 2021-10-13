@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
@@ -28,7 +28,7 @@ SiteListHeader.propTypes = {
 export default function SiteListHeader({ customer, sites }) {
 	const { canCreateSite } = customer;
 
-	const [prompt, setPrompt] = React.useState(false);
+	const [prompt, setPrompt] = useState(false);
 
 	const openPrompt = () => setPrompt(true);
 	const closePrompt = () => setPrompt(false);

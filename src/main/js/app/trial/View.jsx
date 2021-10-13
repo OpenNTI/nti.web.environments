@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { scoped } from '@nti/lib-locale';
 import { Page, AuthRouter } from 'internal/common';
 import { getCustomer } from 'internal/data';

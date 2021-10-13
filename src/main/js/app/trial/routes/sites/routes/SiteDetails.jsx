@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
@@ -31,9 +31,7 @@ SiteDetails.propTypes = {
 };
 
 export default function SiteDetails({ siteId, location }) {
-	const [loadAnimationFinished, setLoadAnimationFinished] = React.useState(
-		false
-	);
+	const [loadAnimationFinished, setLoadAnimationFinished] = useState(false);
 	const onAnimationFinished = () => setLoadAnimationFinished(true);
 
 	const { loading: customerLoading, user: customer } = AuthRouter.useAuth();
@@ -58,7 +56,7 @@ export default function SiteDetails({ siteId, location }) {
 	const autoRedirect =
 		site && !site.wasPending && !site.isPending && site.continueLink;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (autoRedirect) {
 			global?.location?.replace(site.continueLink);
 		}

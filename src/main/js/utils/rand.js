@@ -2,6 +2,7 @@ const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 /**
  * Generates a random number of a specified length, avoiding offensive numbers
+ *
  * @param {number} length the length of the number generated
  * @returns {string} a random number
  */

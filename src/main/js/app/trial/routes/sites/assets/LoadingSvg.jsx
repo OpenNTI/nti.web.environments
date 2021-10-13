@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
@@ -17,9 +17,9 @@ LoadingSvg.propTypes = {
 	onFinished: PropTypes.func,
 };
 export default function LoadingSvg({ className, progress, onFinished }) {
-	const [progressClass, setProgressClass] = React.useState('loading-bar-0');
+	const [progressClass, setProgressClass] = useState('loading-bar-0');
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setTimeout(() => {
 			setProgressClass(CompletedClasses[progress] || '');
 		}, 0);

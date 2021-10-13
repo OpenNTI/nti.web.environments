@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { Router, Location } from '@reach/router';
@@ -85,7 +85,7 @@ function AuthRouter({ children, location, getUser, shouldReload }) {
 	);
 }
 
-AuthRouterWrapper.useAuth = () => React.useContext(Context);
+AuthRouterWrapper.useAuth = () => useContext(Context);
 AuthRouterWrapper.PrivateRoute = PrivateRoute;
 AuthRouterWrapper.PublicRoute = PublicRoute;
 export default function AuthRouterWrapper(props) {

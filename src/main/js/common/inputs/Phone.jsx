@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import PhoneInput from 'react-phone-number-input/input';
 
@@ -12,14 +12,14 @@ function NTIPhoneInput(
 	{ value: valueProp, name, required, onChange: onChangeProp },
 	ref
 ) {
-	const inputRef = React.useRef();
-	const [value, setValue] = React.useState(null);
+	const inputRef = useRef();
+	const [value, setValue] = useState(null);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setValue(valueProp);
 	}, [valueProp]);
 
-	React.useImperativeHandle(ref, () => inputRef.current);
+	useImperativeHandle(ref, () => inputRef.current);
 
 	const onChange = val => {
 		setValue(val);

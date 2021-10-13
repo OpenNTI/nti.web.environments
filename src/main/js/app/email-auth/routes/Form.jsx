@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { navigate } from '@reach/router';
@@ -28,7 +28,7 @@ EmailAuthForm.propTypes = {
 	}),
 };
 export default function EmailAuthForm({ location }) {
-	const [saving, setSaving] = React.useState(false);
+	const [saving, setSaving] = useState(false);
 
 	const initialValues = Hooks.useResolver(() => {
 		//NOTE: this doesn't have to be async, originally this made

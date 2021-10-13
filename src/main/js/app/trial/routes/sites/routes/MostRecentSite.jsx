@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { navigate } from '@reach/router';
 
 import { AuthRouter } from 'internal/common';
@@ -7,7 +7,7 @@ export default function MostRecentSite({ location }) {
 	const auth = AuthRouter.useAuth();
 	const { user } = auth;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		let unmounted = false;
 		const getMostRecent = async () => {
 			try {

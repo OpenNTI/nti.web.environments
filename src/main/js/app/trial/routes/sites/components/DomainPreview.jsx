@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
@@ -26,13 +26,13 @@ export default function DomainPreview({
 	onValid,
 	onInvalid,
 }) {
-	const [fullDomain, setFullDomain] = React.useState(null);
+	const [fullDomain, setFullDomain] = useState(null);
 	const isChecking = fullDomain === Checking;
 	const isErrored = fullDomain instanceof Error;
 
-	const timeout = React.useRef(null);
+	const timeout = useRef(null);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		let unmounted = null;
 
 		const checkDomain = async () => {

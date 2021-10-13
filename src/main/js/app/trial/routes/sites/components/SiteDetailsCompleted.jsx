@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import confetti from 'canvas-confetti';
@@ -34,7 +34,7 @@ const supportEmail = 'support@nextthought.com?subject=Unable to set up site';
 export default function SiteDetailsCompleted({ site }) {
 	let state;
 	if (site.isSuccess) {
-		React.useEffect(() => {
+		useEffect(() => {
 			confetti({
 				particleCount: 125,
 				spread: 100,

@@ -13,6 +13,7 @@ const t = scoped('nti-web-environments.utils.domain', {
 
 /**
  * Generates a (semi)valid domain from a site name
+ *
  * @param {string} siteName the nice name of the site
  * @param {number} reservedSpace the number of characters to be reserved for additional modifications
  * @returns {string} a (semi)valid domain name
@@ -35,6 +36,7 @@ export function massageToDomain(siteName, reservedSpace = 0) {
 
 /**
  * Checks if a domain is valid per https://tools.ietf.org/html/rfc1035#section-2.3.1
+ *
  * @param {string} domain a domain name to validateDomain
  * @returns {boolean} whether the domain is valid
  */

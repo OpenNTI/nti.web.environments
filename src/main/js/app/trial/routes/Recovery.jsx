@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
@@ -27,8 +27,8 @@ LMSTrialRecovery.propTypes = {
 	location: PropTypes.object,
 };
 export default function LMSTrialRecovery({ location }) {
-	const [saving, setSaving] = React.useState(false);
-	const [sentTo, setSentTo] = React.useState(null);
+	const [saving, setSaving] = useState(false);
+	const [sentTo, setSentTo] = useState(null);
 
 	const initialValues = Hooks.useResolver(() => {
 		return Session.get() || {};

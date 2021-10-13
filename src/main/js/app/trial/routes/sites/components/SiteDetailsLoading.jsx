@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -37,8 +37,7 @@ function embedMeetingScript() {
 		defer: true,
 		charset: 'utf-8',
 		type: 'text/javascript',
-		src:
-			'https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js',
+		src: 'https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js',
 	});
 
 	embedMeetingScript.script = script;
@@ -50,8 +49,8 @@ SiteDetailsLoading.propTypes = {
 	onFinished: PropTypes.func,
 };
 export default function SiteDetailsLoading({ site, onFinished }) {
-	const [showForm, setShowForm] = React.useState(false);
-	const [skipForm, setSkipForm] = React.useState(false);
+	const [showForm, setShowForm] = useState(false);
+	const [skipForm, setSkipForm] = useState(false);
 
 	Timer.useWait(
 		useCallback(() => setShowForm(true)),

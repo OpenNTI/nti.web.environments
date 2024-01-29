@@ -48,7 +48,7 @@
     "http-proxy-middleware": "^2.0.0",
     "internal": "./src/main/js",
     "react-phone-number-input": "^3.0.22",
-    "react-slick": "^0.28.0",
+    "react-slick": "^0.30.1",
     "react-transition-group": "^4.3.0"
   }
 }
